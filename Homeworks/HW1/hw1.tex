@@ -1,0 +1,199 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage[dvipsnames]{xcolor} % for color names, must be loaded before tikz
+\usepackage{ifthen}
+\usepackage{fancyhdr}
+\usepackage{comment}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage[braket, qm]{qcircuit}
+
+\providecommand{\due}{Due Wednesday, September 11th at 11:59 PM}
+\lhead{CS358H, M375T, ES377, PHY341} \rhead{}
+\lfoot{\due} \cfoot{} \rfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+
+% Eliminates the spacing in the title that remains from the empty author section.
+\preauthor{}
+\postauthor{}
+
+\titleformat{\section}[runin]{\large\bfseries}{\thesection .}{3pt}{}
+\titleformat{\subsection}[runin]{\bfseries}{\thesubsection)}{3pt}{}
+\renewcommand\thesubsection{\alph{subsection}}
+
+% Defines the solution environment. Toggle solutions between true and false to either show or hide solutions. Also, the solution environment takes an optional argument of arbitrary text to be inserted in the solution header.
+\newboolean{solutions}
+\setboolean{solutions}{false}
+\ifthenelse{\boolean{solutions}}
+{\newenvironment{solution}{\begin{mdframed}[skipbelow=0pt, linecolor=White, backgroundcolor=Green!10]\textbf{Solution:}}{\end{mdframed}}}
+{\excludecomment{solution}}
+
+\DeclareMathOperator{\CNOT}{CNOT}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Ev}{\mathbb{E}}
+
+\allowdisplaybreaks
+
+\begin{document}
+
+\title{Introduction to Quantum Information Science\\Homework 1}
+\date{\due}
+
+\maketitle
+
+\section{Stochastic and Unitary Matrices.} 
+
+\subsection{[8 Points]} Of the following matrices, which ones are stochastic? Which
+ones are unitary?
+
+\begin{gather*}
+A =
+\begin{bmatrix}
+1 & 0\\
+0 & 0
+\end{bmatrix}\!,\;
+B=
+\begin{bmatrix}
+0 & 1\\
+1 & 0
+\end{bmatrix}\!,\;
+C=
+\begin{bmatrix}
+1 & \frac{2}{3}\\[0.1em]
+0 & \frac{1}{3}
+\end{bmatrix}\!,\;
+D=
+\begin{bmatrix}
+1 & 0\\
+0 & i
+\end{bmatrix}\!,\\
+E =
+\begin{bmatrix}
+2 & \frac{1}{2}\\[0.1em]
+-1 & \frac{1}{2}
+\end{bmatrix}\!,\;
+F = \frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1 & 1\\
+1 & -1
+\end{bmatrix}\!,\;
+G=
+\begin{bmatrix}
+\frac{3}{5} & \frac{4}{5}\\[0.1em]
+\frac{4}{5} & -\frac{3}{5}
+\end{bmatrix}\!,\;
+H=
+\begin{bmatrix}
+\frac{3i}{5} & \frac{4}{5}\\[0.1em]
+\frac{4}{5} & -\frac{3i}{5}
+\end{bmatrix}
+\end{gather*}
+
+\subsection{[3 Points]} Show that any stochastic matrix that is also unitary must be a permutation matrix. 
+
+
+\subsection{[1 Point]} Stochastic matrices preserve the $1$-norms of nonnegative vectors, while
+unitary matrices preserve $2$-norms. \ Give an example of a $2\times
+2$\ matrix, other than the identity matrix, that preserves the $4$-norm of
+real vectors $\begin{bsmallmatrix} a\\b\end{bsmallmatrix}$: that is, $a^{4}+b^{4}$.
+
+
+\subsection{[Extra credit, 4 Points]} Give a characterization of all real matrices that preserve the
+$4$\textit{-norms} of real vectors. \ Hopefully, your characterization will
+help explain why preserving the $2$-norm, as quantum mechanics does, leads to
+a much richer set of transformations than preserving the $4$-norm does.
+
+
+\section{Tensor Products}
+
+\subsection{[1 Point]} Calculate the tensor product 
+\[
+\begin{bmatrix}
+\frac{2}{3}\\[0.1em]
+\frac{1}{3}
+\end{bmatrix}\otimes
+\begin{bmatrix}
+\frac{1}{5}\\[0.1em]
+\frac{4}{5}
+\end{bmatrix}.
+\]
+
+
+
+\subsection{[5 Points]} Of the following length-$4$ vectors, decide which ones are factorizable as a tensor product of two $2 \times 1$ vectors, and factorize them. \ (Here the vector entries
+should be thought of as labeled by $00$, $01$, $10$, and $11$ respectively.)%
+\[
+A=
+\begin{bmatrix}
+	\frac{2}{9}\\[0.1em]
+	\frac{1}{9}\\[0.1em]
+	\frac{4}{9}\\[0.1em]
+	\frac{2}{9}
+\end{bmatrix}\!,\;
+B=
+\begin{bmatrix}
+	0\\
+	1\\
+	0\\
+	0
+\end{bmatrix}\!,\;
+C=
+\begin{bmatrix}
+	\frac{1}{4}\\[0.1em]
+	\frac{1}{4}\\[0.1em]
+	\frac{1}{4}\\[0.1em]
+	\frac{1}{4}
+\end{bmatrix}\!,\;
+D=
+\begin{bmatrix}
+	0\\
+	\frac{1}{2}\\[0.1em]
+	\frac{1}{2}\\
+	0
+\end{bmatrix}\!,\;
+E=
+\begin{bmatrix}
+	0\\
+	\frac{1}{2}\\
+	0\\
+	\frac{1}{2}
+\end{bmatrix}.
+\]
+
+
+\subsection{[3 Points]} Prove that there's no $2 \times 2$ \emph{real} matrix $A$ such
+that
+\[
+A^2=
+\begin{bmatrix}
+	1 & 0\\
+	0 & -1
+\end{bmatrix}\!.
+\]
+This observation perhaps helps to explain why the complex numbers play such a
+central role in quantum mechanics.
+
+
+\section{Dirac Notation}
+ 
+\subsection{[2 Points]} Let $\ket{\psi} = \frac{\ket{0} + 2 \ket{1}}{\sqrt{5}}$ and $\ket{\phi} = \frac{2i\ket{0} + 3\ket{1}}{\sqrt{13}}$. What's $\ip{\psi}{\phi}$?
+
+
+\subsection{[1 Point]} Usually quantum states are normalized: $\ip{\psi}{\psi} = 1$. The state $\ket{\phi} = 2i \ket{0} - 3i \ket{1}$ is not normalized. What constant $A$ makes $\ket{\psi} = \frac{\ket{\phi}}{A}$ a normalized state?
+
+
+\subsection{[2 Points]} Define $\ket{i} = \frac{\ket{0} + i \ket{1}}{\sqrt{2}}$ and $\ket{-i} = \frac{\ket{0} - i\ket{1}}{\sqrt{2}}$. Show (explicitly or implicitly) that the vectors $\ket{i}$ and $\ket{-i}$ form an orthonormal basis for $\mathbb{C}^2$.
+(Hint: show that any vector in $\mathbb{C}^2$ can be decomposed as a linear combination of $\ket{i}$ and $\ket{-i}$.)
+
+
+\subsection{[2 Points]} Write the normalized vector $\ket{\psi}$ from part (b) in the $\{\ket{i}, \ket{-i}\}$-basis.
+
+\end{document}
+
