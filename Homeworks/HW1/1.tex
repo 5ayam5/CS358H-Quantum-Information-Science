@@ -1,0 +1,113 @@
+\begin{solution}{Part a}\label{ques:1a}
+  \begin{question}
+    Of the following matrices, which ones are stochastic? Which
+    ones are unitary?
+
+    \begin{gather*}
+    A =
+    \begin{bmatrix}
+    1 & 0\\
+    0 & 0
+    \end{bmatrix}\!,\;
+    B=
+    \begin{bmatrix}
+    0 & 1\\
+    1 & 0
+    \end{bmatrix}\!,\;
+    C=
+    \begin{bmatrix}
+    1 & \frac{2}{3}\\[0.1em]
+    0 & \frac{1}{3}
+    \end{bmatrix}\!,\;
+    D=
+    \begin{bmatrix}
+    1 & 0\\
+    0 & i
+    \end{bmatrix}\!,\\
+    E =
+    \begin{bmatrix}
+    2 & \frac{1}{2}\\[0.1em]
+    -1 & \frac{1}{2}
+    \end{bmatrix}\!,\;
+    F = \frac{1}{\sqrt{2}}
+    \begin{bmatrix}
+    1 & 1\\
+    1 & -1
+    \end{bmatrix}\!,\;
+    G=
+    \begin{bmatrix}
+    \frac{3}{5} & \frac{4}{5}\\[0.1em]
+    \frac{4}{5} & -\frac{3}{5}
+    \end{bmatrix}\!,\;
+    H=
+    \begin{bmatrix}
+    \frac{3i}{5} & \frac{4}{5}\\[0.1em]
+    \frac{4}{5} & -\frac{3i}{5}
+    \end{bmatrix}
+    \end{gather*}
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    A matrix $\mathbf{A} = (a_{ij})$ is stochastic iff $\sum_{i} a_{ij} = 1 \wedge a_{ij} \geq 0$. Therefore, the stochastic matrices are $B, C$.\par
+    A matrix $\mathbf{A}$ is unitary iff $\mathbf{A}^\dag\mathbf{A} = \mathbf{I}$. Therefore, the unitary matrices are $B, D, F, G, H$.\par
+    Note that matrix $A$ is neither stochastic nor unitary.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part b}\label{ques:1b}
+  \begin{question}
+    Show that any stochastic matrix that is also unitary must be a permutation matrix.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Let $\mathbf{A}$ be a matrix that is stochastic and unitary. This implies,
+    \begin{equation}
+      \begin{split}
+        \mathbf{A}^\dag\mathbf{A} &= \mathbf{I}\\
+        \sum_{i} a_{ij} = 1 &\wedge a_{ij} \geq 0
+      \end{split}
+    \end{equation}
+    Representing the above properties in terms of the matrix elements $\mathbf{A} = (a_{ij})$, we get the following,
+    \begin{equation}
+      \forall\ i: \sum_{i} a_{ij}\cdot a_{ji} = 1
+      \label{eq:11}
+    \end{equation}
+    \begin{equation}
+      \forall\ i \neq k: \sum_{i} a_{ij}\cdot a_{ki} = 0
+      \label{eq:12}
+    \end{equation}
+    \begin{equation}
+      \forall\ i: \exists\ p_i: a_{ip_i} \neq 0
+      \label{eq:13}
+    \end{equation}
+    Now, from \eqref{eq:12} and \eqref{eq:13}, we get that $a_{ij} = 0\ \forall\ i \neq p_j$, which implies that $a_{ip_i} = 1$ from \eqref{eq:11}. Therefore, $\mathbf{A}$ is a permutation matrix with $\Pi = \{p_i\}$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part c}\label{ques:1c}
+  \begin{question}
+    Stochastic matrices preserve the $1$-norms of nonnegative vectors, while
+unitary matrices preserve $2$-norms. Give an example of a $2\times
+2$\ matrix, other than the identity matrix, that preserves the $4$-norm of
+real vectors $\begin{bsmallmatrix} a\\b\end{bsmallmatrix}$: that is, $a^{4}+b^{4}$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    $\mathbf{A} = \begin{pmatrix}
+      0 & 1\\
+      1 & 0
+      \end{pmatrix}$ preserves the $4$-norm of the vector $\begin{psmallmatrix} a\\b\end{psmallmatrix}$.
+  \end{proof}
+\end{solution}
+
+  \begin{solution}{Part d}\label{ques:1d}
+  \begin{question}
+    Give a characterization of all real matrices that preserve the
+$4$\textit{-norms} of real vectors. \ Hopefully, your characterization will
+help explain why preserving the $2$-norm, as quantum mechanics does, leads to
+a much richer set of transformations than preserving the $4$-norm does.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+  \end{proof}
+\end{solution}

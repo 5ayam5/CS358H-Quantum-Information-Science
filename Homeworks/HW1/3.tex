@@ -1,0 +1,56 @@
+\begin{solution}{Part a}\label{ques:3a}
+  \begin{question}
+    Let $\ket{\psi} = \frac{\ket{0} + 2 \ket{1}}{\sqrt{5}}$ and $\ket{\phi} = \frac{2i\ket{0} + 3\ket{1}}{\sqrt{13}}$. What's $\brakett{\psi}{\phi}$?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    \begin{equation}
+      \brakett{\psi}{\phi} = \frac{1}{\sqrt{5}}\frac{2i}{\sqrt{13}}\brakett{0}{0} + \frac{2}{\sqrt{5}}\frac{3}{\sqrt{13}}\brakett{1}{1} = \frac{6 + 2i}{\sqrt{65}}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part b}\label{ques:3b}
+  \begin{question}
+    Usually quantum states are normalized: $\brakett{\psi}{\psi} = 1$. The state $\ket{\phi} = 2i \ket{0} - 3i \ket{1}$ is not normalized. What constant $A$ makes $\ket{\psi} = \frac{\ket{\phi}}{A}$ a normalized state?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    \begin{equation}
+      \brakett{\phi}{\phi} = -2i\cdot 2i\brakett{0}{0} + 3i\cdot -3i\brakett{1}{1} = 13 = A^2\brakett{\psi}{\psi} = A^2
+    \end{equation}
+    Therefore, $A = \pm\sqrt{13}$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part c}\label{ques:3c}
+  \begin{question}
+    Define $\ket{i} = \frac{\ket{0} + i \ket{1}}{\sqrt{2}}$ and $\ket{-i} = \frac{\ket{0} - i\ket{1}}{\sqrt{2}}$. Show (explicitly or implicitly) that the vectors $\ket{i}$ and $\ket{-i}$ form an orthonormal basis for $\mathbb{C}^2$.
+(Hint: show that any vector in $\mathbb{C}^2$ can be decomposed as a linear combination of $\ket{i}$ and $\ket{-i}$.)
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Consider any state $\ket{\psi} = a\ket{0} + b\ket{1}$. We can write this as,
+    \begin{equation}
+      \begin{split}
+        \ket{\psi} &= \frac{a - ib + a + ib}{2}\ket{0} + \frac{a - ib - (a + ib)}{2}i\ket{1}\\
+                   &= \frac{a - ib}{\sqrt{2}}\frac{\ket{0} + i\ket{1}}{\sqrt{2}} + \frac{a + ib}{\sqrt{2}}\frac{\ket{0} - i\ket{1}}{\sqrt{2}}\\
+                   &= \frac{a - ib}{\sqrt{2}}\ket{i} + \frac{a + ib}{\sqrt{2}}\ket{-i}
+      \end{split}
+    \end{equation}
+    Since we can represent any state $\ket{\psi}$ as a linear combination of $\ket{i}, \ket{-i}$, they form an orthonormal basis for $\mathbb{C}^2$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part d}\label{ques:3d}
+  \begin{question}
+    Write the normalized vector $\ket{\psi}$ from part (b) in the $\{\ket{i}, \ket{-i}\}$-basis.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    For $\ket{\psi}$, $a = 2i/\sqrt{13}$ and $b = -3i/\sqrt{13}$ (assuming that we take the positive normalization constant), we get,
+    \begin{equation}
+      \ket{\psi} = \frac{2i - 3}{\sqrt{26}}\ket{i} + \frac{2i + 3}{\sqrt{26}}\ket{-i}
+    \end{equation}
+  \end{proof}
+\end{solution}

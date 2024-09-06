@@ -1,0 +1,160 @@
+\begin{solution}{Part a}\label{ques:2a}
+  \begin{question}
+    Calculate the tensor product 
+    \[
+    \begin{bmatrix}
+    \frac{2}{3}\\[0.1em]
+    \frac{1}{3}
+    \end{bmatrix}\otimes
+    \begin{bmatrix}
+    \frac{1}{5}\\[0.1em]
+    \frac{4}{5}
+    \end{bmatrix}.
+    \]
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    \begin{equation}
+      \begin{pmatrix}
+        \frac{2}{3}\\[0.1em]
+        \frac{1}{3}
+      \end{pmatrix}
+      \otimes
+      \begin{pmatrix}
+        \frac{1}{5}\\[0.1em]
+        \frac{4}{5}
+      \end{pmatrix}
+      =
+      \begin{pmatrix}
+        \frac{2}{3}\begin{pmatrix}
+          \frac{1}{5}\\[0.1em]
+          \frac{4}{5}
+        \end{pmatrix}\\[1em]
+        \frac{1}{3}\begin{pmatrix}
+          \frac{1}{5}\\[0.1em]
+          \frac{4}{5}
+        \end{pmatrix}
+      \end{pmatrix}
+      =
+      \begin{pmatrix}
+        \frac{2}{15}\\[0.1em]
+        \frac{8}{15}\\[0.1em]
+        \frac{1}{15}\\[0.1em]
+        \frac{4}{15}
+      \end{pmatrix}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part b}\label{ques:2b}
+  \begin{question}
+    Of the following length-$4$ vectors, decide which ones are factorizable as a tensor product of two $2 \times 1$ vectors, and factorize them. \ (Here the vector entries
+    should be thought of as labeled by $00$, $01$, $10$, and $11$ respectively.)%
+    \[
+    A=
+    \begin{bmatrix}
+      \frac{2}{9}\\[0.1em]
+      \frac{1}{9}\\[0.1em]
+      \frac{4}{9}\\[0.1em]
+      \frac{2}{9}
+    \end{bmatrix}\!,\;
+    B=
+    \begin{bmatrix}
+      0\\
+      1\\
+      0\\
+      0
+    \end{bmatrix}\!,\;
+    C=
+    \begin{bmatrix}
+      \frac{1}{4}\\[0.1em]
+      \frac{1}{4}\\[0.1em]
+      \frac{1}{4}\\[0.1em]
+      \frac{1}{4}
+    \end{bmatrix}\!,\;
+    D=
+    \begin{bmatrix}
+      0\\
+      \frac{1}{2}\\[0.1em]
+      \frac{1}{2}\\
+      0
+    \end{bmatrix}\!,\;
+    E=
+    \begin{bmatrix}
+      0\\
+      \frac{1}{2}\\
+      0\\
+      \frac{1}{2}
+    \end{bmatrix}.
+    \]
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The following matrices can be factorized as a tensor product of two $2 \times 1$ vectors:
+    \begin{equation}
+      A = \begin{pmatrix}
+            \frac{1}{3}\\[0.1em]
+            \frac{2}{3}
+          \end{pmatrix}
+          \otimes
+          \begin{pmatrix}
+            \frac{2}{3}\\[0.1em]
+            \frac{1}{3}
+          \end{pmatrix}
+    \end{equation}
+    \begin{equation}
+      B = \begin{pmatrix}
+            1\\
+            0
+          \end{pmatrix}
+          \otimes
+          \begin{pmatrix}
+            0\\
+            1
+          \end{pmatrix}
+    \end{equation}
+    \begin{equation}
+      C = \begin{pmatrix}
+            \frac{1}{2}\\[0.1em]
+            \frac{1}{2}
+          \end{pmatrix}
+          \otimes
+          \begin{pmatrix}
+            \frac{1}{2}\\[0.1em]
+            \frac{1}{2}
+          \end{pmatrix}
+    \end{equation}
+    \begin{equation}
+      E = \begin{pmatrix}
+            \frac{1}{2}\\[0.1em]
+            \frac{1}{2}
+          \end{pmatrix}
+          \otimes
+          \begin{pmatrix}
+            0\\
+            1
+          \end{pmatrix}
+    \end{equation}
+    Matrix $D$ cannot be factorized as a tensor product of two $2 \times 1$ vectors.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part c}\label{ques:2c}
+  \begin{question}
+    Prove that there's no $2 \times 2$ \emph{real} matrix $A$ such
+    that
+    \[
+    A^2=
+    \begin{bmatrix}
+      1 & 0\\
+      0 & -1
+    \end{bmatrix}\!.
+    \]
+    This observation perhaps helps to explain why the complex numbers play such a
+    central role in quantum mechanics.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We will prove this by contradiction. Let there be a real matrix $\mathbf{A}$ such that $\mathbf{A}^2 = \begin{bmatrix} 1 & 0\\ 0 & -1 \end{bmatrix}$. Notice that $det(\mathbf{A}^2) = -1$. However, we know that $det(\mathbf{A}^2) = det(\mathbf{A})^2$. Therefore, $det(\mathbf{A})^2 = -1 \implies det(\mathbf{A}) = \pm i$, which is not possible since $\mathbf{A}$ is a real matrix and hence its determinant will be real. This is a contradiction and hence there is no real matrix satisfying the condition.
+  \end{proof}
+\end{solution}
