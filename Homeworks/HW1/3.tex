@@ -17,9 +17,9 @@
   \tcblower{}
   \begin{proof}[Solution]
     \begin{equation}
-      \brakett{\phi}{\phi} = -2i\cdot 2i\brakett{0}{0} + 3i\cdot -3i\brakett{1}{1} = 13 = A^2\brakett{\psi}{\psi} = A^2
+      \brakett{\phi}{\phi} = -2i\cdot 2i\brakett{0}{0} + 3i\cdot -3i\brakett{1}{1} = 13 = A^*A\brakett{\psi}{\psi} = A^*A
     \end{equation}
-    Therefore, $A = \pm\sqrt{13}$.
+    Therefore, $A = e^{i\theta}\sqrt{13}$ (for any constant $\theta \in [-\pi, \pi]$).
   \end{proof}
 \end{solution}
 
@@ -38,7 +38,7 @@
                    &= \frac{a - ib}{\sqrt{2}}\ket{i} + \frac{a + ib}{\sqrt{2}}\ket{-i}
       \end{split}
     \end{equation}
-    Since we can represent any state $\ket{\psi}$ as a linear combination of $\ket{i}, \ket{-i}$, they form an orthonormal basis for $\mathbb{C}^2$.
+    Since we can represent any state $\ket{\psi}$ as a linear combination of $\ket{i}, \ket{-i}$ (and since the states are orthogonal and normalized), they form an orthonormal basis for $\mathbb{C}^2$.
   \end{proof}
 \end{solution}
 
@@ -48,7 +48,7 @@
   \end{question}
   \tcblower{}
   \begin{proof}[Solution]
-    For $\ket{\psi}$, $a = 2i/\sqrt{13}$ and $b = -3i/\sqrt{13}$ (assuming that we take the positive normalization constant), we get,
+    For $\ket{\psi}$, $a = 2i/\sqrt{13}$ and $b = -3i/\sqrt{13}$ (assuming that $\theta = 0$), we get,
     \begin{equation}
       \ket{\psi} = \frac{2i - 3}{\sqrt{26}}\ket{i} + \frac{2i + 3}{\sqrt{26}}\ket{-i}
     \end{equation}
