@@ -1,0 +1,62 @@
+\begin{solution}{Part a}\label{ques:1a}
+  \begin{question}
+    Give an example of a $2 \times 2$ unitary matrix where the diagonal entries are 0 but all of the off-diagonal entries are nonzero.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    $\mathbf{A} = \begin{pmatrix}
+      0 & e^{i\theta_1}\\
+      e^{i\theta_2} & 0
+    \end{pmatrix}$ for any $\theta_1, \theta_2 \in [-\pi, \pi]$ is a family of unitary matrices with zero diagonal entries but non-zero off-diagonal entries.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part b}\label{ques:1b}
+  \begin{question}
+    Give an example of a $4 \times 4$ unitary matrix satisfying the same condition.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    $\mathbf{A} = \frac{1}{\sqrt{3}}\begin{pmatrix}
+      0 & 1 & -1 & 1\\
+      -1 & 0 & 1 & 1\\
+      1 & -1 & 0 & 1\\
+      1 & 1 & 1 & 0
+    \end{pmatrix}$ is a unitary and has zero diagonal entries and non-zero off-diagonal entries.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part c}\label{ques:1c}
+  \begin{question}
+    Is it possible to have a $3 \times 3$ unitary matrix with this condition? If so, give an example. If not, prove it!
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    No, it is impossible to have a $3\times 3$ unitary matrix with this condition. We will prove this by contradiction. Assume that there exists a matrix $A$ such that $A$ is unitary and has zero diagonal entries and non-zero off-diagonal entries. Let $A = \begin{pmatrix}
+      0 & a_{12} & a_{13}\\
+      a_{21} & 0 & a_{23}\\
+      a_{31} & a_{32} & 0
+    \end{pmatrix}$ where $a_{ij} (i \neq j) \in \mathbb{C}$. Since $A$ is unitary, $AA^\dagger = \mathbf{I}$. We have
+    \begin{equation}
+      \begin{split}
+        &AA^\dagger = \begin{pmatrix}
+          0 & a_{12} & a_{13}\\
+          a_{21} & 0 & a_{23}\\
+          a_{31} & a_{32} & 0
+        \end{pmatrix}\begin{pmatrix}
+          0 & a_{21}^* & a_{31}^*\\
+          a_{12}^* & 0 & a_{32}^*\\
+          a_{13}^* & a_{23}^* & 0
+        \end{pmatrix}\\
+        \implies &\mathbf{I} = \begin{pmatrix}
+          |a_{12}|^2 + |a_{13}|^2 & a_{13}a_{23}^* & a_{12}a_{32}^*\\
+          a_{23}a_{13}^* & |a_{21}|^2 + |a_{23}|^2 & a_{21}a_{31}^*\\
+          a_{32}a_{12}^* & a_{31}a_{21}^* & |a_{31}|^2 + |a_{32}|^2
+        \end{pmatrix}\\
+        \implies &0 = a_{13}a_{23}^* = a_{12}a_{32}^* = a_{23}a_{13}^* = a_{21}a_{31}^* = a_{32}a_{12}^* = a_{31}a_{21}^*\\
+        \implies &\bot
+      \end{split}
+    \end{equation}
+    This is a contradiction since we assumed that $a_{ij} \neq 0$ for $i \neq j$. Therefore, it is impossible to have a $3\times 3$ unitary matrix with zero diagonal entries and non-zero off-diagonal entries.
+  \end{proof}
+\end{solution}

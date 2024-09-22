@@ -1,0 +1,60 @@
+\begin{solution}{Part a}\label{ques:2a}
+  \begin{question}
+    Measure in the $\{\ket{0}, \ket{1}\}$-basis:
+    \begin{minipage}[t]{\textwidth}
+      \begin{quantikz}
+        \lstick{$\ket{0}$} & \gate{H} & \gate{Z} & \gate{H} & \gate{P} & \meter{}
+      \end{quantikz}
+    \end{minipage}
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The state of the qubit right before the measurement will be, $\ket{\psi} = i\ket{1}$ which on measurement in the standard basis will give the output $1$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part b}\label{ques:2b}
+  \begin{question}
+    Measure in the $\{\ket{+}, \ket{-}\}$-basis:
+    \begin{minipage}[t]{\textwidth}
+      \begin{quantikz}
+        \lstick{$\ket{0}$} & \gate{R_{\pi/4}} & \gate{Z} & \gate{Y} & \gate{H} & \meter{}
+      \end{quantikz}
+    \end{minipage}
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The state of the qubit right before the measurement will be, $\ket{\psi} = i\ket{0}$ which on measurement in the Hadamard basis will give either $\ket{+}$ or $\ket{-}$ with equal probability.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part c}\label{ques:2c}
+  \begin{question}
+    Measure in the $\{\ket{+}, \ket{-}\}$-basis:
+    \begin{minipage}[t]{\textwidth}
+      \begin{quantikz}
+        \lstick{$\ket{+}$} & \gate{T} & \gate{H} & \meter{}
+      \end{quantikz}
+    \end{minipage}
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Since we have to measure in the $\ket{+}, \ket{-}$ basis, we can add a Hadamard gate before the measurement and measure in the standard basis. This will cancel out the $H$ gate and the resultant circuit is just executing a $T$ gate on the $\ket{+}$ state. The resultant state after applying the gate is $\frac{1}{\sqrt{2}}(\ket{0} + e^{i\pi/4}\ket{1})$. Therefore, the probabilites of getting $\ket{+}$ and $\ket{-}$ is $50\%$ each.\par
+    Since the question also asks for the state before measurement, the state before measurement will be $\frac{1}{\sqrt{2}}(\ket{+} + e^{i\pi/4}\ket{-})$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part d}\label{ques:2d}
+  \begin{question}
+    Measure in the $\{\ket{i}, \ket{-i}\}$-basis:
+    \begin{minipage}[t]{\textwidth}
+      \begin{quantikz}
+        \lstick{$\ket{+}$} & \gate{T} & \gate{Z} & \gate{T} & \meter{}
+      \end{quantikz}
+    \end{minipage}
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The $T$ gate is a rotation along the $Z$ axis by $\pi/8$ radians and the $Z$ gate is a rotation along the Z axis by $\pi/2$ radians. Therefore, the entire circuit can be seen as a rotation along the $Z$ axis by $3\pi/4$ radians. Therefore, the resultant state is $\frac{1}{\sqrt{2}}(\ket{0} + e^{i3\pi/2}\ket{1}) = \frac{1}{\sqrt{2}}(\ket{0} - i\ket{1}) = \ket{-i}$. Therefore the probability of obtaining $\ket{-i}$ is $1$.
+  \end{proof}
+\end{solution}

@@ -1,0 +1,56 @@
+\begin{solution}{Part a}\label{ques:4a}
+  \begin{question}
+    But what if $\ket{\psi}$ is either $\ket{0}$ or $\ket{+}$ (with equal probability)? Give the protocol that distinguishes the two states with with a failure probability of $\sin^2(\frac{\pi}{8})\approx .146$. Show explicitly that your protocol achieves this failure probability.
+\\ Note that when we ask for a protocol, we mean some step-by-step algorithm that ends by outputting ``I think this was $\ket{0}$'' or ``I think this was $\ket{+}$''.
+\\ Hint: Read Section 5.2 of the textbook.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We propose the following protocol,
+    \protocol{Protocol to distinguish between $\ket{0}$ and $\ket{+}$}{Distinguishing protocol}{proto:diff}{
+      \begin{enumerate}
+        \item Apply the $R_X(\pi/8)$ gate to the input state $\ket{\psi}$ (i.e., rotate the state by $\pi/8$ along the $X$ axis).
+        \item Measure the state in the standard basis.
+        \item If the measurement result is $\ket{0}$, output $\ket{0}$, else output $\ket{+}$.
+      \end{enumerate}
+    }
+    We now prove that the failure probability of this protocol is $\sin^2(\pi/8)$. If we had the $\ket{0}$ state, then the state of the qubit after applying the rotation gate is $\cos\frac{\pi}{8}\ket{0} + \sin\frac{\pi}{8}\ket{1}$. Alternatively, if we started with the $\ket{+}$ state, the state would be $\cos\frac{3\pi}{8}\ket{0} + \sin\frac{3\pi}{8}\ket{1}$. Now, the failure probability can be computed as,
+    \begin{equation}
+      \begin{split}
+        \prob{\text{failure}} &= \frac{1}{2}\cdot\prob{\text{failure }| \ket{\psi} = \ket{0}} + \frac{1}{2}\cdot\prob{\text{failure }| \ket{\psi} = \ket{+}}\\
+        &= \frac{1}{2}\cdot\sin^2\frac{\pi}{8} + \frac{1}{2}\cdot\cos^2\frac{3\pi}{8}\\
+        &= \frac{1}{2}\cdot\sin^2\frac{\pi}{8} + \frac{1}{2}\cdot\sin^2\frac{\pi}{8} = \sin^2\frac{\pi}{8}
+      \end{split}
+    \end{equation}
+    Hence, we have shown that the failure probability of this protocol is $\sin^2(\pi/8)$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part b}\label{ques:4b}
+  \begin{question}
+    Prove that this is optimal.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Any protocol that will be used to distinguish the two states can be represented as a unitary on some $n$ qubits, followed by measurements in the standard basis at the end. Any intermediate measurements can be deferred to the end by adding more qubits in the circuit (for each intermediate measurement, add an extra qubit, perform a CNOT between the qubit to be measured and the new qubit and instead measure the new qubit; now this new qubit isn't involved in any further operations so its measurement can be done at any point, we do it at the end along with all other measurements).\par
+    Therefore, any protocol has the effect of performing a measurement in a certain orthonormal basis. However, we know that no unitary can change the inner product between two states. This implies that the angle between the two states is still fixed at $\theta = \cos^{-1}\left|\brakett{\psi_1}{\psi_2}\right|$. Thus, the most optimal basis to measure the two states will have each orthonormal state at an angle of some $\alpha$ and $\alpha + \theta$ from the two states (assuming that $\theta$ is acute, the argument is similar for an obtuse $\theta$). Therefore the least failure probability for any protocol is $2\cdot \frac{1}{2}\cdot \cos^2\alpha = \cos^2(\pi/2 - \theta/2) = \sin^2\theta/2$.\par
+    For the states $\ket{0}$ and $\ket{+}$, the angle is $\pi/4$ and therefore the best failure probability is $\sin^2\pi/8$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part c}\label{ques:4c}
+  \begin{question}
+    What is the failure probability if you measure in the $\{\ket{0}, \ket{1}\}$ basis?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    If we measure in the $\{\ket{0}, \ket{1}\}$ basis and guess that the state was $\ket{+}$ only if the measurement result is $\ket{1}$, the failure probability can be computed as,
+    \begin{equation}
+      \begin{split}
+        \prob{\text{failure}} &= \frac{1}{2}\cdot\prob{\text{failure }| \ket{\psi} = \ket{0}} + \frac{1}{2}\cdot\prob{\text{failure }| \ket{\psi} = \ket{+}}\\
+        &= 0 + \frac{1}{2}\cdot\frac{1}{2}\text{, since there is a 50\% probability of getting }\ket{1}\\
+        &= \frac{1}{4}
+      \end{split}
+    \end{equation}
+  \end{proof}
+\end{solution}

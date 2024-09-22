@@ -1,0 +1,68 @@
+\begin{solution}{Part a}\label{ques:3a}
+  \begin{question}
+    Normalize the state $\ket{0} + \ket{+}$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The state is equal to $(1 + \frac{1}{\sqrt{2}})\ket{0} + \frac{1}{\sqrt{2}}\ket{1}$. Therefore, the normalization factor will be $\sqrt{2 + \sqrt{2}}$ and the normalized state will be $\frac{1}{\sqrt{2\sqrt{2}}}\left(\sqrt{\sqrt{2} + 1}\ket{0} + \sqrt{\sqrt{2} - 1}\ket{1}\right)$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part b}\label{ques:3b}
+  \begin{question}
+    We say a quantum state vector $\ket{\psi}$ is an eigenvector or eigenstate of a matrix $\Lambda$ if the following equation holds for some number $\lambda$:
+\[
+\Lambda \ket{\psi} = \lambda \ket{\psi}
+\]
+
+$\lambda$ is called the eigenvalue of $\ket{\psi}$. Show that the normalized form of the state from part a) is an eigenstate of the $H$ gate. What is the eigenvalue?
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    If we represent the state in part a as $\ket{\psi} = a(\ket{0} + \ket{+})$, where $a = \frac{1}{\sqrt{2 + \sqrt{2}}}$, then we get,
+    \begin{equation}
+      \begin{split}
+        H\ket{\psi} &= H\left(a(\ket{0} + \ket{+})\right)\\
+        &= a(H(\ket{0} + \ket{+}))\\
+        &= a(\ket{+} + \ket{0}) = 1\cdot\ket{\psi}
+      \end{split}
+    \end{equation}
+    Therefore, $\ket{\psi}$ is an eigenstate of $H$ with an eigenvalue of $1$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}{Part c}\label{ques:3c}
+  \begin{question}
+    What single-qubit states are reachable from $\ket{0}$ using only $H$ and $P$, i.e. via any sequence of $H$ and $P$ gates? Are there finitely or infinitely many? Characterize all of the reachable states, up to global phase.
+\\ Hint: Start by just playing with applying different sequences of matrices to the $\ket{0}$ state and look for a pattern.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    There are a finitely many states that can be reached from $\ket{0}$ using only $H$ and $P$. We first show the following,
+    \begin{equation}
+      PH\ket{0} = P\ket{+} = \frac{1}{\sqrt{2}}H(\ket{0} + i\ket{1}) = \ket{i}
+      \label{eq:ph}
+    \end{equation}
+    Similarly, we have,
+    \begin{equation}
+      P^2H\ket{0} = P^2\ket{+} = \ket{-}
+      \label{eq:p2h}
+    \end{equation}
+    Also,
+    \begin{equation}
+      P^3H\ket{0} = P^3\ket{+} = \ket{-i}
+      \label{eq:p3h}
+    \end{equation}
+    We also state the following from Equations~\ref{eq:ph},~\ref{eq:p2h},~\ref{eq:p3h},
+    \begin{equation}
+      \begin{split}
+        HPH\ket{0} &= \ket{-i}\\
+        HP^2H\ket{0} &= \ket{1}\\
+        HP^3H\ket{0} &= \ket{i}
+      \end{split}
+      \label{eq:hpih}
+    \end{equation}
+
+    Also note that $P^4 = I$ and $H^2 = I$. Therefore, a non-trivial application of a unitary made up of a sequence of $H$ and $P$ gates will be of the form $H^{h}\cdot P^{p_n}\cdot H\cdot P^{p_{n-1}}\cdot H\cdot P^{p_{n-2}}\cdots H\cdot P^{p_1}\cdot H$ where $h\in \{0, 1\}\ \wedge\ \forall i:\ p_i \in \{1, 2, 3\}$. In words, we start with a Hadamard gate and we alternate between phase gates and Hadamards in between and may or may not end with a Hadamard gate. Note that starting with a phase gate has no effect on the $\ket{0}$ state and hence we can ignore its effect. Therefore, the only set of states that are reachable by such a unitary belong to the set $\mathbb{S} = \{\ket{0}, \ket{1}, \ket{+}, \ket{-}, \ket{i}, \ket{-i}\}$. We can easily prove this by induction on $i$.
+  \end{proof}
+\end{solution}
