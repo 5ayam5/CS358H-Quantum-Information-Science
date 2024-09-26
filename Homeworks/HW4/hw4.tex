@@ -1,0 +1,124 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage[dvipsnames]{xcolor} % for color names, must be loaded before tikz
+\usepackage{ifthen}
+\usepackage{comment}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage[braket, qm]{qcircuit}
+
+\providecommand{\due}{Due Wednesday, October 2 at 11:59 PM}
+\lhead{CS358H, M375T, ES377} \rhead{}
+\lfoot{\due} \cfoot{} \rfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+
+% Eliminates the spacing in the title that remains from the empty author section.
+\preauthor{}
+\postauthor{}
+
+\titleformat{\section}[runin]{\large\bfseries}{\thesection .}{3pt}{}
+\titleformat{\subsection}[runin]{\bfseries}{\thesubsection)}{3pt}{}
+\renewcommand\thesubsection{\alph{subsection}}
+
+% Defines the solution environment. Toggle solutions between true and false to either show or hide solutions. Also, the solution environment takes an optional argument of arbitrary text to be inserted in the solution header.
+\newboolean{solutions}
+\setboolean{solutions}{false}
+\ifthenelse{\boolean{solutions}}
+{\newenvironment{solution}{\begin{mdframed}[skipbelow=0pt, linecolor=White, backgroundcolor=Green!10]\textbf{Solution:}}{\end{mdframed}}}
+{\excludecomment{solution}}
+
+\allowdisplaybreaks
+
+\newcommand{\EPR}{\ket{\text{EPR}}}
+\DeclareMathOperator{\CNOT}{CNOT}
+
+\begin{document}
+
+\title{Introduction to Quantum Information Science\\Homework 4}
+\date{\due}
+
+\maketitle
+
+\section{Multi-qubit measurements in other bases} 
+
+Consider the following circuit:
+\[
+\Qcircuit @C=.5em @R=0.5em @!R {
+	\lstick{\ket{0}} & \gate{R} & \targ & \gate{X} &  \ctrl{1} & \qw & \meter \\
+	\lstick{\ket{0}} & \gate{H} &\ctrl{-1} & \gate{H}&\targ & \gate{H} & \meter\\
+}
+\]
+where $R=\frac{1}{\sqrt{3}}\begin{bmatrix} \sqrt{2} & 1 \\ 1 & -\sqrt{2} \end{bmatrix}$.
+The final state of the system before measuring is:
+\[	
+\ket{\psi} = \frac{ \ket{00} + \sqrt{2}\ket{10} + \sqrt{2}\ket{01}  - \ket{11}  }{\sqrt{6}}.
+\]
+
+\subsection{[2 points]}
+Suppose the top measurement is in the $\ket{+}/\ket{-}$ basis.
+What is the probability we observe $\ket{+}$ on the top qubit?
+Show your work.
+
+\subsection{[2 points]}
+If we observe $\ket{+}$ on the top qubit, then what is the state of the bottom qubit? Show your work.
+
+
+\subsection{[2 points]}
+What is the probability the joint outcome of the two measurements is $\ket{+-}$?
+Show your work.
+
+
+
+\section{From Cloning To Faster-Than-Light Signaling [3 Points]} Suppose Alice and Bob shared the entangled state
+\[
+\EPR = \frac{\ket{00}+\ket{11}}{\sqrt{2}}.
+\]
+And suppose also that Bob had in his possession a magic box that could clone qubits, mapping any qubit $\ket{\psi}$ to $\ket{\psi}\otimes\ket{\psi}$.  (Of course, by the No-Cloning Theorem, such a box would violate quantum mechanics.)  Explain how, by using the entangled state together with the magic cloning box, Alice could instantaneously transmit a 1-bit message of her choice to Bob, so that Bob could read it (succeeding with high probability). [Hint: What happens when Alice measures her qubit in different bases?]
+
+
+\section{SARG04 Quantum Key Distribution}
+
+In class we discussed the BB84 QKD scheme. There is a similar key distribution protocol, called SARG04, which we study in this problem.
+
+\subsection{[1 Point]} Alice randomly samples two bitstrings $a$ and $b$. She prepares a six qubit state $\ket{\psi}$ that encodes the string $a$ according to bases given by $b$ using the following protocol: for the $i$-th qubit, if $b_i = 0$ then she maps $a_i=0\mapsto\ket{0},a_i=1\mapsto\ket{1}$, and if $b_i = 1$ then she sets $a_i=0\mapsto\ket{+},a_i=1\mapsto\ket{-}$. 
+
+Suppose the strings are $a = 011001$ and $b = 101011$. Write down $\ket{\psi}$.
+
+\subsection{[1 Point]} Alice sends $\ket{\psi}$ to Bob on a public quantum channel. An attacker Eve could intercept it, but say for now she leaves $\ket{\psi}$ untouched. Bob samples a bitstring $b'$, and measures $\ket{\psi}$ in the basis specified by $b'$ (following the same convention used by Alice). 
+
+Suppose $b'=100111$. Give a possible state that Bob might observe with this protocol. 
+If Bob assumes that he used the ``correct'' measurement bases, what bitstring $a'$ does the state you just gave encode?
+
+
+\subsection{[1 Point]} In BB84, Alice now publicly announces $b$ and Bob publicly announces where it differs from $b'$. They then discard the parts of $a$ and $a'$ where $b$ and $b'$ differ. 
+
+Suppose Alice and Bob did that now. What bitstrings are they left with?
+
+
+\subsection{[1 Point]} In SARG04, for each qubit $i$ in $\ket{\psi}$, Alice sends a classical message encoding one of the pairs $\{\ket{0}, \ket{+}\}$, $\{\ket{0}, \ket{-}\}$, $\{\ket{1}, \ket{+}\}$ or $\{\ket{1}, \ket{-}\}$ such that the state of her $i$-th qubit is part of that pair. 
+
+Ignore part (c). Give a possible string of pairs she could send given the choices of $a,b$.
+
+
+\subsection{[1 Point]} 
+Bob now analyses each pair, and sees if the $a'$ he used to measure can be used to determine Alice's bases $b$. 
+
+For the $a'$ you gave in (b) and the string you gave in (d), for which pairs is the basis (and so the correct state in each tuple) unambiguous?
+\textit{Hint: if Alice sends $\{\ket{0}, \ket{+}\}$, what is the only way for Bob to measure $\ket{1}$?}
+
+
+\subsection{[1 point]}
+Bob announces the positions where $a'$ and $b$ were unambiguous. Alice and Bob use those unambiguous bits of $b$ as their secret key.
+
+Given what you found in (e), what is Alice and Bob's secret string?
+
+\end{document}
+
