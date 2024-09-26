@@ -1,0 +1,108 @@
+\begin{solution}[label=ques:2a]
+  \begin{question}
+    Prove the following identity.\par
+    \begin{minipage}[t]{\textwidth}
+      \centering
+      \begin{quantikz}
+        \qw{} & \gate{H} & \gate{X} & \gate{H} & \gate[nwires=1,style={draw=none,fill=none}]{=} & \gate{Z} & \qw{}
+      \end{quantikz}
+    \end{minipage}
+
+    Show that this also implies\par
+    \begin{minipage}[t]{\textwidth}
+      \centering
+      \begin{quantikz}
+        \qw{} & \gate{H} & \gate{Z} & \gate{H} & \gate[nwires=1,style={draw=none,fill=none}]{=} & \gate{X} & \qw{}
+      \end{quantikz}
+    \end{minipage}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    To prove the identitiy, it is enough the prove that it holds for both the basis states $\ket{0}$ and $\ket{1}$. Note that the eigenvectors of the $X$ gate are the $\ket{+}$ and $\ket{-}$ states with the eigenvalues equal to $+1, -1$ respectively. Therefore, the result of applying the circuit on the left, $HXH$ is equal to doing nothing on the $\ket{0}$ state, whereas it adds a global phase of $-1$ on the $\ket{1}$ state as input. This is exactly what the $Z$ gate does. Therefore, the identity holds, since for any arbitrary quantum state, we will be applying the operations in superposition on both the basis states.\par
+    Similarly, it is easy to see that the second identity also holds. We just pre-multiply and post-multiply both sides with the $H$ gate. This cancels out the $H$ gate on the LHS (since it is it's own inverse), resulting in $X$, but the RHS transforms to $HZH$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2b]
+  \begin{question}
+    The 2-qubit CSIGN gate (also known as a controlled-Z gate) operates by  applying a relative phase shift of $-1$ to the $\ket{1}$ component of the second qubit if the first qubit is equal to 1 and otherwise does nothing. As a matrix it is given explicitly by the diagonal matrix diag(1,1,1,-1). Using part a, show how to simulate a CSIGN gate using only CNOT and Hadamard gates by writing down the appropriate circuit; show your derivation or give a brief explanation of why the circuits are equivalent.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Note that the CNOT gate is equivalent to applying a conditional $X$ gate on the second qubit, conditioned on the value of the first qubit. Therefore, we can execute the CSIGN gate as follows,
+
+    \begin{minipage}[t]{\textwidth}
+      \centering
+      \begin{quantikz}
+        \lstick{$\ket{\psi_1}$} & & \ctrl{1} & \qw{} & \qw{}\\
+        \lstick{$\ket{\psi_2}$} & \gate{H} & \targ{} & \gate{H} & \qw{}
+      \end{quantikz}
+    \end{minipage}
+
+    The reason this circuit works is because the CNOT gate has no effect when the control qubit is in the $\ket{0}$ state, and therefore the $H$ gates cancel out. However, when the control qubit is in the $\ket{1}$ state, the operations on the second qubit act as if we are applying $HXH$, which is equal to $Z$, as shown in Question~\ref{ques:2a}.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2c]
+  \begin{question}
+    Prove the following identity:\par
+    \begin{minipage}[b]{0.5\textwidth}
+      \raggedleft
+      \begin{quantikz}
+        \qw{} & \gate{H} & \ctrl{1} & \gate{H} & \qw{}\\
+        \qw{} & \gate{H} & \targ{} & \gate{H} & \qw{}
+      \end{quantikz}
+    \end{minipage}
+    $=$
+    \begin{minipage}[b]{0.5\textwidth}
+      \begin{quantikz}
+        \ghost{H} & \targ{} & \qw{}\\
+        \ghost{H} & \ctrl{-1} & \qw{}
+      \end{quantikz}
+    \end{minipage}
+
+    In other words: show that a CNOT by which qubit A controls qubit B, when viewed in a different basis, is actually a CNOT by which qubit B controls qubit A! 
+This illustrates how, with quantum information, unlike with classical information, there's no way for one system to affect another one without the possibility of being affected itself.
+
+We do not want you to solve this problem by brute force. Max of 2 points for a solution using explicit matrix multiplication.
+
+\textit{Hint: Using parts a and b, note that CSIGN is the same when applied in either direction.}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Note that the CSIGN gate has a non-trivial effect (out of all basis states) only when both the control and target qubits are in the state $\ket{1}$. This is symmetric in both the control and target qubits and the effect is just going from $\ket{11} \to -\ket{11}$, which is also symmetric in the control and target. Therefore, the CSIGN gate is equivalent even if we swap the control and target qubits.\par
+    Now we show the equality using the following circuit transformations:
+
+    \begin{minipage}[b]{0.53\textwidth}
+      \centering
+      \begin{quantikz}
+        \qw{} & \gate{H} & \ctrl{1} & \gate{H} & \qw{}\\
+        \qw{} & \gate{H} & \targ{} & \gate{H} & \qw{}
+      \end{quantikz}
+    \end{minipage}
+    $\equiv$
+    \begin{minipage}[b]{0.47\textwidth}
+      \begin{quantikz}
+        \qw{} & \gate{H} & \gategroup[2,steps=3,style={fill=blue!20},background]{CSIGN} & \ctrl{1} & & \gate{H} & \qw{}\\
+        \qw{} & & \gate{H} & \targ{} & \gate{H} & & \qw{}
+      \end{quantikz}
+    \end{minipage}
+    $\equiv$
+    \begin{minipage}[b]{0.5\textwidth}
+      \centering
+      \begin{quantikz}
+        \qw{} & \gate{H} & \gate{H}\gategroup[2,steps=3,style={fill=blue!20},background]{CSIGN} & \targ{} & \gate{H} & \gate{H} & \qw{}\\
+        \qw{} & & & \ctrl{-1} & & & \qw{}
+      \end{quantikz}
+    \end{minipage}
+    $\equiv$
+    \begin{minipage}[b]{0.5\textwidth}
+      \begin{quantikz}
+        \ghost{H} & \targ{} & \qw{}\\
+        \ghost{H} & \ctrl{-1} & \qw{}
+      \end{quantikz}
+    \end{minipage}
+
+    Hence, proved.
+  \end{proof}
+\end{solution}

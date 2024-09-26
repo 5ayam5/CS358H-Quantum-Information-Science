@@ -1,0 +1,51 @@
+\begin{solution}[label=ques:1]
+  \begin{question}
+    Suppose Alice and Bob share the two qubit entangled state
+\[
+  \ket{\text{EPR}} = \frac{\ket{00}+\ket{11}}{\sqrt{2}} ,
+\]
+and suppose that Alice applies a one qubit unitary transformation $U$ to her qubit.
+Show that this has exactly the same effect as if Bob had applied the unitary transformation $U^T$ (not the conjugate-transpose of U, just the transpose) to his qubit.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Let the unitary transform $U$ be given by $U = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$.
+    Then, the state of the system after Alice applies $U$ to her qubit is,
+    \begin{equation}
+      \begin{split}
+        \ket{\text{EPR}'} &= (U \otimes I)\ket{\text{EPR}}\\
+        &= \begin{pmatrix}
+          a & 0 & b & 0\\
+          0 & a & 0 & b\\
+          c & 0 & d & 0\\
+          0 & c & 0 & d
+        \end{pmatrix}\begin{pmatrix}
+          1\\
+          0\\
+          0\\
+          1
+        \end{pmatrix}\\
+        &= \frac{a\ket{00} + b\ket{01} + c\ket{10} + d\ket{11}}{\sqrt{2}}
+      \end{split}
+    \end{equation}
+    Now, the state of the system after Bob applies $U^T$ to his qubit is,
+    \begin{equation}
+      \begin{split}
+        \ket{\text{EPR}''} &= (I \otimes U^T)\ket{\text{EPR}}\\
+        &= \begin{pmatrix}
+          a & c & 0 & 0\\
+          b & d & 0 & 0\\
+          0 & 0 & a & c\\
+          0 & 0 & b & d
+        \end{pmatrix}\begin{pmatrix}
+          1\\
+          0\\
+          0\\
+          1
+        \end{pmatrix}\\
+        &= \frac{a\ket{00} + b\ket{01} + c\ket{10} + d\ket{11}}{\sqrt{2}}
+      \end{split}
+    \end{equation}
+    Therefore, $\ket{\text{EPR}'} = \ket{\text{EPR}''}$. Hence, proved.
+  \end{proof}
+\end{solution}

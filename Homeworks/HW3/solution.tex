@@ -1,0 +1,226 @@
+\mathchardef\mhyphen="2D
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[hypcap=false]{caption}
+\usepackage{booktabs}
+\usepackage[left=25mm, top=25mm, bottom=25mm, right=25mm]{geometry}
+\usepackage{soul}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=darkcyan,filecolor=darkcerulean,urlcolor=magenta]{hyperref}
+\usepackage{braket}
+\usepackage{quantikz}
+\usepackage{svg}
+
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\calZ}{\mathcal{Z}}
+
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfD}{\mathbf{D}}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bfI}{\mathbf{I}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfP}{\mathbf{P}}
+\newcommand{\bfQ}{\mathbf{Q}}
+\newcommand{\bfU}{\mathbf{U}}
+\newcommand{\bfv}{\mathbf{v}}
+\newcommand{\bfu}{\mathbf{u}}
+\newcommand{\bfdelta}{\mathbf{\Delta}}
+\newcommand{\bfpi}{\mathbf{\Pi}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\z}{\mathbb{Z}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\keygen}{\mathsf{KeyGen}}
+\newcommand{\enc}{\mathsf{Enc}}
+\newcommand{\dec}{\mathsf{Dec}}
+\newcommand{\negl}{\mathsf{negl}}
+\newcommand{\commit}{\mathsf{Commit}}
+\newcommand{\ccommit}{\mathsf{C\text{-}Commit}}
+
+\newcommand{\setup}{\mathsf{Setup}}
+\newcommand{\lsetup}{\mathsf{Setup\text{-}Lossy}}
+
+\newcommand{\samplemat}{\mathsf{Sample\text{-}Dirac\text{-}Matrix}}
+\newcommand{\eval}{\mathsf{Eval}}
+\newcommand{\obf}{\mathsf{Obf}}
+
+\newcommand{\phybb}[1]{p_{\mathrm{hyb}, #1}}
+\newcommand{\lin}{\ell_{\mathrm{in}}}
+\newcommand{\lout}{\ell_{\mathrm{out}}}
+\newcommand{\bit}{\{0,1\}}
+\newcommand{\sd}{\mathsf{SD}}
+\newcommand{\lwe}{\mathsf{LWE}_{n,m,q,\chi}}
+\newcommand{\sslwe}[4]{\mathsf{ss\text{-}LWE}_{#1,#2,#3,#4}}
+\newcommand{\sslwec}{\sslwe{n}{m}{q}{\chi}}
+
+\newcommand{\unif}[1]{\mathsf{Unif}_{\left[-#1, #1\right]}}
+\newcommand{\func}[2]{\mathsf{Func}[#1, #2]}
+\newcommand{\perm}[2]{\mathsf{Perm}[#1, #2]}
+\newcommand{\ct}{\mathsf{ct}}
+\newcommand{\Finverse}{F^{-1}}
+
+\newcommand{\nqss}{\mathsf{No\mhyphen Query \mhyphen Semantic \mhyphen Security}}
+
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\trace}[1]{\Tr\left( #1 \right)}
+
+\newcommand{\prob}[1]{\Pr\left[ #1 \right]}
+
+\newcommand{\brakett}[2]{\braket{#1|#2}}
+\newcommand{\ketbraa}[2]{\ket{#1}\bra{#2}}
+\newcommand{\ketbra}[1]{\ketbraa{#1}{#1}}
+
+\newcommand{\lddh}{\mathcal{L}_{DDH}}
+\newcommand{\lnddh}{\mathcal{L}_{nDDH}}
+\newcommand{\lddhkt}{\mathcal{L}_{DDH,k,t}}
+
+\newlength{\protowidth}
+\newcommand{\pprotocol}[4]{
+{\begin{center}
+\setlength{\protowidth}{\textwidth}
+\addtolength{\protowidth}{-3\intextsep}
+
+\fbox{
+        \small
+        \hbox{\quad
+        \begin{minipage}{\protowidth}
+    \begin{center}
+    {\bf #1}
+    \end{center}
+        #4
+        \end{minipage}
+        \quad}
+        }
+        \captionof{figure}{\label{#3} #2}
+\end{center}
+} }
+
+\newcommand{\defbox}[1]{
+{\begin{center}
+\setlength{\protowidth}{\textwidth}
+\addtolength{\protowidth}{-3\intextsep}
+
+\fcolorbox{darkcerulean}{cottoncandy}{
+        \small
+        \hbox{\quad
+        \begin{minipage}{\protowidth}
+    
+        #1
+        \end{minipage}
+        \quad}
+        }
+\end{center}
+        } }
+
+\newcommand{\protocol}[4]{
+\pprotocol{#1}{#2}{#3}{#4} }
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{question}{Question}
+
+\newtcolorbox[auto counter,number within=section]{solution}[1][]{every float=\centering,breakable,enhanced,adjusted title={Question \thetcbcounter},#1,colback=codegray,colframe=codegray!50!black}
+
+\linespread{1.0}
+
+\definecolor{codegray}{rgb}{0.98,0.97,0.93}
+\definecolor{cottoncandy}{rgb}{1.0, 0.84, 0.95}
+\definecolor{darkcerulean}{rgb}{0.03, 0.27, 0.49}
+\definecolor{darkcyan}{rgb}{0.0, 0.50, 0.45}
+
+\title{C S 358H: Intro to Quantum Information Science}
+\author{Sayam Sethi}
+\date{September 2024}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\pagenumbering{arabic}
+
+\newpage
+
+\section{Local Evolution of Entangled States}
+\input{1}
+
+\newpage
+
+\section{Multi-qubit quantum circuits}
+For the following circuits, calculate the output state before the measurement.
+\input{2}
+
+\newpage
+
+\section{IBM Q Experience \& Multi-qubit measurements}
+Consider the following circuit. Write $\ket{\psi} = \alpha\ket{0} + \beta\ket{1}$.
+
+\begin{minipage}[t]{\textwidth}
+  \centering
+  \begin{quantikz}
+    \lstick{$\ket{0}$} & \gate{H} & \gate{T} & \targ{} & \qw & \meter{} \\
+    \lstick{$\ket{\psi_{\text{in}}}$} & \qw & \gate{X} & \ctrl{-1} & \gate{P} & \qw & \rstick{$\ket{\psi_{\text{out}}}$}
+  \end{quantikz}
+\end{minipage}
+
+Where
+\[
+H = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix},\quad X=\begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix},\quad T= \begin{bmatrix} 1 & 0 \\ 0 & e^{i\pi/4} \end{bmatrix},\quad P= \begin{bmatrix} 1 & 0 \\ 0 & i \end{bmatrix}\!.
+\]
+
+\noindent \textbf{Note: You must show work for question (a) thru (d).}
+
+\input{3}
+
+\newpage
+
+\section{Constructing Quantum Circuits}
+\input{4}
+
+\newpage
+
+\section{Another Quantum Money Attack}
+\input{5}
+
+\end{document}

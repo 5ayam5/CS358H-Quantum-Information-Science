@@ -1,0 +1,52 @@
+\begin{solution}[label=ques:5]
+  \begin{question}
+    Suppose you're a quantum money counterfeiter, trying to forge a banknote in Wiesner's scheme.  You're given a qubit that's $\ket{0}$ ,$\ket{1}$, $\ket{+}$ or $\ket{-}$, each with equal probability 1/4.  You can apply any quantum circuit you like to the qubit to produce a two-qubit state (two fake banknotes). Then, both of your output qubits will separately be given back to the bank for verification. 
+In other words, if the bank's records indicate this banknote's original qubit was $\ket{0}$ or $\ket{1}$, then the bank will measure in the $ \{\ket{0},\ket{1}\} $ basis. You are a successful counterfeiter if and only if both of your qubits match the state of the original qubit and the bank accepts them (presumably you visit the bank multiple times, maybe in different outfits). Likewise if the original qubit was $\ket{+}$ or $\ket{-}$, the bank will measure and check in the $\{ \ket{+},\ket{-} \}$ basis.  
+Your goal is to maximize the probability that the bank accepts.
+In class, we saw a procedure that breaks this scheme with probability $\frac{5}{8}$. 
+
+Now, consider the following counterfeiting procedure. 
+Consider two qubits set to $\ket{0}$ and the qubit from a banknote to be counterfeited (we consider this the `third' qubit below). Then, apply a 3-qubit unitary transformation whose effect is the following mapping:
+
+\begin{align*}
+	\ket{000} & \mapsto \frac{\sqrt{3}}{2} \ket{000} + \frac{\ket{110} + \ket{101} + \ket{011}}{\sqrt{12}} \\
+	\ket{001} & \mapsto \frac{\sqrt{3}}{2} \ket{111} + \frac{\ket{001} + \ket{010} + \ket{100}}{\sqrt{12}} \\
+\end{align*}
+
+Finally, measure the first qubit in the $\{\ket{0},\ket{1}\}$-basis. The second two qubits are your counterfeit banknotes.
+
+Show that the probability of success is strictly greater than $\frac{5}{8}$. 
+
+\textit{Hint: break it up into cases depending on whether the outcome of the measurement is $\ket{0}$ or $\ket{1}$.}
+
+\textit{Note: This procedure actually turns out to be the optimal one.}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Let us find the probability to fool the bank in the cases when qubit is $\ket{0}$ and $\ket{+}$. The other two cases follow from it.
+
+    When qubit is $\ket{0}$,
+
+    After applying the unitary and discarding the first qubit, we get $\frac{\ket{01}+\ket{10}}{\sqrt{2}}$ with probability $\frac{1}{6}$ and $\frac{3\ket{00}+\ket{11}}{\sqrt{10}}$ with probability $\frac{5}{6}$.
+    
+    From here the chance of the strategy succeeding $=\frac{1}{6}\times 0 + \frac{5}{6}\times\frac{9}{10} = \frac{3}{4}$.
+
+    Similarly the probability for $\ket{1}$ is also $\frac{3}{4}$.\newline
+
+    Now when qubit is $\ket{+}$,
+
+    After applying the unitary and discarding the first qubit, we get $\frac{3\ket{00}+\ket{01}+\ket{10}+\ket{11}}{\sqrt{12}}$ with probability $\frac{1}{2}$ and $\frac{\ket{00}+\ket{01}+\ket{10}+3\ket{11}}{\sqrt{12}}$ with probability $\frac{1}{2}$. 
+
+    Working with first factor, we apply Hadamard on the two qubits, and then find the probability of getting $\ket{00}$(which corresponds to $\ket{++}$ in the original case).
+
+    Applying Hadamard, we get $\frac{3\ket{00}+\ket{01}+\ket{10}+\ket{11}}{\sqrt{12}}$ (note that this is the same as the state before the Hadamard, i.e., this implies that the state is an eigenvector for the $H\otimes H$ gate) and probability of getting $\ket{00}$ is $\frac{3}{4}$ in this case.
+    
+    Similarly for the other factor, applying Hadamard, we get $\frac{3\ket{00}-\ket{01}-\ket{10}+\ket{11}}{\sqrt{12}}$ and probability of getting $\ket{00}$ is $\frac{3}{4}$ in this case as well.
+
+    Therefore the overall probabilty for this case comes out to be $\frac{3}{4}$.
+
+    Similarly for the case when qubit is $\ket{-}$, we get the probability as $\frac{3}{4}$.
+
+    Therefore the probability in all the four cases comes out to be $\frac{3}{4}$ which ultimately is the overall probability.
+  \end{proof}
+\end{solution}
