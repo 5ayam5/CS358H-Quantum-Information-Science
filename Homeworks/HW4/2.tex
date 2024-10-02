@@ -1,0 +1,28 @@
+\begin{solution}[label=ques:2a]
+  \begin{question}
+    Suppose Alice and Bob shared the entangled state
+\[
+  \ket{\text{EPR}} = \frac{\ket{00}+\ket{11}}{\sqrt{2}}.
+\]
+And suppose also that Bob had in his possession a magic box that could clone qubits, mapping any qubit $\ket{\psi}$ to $\ket{\psi}\otimes\ket{\psi}$.  (Of course, by the No-Cloning Theorem, such a box would violate quantum mechanics.)  Explain how, by using the entangled state together with the magic cloning box, Alice could instantaneously transmit a 1-bit message of her choice to Bob, so that Bob could read it (succeeding with high probability). [Hint: What happens when Alice measures her qubit in different bases?]
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Consider the following protocol:
+    \protocol{Protocol used by Alice and Bob to communicate $b$}{Faster-than-Light Communication Protocol}{proto:ftlq}{
+      \begin{enumerate}
+        \item \textbf{Alice:} If $b = 0$, measure the qubit in the $\ket{0}/\ket{1}$ basis, else measure it in the $\ket{+}/\ket{-}$ basis.
+        \item \textbf{Bob:}
+          \begin{enumerate}
+            \item Use the cloning device $2n - 1$ times to obtain $2n$ copies of the qubit.
+            \item Measure the first $n$ copies in the $\ket{0}/\ket{1}$ basis.
+            \item Measure the remaining $n$ copies in the $\ket{+}/\ket{-}$ basis.
+            \item Output $b' = 0$ if all measurements in the $\ket{0}/\ket{1}$ basis matched, else output $b' = 1$. If all $2n$ measurements matched, output $0$ or $1$ with equal probability.
+          \end{enumerate}
+      \end{enumerate}
+      This protocol fails with probability $1/2^n$.
+    }
+    We now prove that the failure probability is indeed $1/2^n$. Notice that the only time the protocol fails is when all measurements match. This will happen with probability $2\cdot 1/2^n$ (when the bit chosen by Alice is $0$ and all $\ket{+}/\ket{-}$ measurement outcomes are either $\ket{+}$ or $\ket{-}$, or vice versa). There is another $1/2$ chance of failure when Bob guesses the bit in this case. Therefore, the total failure probability is $1/2^n$.\par
+    Also note that if even one measurement result differs, we can deterministically identify the bit chosen by Alice. For example, if the bit chosen by Alice is $0$, then it is guaranteed that all measurements in the $\ket{0}/\ket{1}$ basis will agree, however, there is an equal chance of obtaining $\ket{+}$ or $\ket{-}$ when measuring in the $\ket{+}/\ket{-}$ basis.
+  \end{proof}
+\end{solution}

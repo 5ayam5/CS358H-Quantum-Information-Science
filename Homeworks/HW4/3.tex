@@ -1,0 +1,75 @@
+\begin{solution}[label=ques:3a]
+  \begin{question}
+    Alice randomly samples two bitstrings $a$ and $b$. She prepares a six qubit state $\ket{\psi}$ that encodes the string $a$ according to bases given by $b$ using the following protocol: for the $i$-th qubit, if $b_i = 0$ then she maps $a_i=0\mapsto\ket{0},a_i=1\mapsto\ket{1}$, and if $b_i = 1$ then she sets $a_i=0\mapsto\ket{+},a_i=1\mapsto\ket{-}$.
+
+Suppose the strings are $a = 011001$ and $b = 101011$. Write down $\ket{\psi}$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The state $\ket{\psi}$ will be equal to $\ket{+}\otimes\ket{1}\otimes\ket{-}\otimes\ket{0}\otimes\ket{+}\otimes\ket{-}$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3b]
+  \begin{question}
+    Alice sends $\ket{\psi}$ to Bob on a public quantum channel. An attacker Eve could intercept it, but say for now she leaves $\ket{\psi}$ untouched. Bob samples a bitstring $b'$, and measures $\ket{\psi}$ in the basis specified by $b'$ (following the same convention used by Alice).
+
+Suppose $b'=100111$. Give a possible state that Bob might observe with this protocol. 
+If Bob assumes that he used the ``correct'' measurement bases, what bitstring $a'$ does the state you just gave encode?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The state sent by Alice will \textit{agree} in positions where $b$ and $b'$ agree. However, there is a $50\%$ chance of obtaining either state for the other positions. Since $b$ and $b'$ only disagree at positions $2, 3$ ($0$-indexed), we assume that the measurement results in a $0$ for both these measurements.\par
+    Therefore, the state observed by Bob will be $\ket{+}\otimes\ket{1}\otimes\ket{0}\otimes\ket{+}\otimes\ket{+}\otimes\ket{-}$ and thus $a'$ will be $010001$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3c]
+  \begin{question}
+    In BB84, Alice now publicly announces $b$ and Bob publicly announces where it differs from $b'$. They then discard the parts of $a$ and $a'$ where $b$ and $b'$ differ. 
+
+Suppose Alice and Bob did that now. What bitstrings are they left with?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The bitstrings that Alice and Bob are left with are $b_{BB84} = 1011$ and $a_{BB84} = 0101$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3d]
+  \begin{question}
+    In SARG04, for each qubit $i$ in $\ket{\psi}$, Alice sends a classical message encoding one of the pairs $\{\ket{0}, \ket{+}\}$, $\{\ket{0}, \ket{-}\}$, $\{\ket{1}, \ket{+}\}$ or $\{\ket{1}, \ket{-}\}$ such that the state of her $i$-th qubit is part of that pair. 
+
+Ignore part (c). Give a possible string of pairs she could send given the choices of $a,b$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Indexing each pair from $0$ to $3$, a possible message that Alice can send to Bob is $021003$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3e]
+  \begin{question}
+    Bob now analyses each pair, and sees if the $a'$ he used to measure can be used to determine Alice's bases $b$. 
+
+For the $a'$ you gave in (b) and the string you gave in (d), for which pairs is the basis (and so the correct state in each tuple) unambiguous?
+\textit{Hint: if Alice sends $\{\ket{0}, \ket{+}\}$, what is the only way for Bob to measure $\ket{1}$?}
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Since Bob measures in the \textit{correct} basis for positions $0, 1, 4, 5$, Bob will always have ambiguity for the pairs Alice sent corresponding to these positions. However, it is possible for Bob to obtain the \textit{correct} basis for the positions where $b$ and $b'$ disagree, i.e., positions $2$ and $3$. However, for the message chosen by Alice, Bob will be unable to disambiguate since the state Bob measured is contained in the pair sent by Alice ($\ket{0}$ and $\ket{+}$ are both in the pair $0$ and Alice sends the pair $0$ for both the positions $2, 3$).\par
+    However, if Alice had sent $023003$, then Bob will be able disambiguate the basis for position $2$. The basis for position $3$ will still be ambiguous. Bob will determine that $b'[2] = 1$ since Bob got $\ket{0}$ on measurement but Alice sent the pair $\{\ket{1}, \ket{-}\}$ and therefore the only possible state is the $\ket{-}$ state.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3f]
+  \begin{question}
+    Bob announces the positions where $a'$ and $b$ were unambiguous. Alice and Bob use those unambiguous bits of $b$ as their secret key.
+
+Given what you found in (e), what is Alice and Bob's secret string?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Since Bob was unable to disambiguate any of the positions, the secret string does not exist. However, if Alice had sent $023003$, then Alice and Bob will have the secret key as $1$ (the bit corresponding to the position $2$).
+  \end{proof}
+\end{solution}
