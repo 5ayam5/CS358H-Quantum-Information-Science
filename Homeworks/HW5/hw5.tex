@@ -1,0 +1,130 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage[dvipsnames]{xcolor} % for color names, must be loaded before tikz
+\usepackage{ifthen}
+\usepackage{comment}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage[braket, qm]{qcircuit}
+
+\providecommand{\due}{Due Wednesday, October 6 at 11:59 PM}
+\lhead{CS358H, M375T, ES377} \rhead{}
+\lfoot{\due} \cfoot{} \rfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+
+% Eliminates the spacing in the title that remains from the empty author section.
+\preauthor{}
+\postauthor{}
+
+\titleformat{\section}[runin]{\large\bfseries}{\thesection .}{3pt}{}
+\titleformat{\subsection}[runin]{\bfseries}{\thesubsection)}{3pt}{}
+\renewcommand\thesubsection{\alph{subsection}}
+
+% Defines the solution environment. Toggle solutions between true and false to either show or hide solutions. Also, the solution environment takes an optional argument of arbitrary text to be inserted in the solution header.
+\newboolean{solutions}
+\setboolean{solutions}{false}
+\ifthenelse{\boolean{solutions}}
+{\newenvironment{solution}{\begin{mdframed}[skipbelow=0pt, linecolor=White, backgroundcolor=Green!10]\textbf{Solution:}}{\end{mdframed}}}
+{\excludecomment{solution}}
+
+\allowdisplaybreaks
+
+\newcommand{\EPR}{\ket{\text{EPR}}}
+\DeclareMathOperator{\CNOT}{CNOT}
+
+\begin{document}
+
+\title{Introduction to Quantum Information Science\\Homework 5}
+\date{\due}
+
+\maketitle
+
+\section{Kinda-dense coding} We said in class that superdense quantum coding requires 1 ebit of
+entanglement between Alice and Bob, in addition to 1 qubit of
+communication.  In this problem, however, we'll see how to do a ``poor
+man's" dense quantum coding with no entanglement, just 1 qubit of
+communication from Alice to Bob.
+
+Suppose Alice knows two bits, $x$ and $y$.  She'd like to let Bob learn either bit of his choice, $x$ or
+$y$, though not necessarily both of them (and she doesn't know which Bob
+is interested in).
+
+
+\subsection{[6 Points]} 
+Suppose Alice is able to send 1 qubit to Bob, and nothing else.
+Describe a protocol that lets Bob learn the bit of his choice with
+probability $\cos^2(\pi/8) \approx 85\%$. You may assume Alice and Bob can perform any quantum gate/apply any unitary to qubits in their possession that you want.
+Give an analysis or proof that it achieves this success probability.
+\\ \textit{Hint: You might find the following states useful:}
+\begin{gather*}
+\cos(\pi/8)\ket{0}+\sin(\pi/8)\ket{1},\quad \sin(\pi/8)\ket{0}+\cos(\pi/8)\ket{1}\\
+\cos(\pi/8)\ket{0}-\sin(\pi/8)\ket{1},\quad \sin(\pi/8)\ket{0}-\cos(\pi/8)\ket{1}
+\end{gather*}
+
+
+
+\subsection{[3 Points]} Now suppose Alice can no longer send a qubit and she is limited to 1 bit of classical communication only. And
+suppose that now the bits $x$ and $y$ are uniformly random and independent of each other.  
+Describe a protocol where Alice sends one classical bit to Bob and Bob learns the bit of his choice with $75\%$ chance of success.
+\\ In other words, describe a protocol where Alice sends a classical bit to Bob, then Bob decides whether he would like to learn $x$ or $y$ (Bob's choice is his own: you cannot assume it's uniformly random), he performs some series of steps which results in some designated output bit, and there is a $75\%$ chance that this bit matches the value of the bit he wanted.
+
+
+
+\section{Non-local operations [3 Points]} Suppose Alice and Bob hold one qubit each of an arbitrary two-qubit state $\ket{\psi}$ that is possibly entangled. They can apply local operations (i.e. apply gates to any qubits they possess) and are allowed to classically communicate with each other. Their goal is to apply the CNOT gate to their state $\ket{\psi}$. Describe a protocol they can use to achieve this given two ebits of entanglement. 
+\\ (Recall 1 ebit = 1 EPR/Bell pair, one half controlled by Alice, the other controlled by Bob. Thus, 2 ebits = 2 EPR/Bell pairs shared by Alice and Bob.) 
+
+
+
+\section{The GHZ Game} In the ``GHZ game'', there are three players, Alice, Bob, and
+Charlie, who are given bits $x$, $y$, and $z$ respectively.  We're promised
+that $x+y+z=0 \pmod{2}$; otherwise the bits can be arbitrary.  The
+players' goal is, without communicating with each other, to output
+bits a, b, c respectively such that
+$a+b+c = \text{OR}(x,y,z) \pmod{2}$.
+In other words, they should collectively output an odd number of 1-bits if and
+only if at least one of the input bits is 1.
+
+\subsection{[2 Points]} Show that, in a classical universe, there is no strategy that
+causes the players to succeed for all four possible
+allowed inputs $(x,y,z)$ with certainty.
+
+
+
+\subsection{[6 Points]} Now suppose that the players share the state:
+\[
+\frac{\ket{000} - \ket{011} - \ket{101} - \ket{110}}{2}
+\]
+Suppose that each player measures their qubit in the $\{\ket{0}, \ket{1}\}$ basis if their input bit is 0, or in the $\{\ket{+}, \ket{-}\}$ basis if their input bit is 1, and that they output $0/1$ based on what they see (the $\ket{+}$ state means they should output $0$). Show that this lets the players win the GHZ game for all four possible input triples with certainty.
+
+
+\subsection{[Extra Credit, 2 Points]} Design a protocol where the players instead share the so-called GHZ state
+\[
+\frac{\ket{000} + \ket{111}}{\sqrt{2}}
+\]
+and still win with certainty. No communication between players is allowed.
+
+
+
+\section{Noisy CHSH [10 Points]} Suppose Alice and Bob share a Bell pair $\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$. Imagine that unbeknownst to Alice and Bob, their qubits are not completely isolated from the outside world: with probability $\epsilon$, one of the qubits is measured in the $\{\ket{0},\ket{1}\}$ basis by the ``environment'' and the state of their pair collapses to either the state $\ket{00}$ or $\ket{11}$ (with probability $1-\epsilon$, the qubits remain in the Bell state). 
+
+Work out an expression for the probability with which Alice and Bob win the CHSH game using this noisy Bell pair assuming they follow the usual strategy (the one reviewed below). Show your work.
+
+How large does $\epsilon$ need to be before Alice and Bob's success probability with this strategy is no better than is possible with a classical strategy (with no Bell pair at all)?
+
+\textit{Make sure you answer both questions/parts!}
+\\
+
+\textit{Recall:} In the CHSH game, Alice and Bob receive independent random bits $x$ and $y$ respectively. Their goal is to output bits $a$ and $b$ respectively such that $a+b=xy \pmod{2}$. No communication is allowed.  In the ``usual strategy'', Alice does nothing to her qubit if $x=0$ and she applies a $\frac{\pi}{4}$ counterclockwise rotation towards $\ket{1}$ if $x=1$. Bob applies a $\frac{\pi}{8}$ counterclockwise rotation if $y=0$ and he applies a $\frac{\pi}{8}$ \textit{clockwise} rotation, toward $-\ket{1}$ if $y=1$. Alice and Bob both measure their qubits in the $\{ \ket{0},\ket{1} \}$ basis and output whatever they see. This strategy wins $\cos^2\left(\frac{\pi}{8}\right) \approx 85\%$ of the time, while any classical strategy can win with probability at most $3/4$.
+
+
+
+\end{document}
+
