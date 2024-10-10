@@ -9,13 +9,13 @@ allowed inputs $(x,y,z)$ with certainty.
     We assume a deterministic strategy adopted by every player (which may or may not be the same). Define the bit output by each player Alice, Bob and Charlie on receiving bit $i$ as $a_i, b_i, c_i$ respectively. We assume that this strategy works for the case when two of $x, y, z$ are $1$ and the third is $0$. Now we show that for any strategy that works for these three cases will definitely fail when all $x, y, z$ are $0$.
     \begin{equation}
       \begin{split}
-        a_0 + b_0 + c_0 &= (a_0 + b_1 + c_1) + (a_1 + b_0 + c_1) + (a_1 + b_1 + c_0)\\
+        a_0 + b_0 + c_0 &= (a_0 + b_1 + c_1) + (a_1 + b_0 + c_1) + (a_1 + b_1 + c_0) \pmod{2}\\
         &= 1 + 1 + 1 \pmod{2}\text{ (since the strategy works when two of $x, y, z$ are $1$)}\\
-        &= 1 \pmod{2}
+        &= 1 \pmod{2} \neq x + y + z = 0 \pmod{2}
       \end{split}
       \label{eq:ghzfail}
     \end{equation}
-    Therefore, a strategy that works for the cases when two of $x, y, z$ are $1$ will always fail when all of $x, y, z$ are $0$. This implies that there is no deterministic strategy that works for all four possible allowed inputs $(x, y, z)$ with certainty.
+    Therefore, a strategy that works for the cases when two of $x, y, z$ are $1$ will always fail when all of $x, y, z$ are $0$. This implies that there is no deterministic strategy that works for all four possible allowed inputs $(x, y, z)$ with certainty, which further implies that there is not non-deterministic strategy that wins with certainty in all cases (using the expectation argument discussed in class).
   \end{proof}
 \end{solution}
 

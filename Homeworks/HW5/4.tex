@@ -1,12 +1,12 @@
 \begin{solution}[label=ques:4a]
   \begin{question}
-    Work out an expression for the probability with which ALice and Bob win the CHSH game using this noisy Bell pair asusming they follow the usual strategy (the one reviewed above). Show your work.
+    Work out an expression for the probability with which Alice and Bob win the CHSH game using this noisy Bell pair asusming they follow the usual strategy (the one reviewed above). Show your work.
   \end{question}
   \tcblower{}
   \begin{proof}[Solution]
     In the case when there is no noise, with probability $1 - \epsilon$, Alice and Bob will still win with probability $\cos^2\pi/8$. We now compute the probability of winning when the qubit gets collapsed to either $\ket{00}$ or $\ket{11}$.\par
     Since Alice either applies a $\pi/4$ rotation or does nothing before measuring, and her qubit was either in the $\ket{0}$ or the $\ket{1}$ state to begin with, she has a $50\%$ probability of measuring either a $\ket{0}$ or $\ket{1}$ in all cases.\par
-    On the other hand, Bob applies a $(-1)^b\pi/8$ rotation on receiving $y = b$. However, Bob starts with either $\ket{0}$ or $\ket{1}$ with equal probability. The net probability of measuring $\ket{0}$ is $1/2\times \cos^2\pi/8 + 1/2\times\cos^2\pi/8 = 1/2$. Therefore, Bob measures either a $\ket{0}$ or a $\ket{1}$ with equal probability.\par
+    On the other hand, Bob applies a $(-1)^b\pi/8$ rotation on receiving $y = b$. However, Bob starts with either $\ket{0}$ or $\ket{1}$ with equal probability. The net probability of measuring $\ket{0}$ is $1/2\times \cos^2\pi/8 + 1/2\times\sin^2\pi/8 = 1/2$. Therefore, Bob measures either a $\ket{0}$ or a $\ket{1}$ with equal probability.\par
     Therefore, Alice and Bob send uniformly random bits in the case the noise destroys their entanglement. This leads to a success rate of $1/2$ when at least one of $x, y$ is $0$ since they only win when $a = b$ in this case. They also have a $50\%$ success rate when $x = y = 1$ since they win when $a \neq b$ in this case which happens with probability $1/2$. Thus the net probability of winning is $50\%$.\par
     Thus, the total probability of winning the noisy CHSH game is
     \begin{equation}
