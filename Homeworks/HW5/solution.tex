@@ -1,0 +1,224 @@
+\mathchardef\mhyphen="2D
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[hypcap=false]{caption}
+\usepackage{booktabs}
+\usepackage[left=25mm, top=25mm, bottom=25mm, right=25mm]{geometry}
+\usepackage{soul}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=darkcyan,filecolor=darkcerulean,urlcolor=magenta]{hyperref}
+\usepackage{braket}
+\usepackage{quantikz}
+\usepackage{svg}
+
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\calZ}{\mathcal{Z}}
+
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfD}{\mathbf{D}}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bfI}{\mathbf{I}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfP}{\mathbf{P}}
+\newcommand{\bfQ}{\mathbf{Q}}
+\newcommand{\bfU}{\mathbf{U}}
+\newcommand{\bfv}{\mathbf{v}}
+\newcommand{\bfu}{\mathbf{u}}
+\newcommand{\bfdelta}{\mathbf{\Delta}}
+\newcommand{\bfpi}{\mathbf{\Pi}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\z}{\mathbb{Z}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\keygen}{\mathsf{KeyGen}}
+\newcommand{\enc}{\mathsf{Enc}}
+\newcommand{\dec}{\mathsf{Dec}}
+\newcommand{\negl}{\mathsf{negl}}
+\newcommand{\commit}{\mathsf{Commit}}
+\newcommand{\ccommit}{\mathsf{C\text{-}Commit}}
+
+\newcommand{\setup}{\mathsf{Setup}}
+\newcommand{\lsetup}{\mathsf{Setup\text{-}Lossy}}
+
+\newcommand{\samplemat}{\mathsf{Sample\text{-}Dirac\text{-}Matrix}}
+\newcommand{\eval}{\mathsf{Eval}}
+\newcommand{\obf}{\mathsf{Obf}}
+
+\newcommand{\phybb}[1]{p_{\mathrm{hyb}, #1}}
+\newcommand{\lin}{\ell_{\mathrm{in}}}
+\newcommand{\lout}{\ell_{\mathrm{out}}}
+\newcommand{\bit}{\{0,1\}}
+\newcommand{\sd}{\mathsf{SD}}
+\newcommand{\lwe}{\mathsf{LWE}_{n,m,q,\chi}}
+\newcommand{\sslwe}[4]{\mathsf{ss\text{-}LWE}_{#1,#2,#3,#4}}
+\newcommand{\sslwec}{\sslwe{n}{m}{q}{\chi}}
+
+\newcommand{\unif}[1]{\mathsf{Unif}_{\left[-#1, #1\right]}}
+\newcommand{\func}[2]{\mathsf{Func}[#1, #2]}
+\newcommand{\perm}[2]{\mathsf{Perm}[#1, #2]}
+\newcommand{\ct}{\mathsf{ct}}
+\newcommand{\Finverse}{F^{-1}}
+
+\newcommand{\nqss}{\mathsf{No\mhyphen Query \mhyphen Semantic \mhyphen Security}}
+
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\trace}[1]{\Tr\left( #1 \right)}
+
+\newcommand{\prob}[1]{\Pr\left[ #1 \right]}
+
+\newcommand{\brakett}[2]{\braket{#1|#2}}
+\newcommand{\ketbraa}[2]{\ket{#1}\bra{#2}}
+\newcommand{\ketbra}[1]{\ketbraa{#1}{#1}}
+
+\newcommand{\lddh}{\mathcal{L}_{DDH}}
+\newcommand{\lnddh}{\mathcal{L}_{nDDH}}
+\newcommand{\lddhkt}{\mathcal{L}_{DDH,k,t}}
+
+\newlength{\protowidth}
+\newcommand{\pprotocol}[4]{
+{\begin{center}
+\setlength{\protowidth}{\textwidth}
+\addtolength{\protowidth}{-3\intextsep}
+
+\fbox{
+        \small
+        \hbox{\quad
+        \begin{minipage}{\protowidth}
+    \begin{center}
+    {\bf #1}
+    \end{center}
+        #4
+        \end{minipage}
+        \quad}
+        }
+        \captionof{figure}{\label{#3} #2}
+\end{center}
+} }
+
+\newcommand{\defbox}[1]{
+{\begin{center}
+\setlength{\protowidth}{\textwidth}
+\addtolength{\protowidth}{-3\intextsep}
+
+\fcolorbox{darkcerulean}{cottoncandy}{
+        \small
+        \hbox{\quad
+        \begin{minipage}{\protowidth}
+    
+        #1
+        \end{minipage}
+        \quad}
+        }
+\end{center}
+        } }
+
+\newcommand{\protocol}[4]{
+\pprotocol{#1}{#2}{#3}{#4} }
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{question}{Question}
+
+\newtcolorbox[auto counter,number within=section]{solution}[1][]{every float=\centering,breakable,enhanced,adjusted title={Question \thetcbcounter},#1,colback=codegray,colframe=darkcerulean!50!black}
+
+\linespread{1.0}
+
+\definecolor{codegray}{rgb}{0.98,0.97,0.93}
+\definecolor{cottoncandy}{rgb}{1.0, 0.84, 0.95}
+\definecolor{darkcerulean}{rgb}{0.03, 0.27, 0.49}
+\definecolor{darkcyan}{rgb}{0.0, 0.50, 0.45}
+
+\title{C S 358H: Intro to Quantum Information Science}
+\author{Sayam Sethi}
+\date{October 2024}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\pagenumbering{arabic}
+
+\newpage
+
+\section{Kinda-dense coding}
+We said in class that superdense quantum coding requires 1 ebit of
+entanglement between Alice and Bob, in addition to 1 qubit of
+communication.  In this problem, however, we'll see how to do a ``poor
+man's" dense quantum coding with no entanglement, just 1 qubit of
+communication from Alice to Bob.
+
+Suppose Alice knows two bits, $x$ and $y$.  She'd like to let Bob learn either bit of his choice, $x$ or
+$y$, though not necessarily both of them (and she doesn't know which Bob
+is interested in).
+\input{1}
+
+\newpage
+
+\section{Non-local operations}
+\input{2}
+
+\newpage
+
+\section{The GHZ Game}
+In the ``GHZ game'', there are three players, Alice, Bob, and
+Charlie, who are given bits $x$, $y$, and $z$ respectively.  We're promised
+that $x+y+z=0 \pmod{2}$; otherwise the bits can be arbitrary.  The
+players' goal is, without communicating with each other, to output
+bits a, b, c respectively such that
+$a+b+c = \text{OR}(x,y,z) \pmod{2}$.
+In other words, they should collectively output an odd number of 1-bits if and
+only if at least one of the input bits is 1.
+
+\input{3}
+
+\newpage
+
+\section{Noisy CHSH}
+Suppose Alice and Bob share a Bell pair $\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$. Imagine that unbeknownst to Alice and Bob, their qubits are not completely isolated from the outside world: with probability $\epsilon$, one of the qubits is measured in the $\{\ket{0},\ket{1}\}$ basis by the ``environment'' and the state of their pair collapses to either the state $\ket{00}$ or $\ket{11}$ (with probability $1-\epsilon$, the qubits remain in the Bell state).\par
+\textit{Recall:} In the CHSH game, Alice and Bob receive independent random bits $x$ and $y$ respectively. Their goal is to output bits $a$ and $b$ respectively such that $a+b=xy \pmod{2}$. No communication is allowed.  In the ``usual strategy'', Alice does nothing to her qubit if $x=0$ and she applies a $\frac{\pi}{4}$ counterclockwise rotation towards $\ket{1}$ if $x=1$. Bob applies a $\frac{\pi}{8}$ counterclockwise rotation if $y=0$ and he applies a $\frac{\pi}{8}$ \textit{clockwise} rotation, toward $-\ket{1}$ if $y=1$. Alice and Bob both measure their qubits in the $\{ \ket{0},\ket{1} \}$ basis and output whatever they see. This strategy wins $\cos^2\left(\frac{\pi}{8}\right) \approx 85\%$ of the time, while any classical strategy can win with probability at most $3/4$.
+
+\input{4}
+
+\end{document}

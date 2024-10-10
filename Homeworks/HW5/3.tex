@@ -1,0 +1,94 @@
+\begin{solution}[label=ques:3a]
+  \begin{question}
+    Show that, in a classical universe, there is no strategy that
+causes the players to succeed for all four possible
+allowed inputs $(x,y,z)$ with certainty.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We assume a deterministic strategy adopted by every player (which may or may not be the same). Define the bit output by each player Alice, Bob and Charlie on receiving bit $i$ as $a_i, b_i, c_i$ respectively. We assume that this strategy works for the case when two of $x, y, z$ are $1$ and the third is $0$. Now we show that for any strategy that works for these three cases will definitely fail when all $x, y, z$ are $0$.
+    \begin{equation}
+      \begin{split}
+        a_0 + b_0 + c_0 &= (a_0 + b_1 + c_1) + (a_1 + b_0 + c_1) + (a_1 + b_1 + c_0)\\
+        &= 1 + 1 + 1 \pmod{2}\text{ (since the strategy works when two of $x, y, z$ are $1$)}\\
+        &= 1 \pmod{2}
+      \end{split}
+      \label{eq:ghzfail}
+    \end{equation}
+    Therefore, a strategy that works for the cases when two of $x, y, z$ are $1$ will always fail when all of $x, y, z$ are $0$. This implies that there is no deterministic strategy that works for all four possible allowed inputs $(x, y, z)$ with certainty.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3b]
+  \begin{question}
+    Now suppose that the players share the state:
+\[
+\frac{\ket{000} - \ket{011} - \ket{101} - \ket{110}}{2}
+\]
+Suppose that each player measures their qubit in the $\{\ket{0}, \ket{1}\}$ basis if their input bit is 0, or in the $\{\ket{+}, \ket{-}\}$ basis if their input bit is 1, and that they output $0/1$ based on what they see (the $\ket{+}$ state means they should output $0$). Show that this lets the players win the GHZ game for all four possible input triples with certainty.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Without loss of generality, we can only consider the cases when all three players get $0$'s, or when Alice gets a $0$ and Bob and Charlie get a $1$. We can do this because the state shared by the three players is symmetric in the three bits. Also, since the order of measurements does not matter (the partial trace is unchanged because of measurements), we first measure Alice's state and then consider the state that Bob and Charlie are left with to make our computation easier.\par
+    We first consider the case when Alice measures $\ket{0}$. The state that Bob and Charlie are left with is
+    \begin{equation}
+      \begin{split}
+        \ket{BC} &= \frac{\ket{00} - \ket{11}}{\sqrt{2}}\\
+        &= \frac{\ket{+-} + \ket{-+}}{\sqrt{2}}
+      \end{split}
+      \label{eq:ghz0}
+    \end{equation}
+    Now, either both Bob and Charlie receive a $0$ or both receive a $1$. If both receive a $0$, they both measure in the $\ket{0}/\ket{1}$ basis and therefore both measure either $0$ or $1$, which gives $a + b + c = 0$. If both receive a $1$, they both measure in the $\ket{+}/\ket{-}$ basis and therefore exactly one of them receives a $1$ and the other receives a $0$, which gives $a + b + c = 1$. This is what we want in both cases.\par
+    Now, if Alice had measured $\ket{1}$, the state that Bob and Charlie are left with is
+    \begin{equation}
+      \begin{split}
+        \ket{BC} &= \frac{\ket{01} + \ket{10}}{\sqrt{2}}\\
+        &= \frac{\ket{++} - \ket{--}}{\sqrt{2}}
+      \end{split}
+      \label{eq:ghz1}
+    \end{equation}
+    Now, again, either both Bob and Charlie receive a $0$ or both receive a $1$. If both receive a $0$, they both output different bits, which gives $a + b + c = 0$. If both receive a $1$, they both output either a $0$ or a $1$, which gives $a + b + c = 1$. This is again what we want in both cases.\par
+    Hence, proved.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3c]
+  \begin{question}
+    Design a protocol where the players instead share the so-called GHZ state
+\[
+\frac{\ket{000} + \ket{111}}{\sqrt{2}}
+\]
+and still win with certainty. No communication between players is allowed.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Again, without loss of generality, we can only consider the cases when all three players get $0$'s, or when Alice gets a $0$ and Bob and Charlie get a $1$. We can do this because the state shared by the three players is symmetric in the three bits. Also, since the order of measurements does not matter (the partial trace is unchanged because of measurements), we first measure Alice's state and then consider the state that Bob and Charlie are left with to make our computation easier. However, this requires us to propose the same protocol for all three players.\par
+    We propose the following protocol for all players
+    \protocol{Protocol used to win the GHZ Game}{Protocol used by each of Alice, Bob and Charlie that wins the GHZ Game with 100\% Probability}{proto:ghzabc}{
+      \begin{enumerate}
+        \item Input bit is $0$: Measure in the $\ket{+}/\ket{-}$ basis and output $0$ if $\ket{+}$ is observed.
+        \item Input bit is $1$: Apply the Phase gate and then measure in the $\ket{+}/\ket{-}$ basis and output $0$ if $\ket{+}$ is observed.
+      \end{enumerate}
+    }
+    We now prove that this strategy works every time. First we consider the case when Alice measures a $0$. The state that Bob and Charlie are left with is
+    \begin{equation}
+      \begin{split}
+        \ket{ABC} &= \frac{\ket{000} + \ket{111}}{\sqrt{2}}\\
+        &= \ket{+}\frac{\ket{00} + \ket{11}}{\sqrt{2}} + \ket{-}\frac{\ket{00} - \ket{11}}{\sqrt{2}}\\
+        \implies \ket{BC} &= \frac{\ket{00} + \ket{11}}{\sqrt{2}} = \frac{\ket{++} + \ket{--}}{\sqrt{2}}\text{, if Alice measured a }\ket{+}\\
+        \implies (P\otimes P)\ket{BC} &= \frac{\ket{00} - \ket{11}}{\sqrt{2}} = \frac{\ket{+-} + \ket{-+}}{\sqrt{2}}
+      \end{split}
+      \label{eq:ghz2}
+    \end{equation}
+    Now when both Bob and Charlie receive a $0$, they both measure a $0$ or a $1$. which gives $a + b + c = 0$. If both receive a $1$, they both apply a $P$ gate before measuring and therefore, exactly one of them receives a $1$, which gives $a + b + c = 1$. This is what we want in both cases.\par
+    Now we consider the states left with Bob and Charlie when Alice measured a $1$,
+    \begin{equation}
+      \begin{split}
+        \ket{BC} &= \frac{\ket{00} - \ket{11}}{\sqrt{2}} = \frac{\ket{+-} + \ket{-+}}{\sqrt{2}}\text{ if Alice measured a }\ket{-}\\
+        \implies (P \otimes P)\ket{BC} &= \frac{\ket{00} + \ket{11}}{\sqrt{2}} = \frac{\ket{++} + \ket{--}}{\sqrt{2}}
+      \end{split}
+      \label{eq:ghz3}
+    \end{equation}
+    In this case, the outputs are flipped, i.e., if both Bob and Charlie receives a $0$, they output different bits, which gives $a + b + c = 0$, and if both receive a $1$, they output the same bit, which gives $a + b + c = 1$, again giving us what we want in both cases.
+  \end{proof}
+\end{solution}

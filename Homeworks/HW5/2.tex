@@ -1,0 +1,19 @@
+\begin{solution}[label=ques:2a]
+  \begin{question}
+    Suppose Alice and Bob hold one qubit each of an arbitrary two-qubit state $\ket{\psi}$ that is possibly entangled. They can apply local operations (i.e. apply gates to any qubits they possess) and are allowed to classically communicate with each other. Their goal is to apply the CNOT gate to their state $\ket{\psi}$. Describe a protocol they can use to achieve this given two ebits of entanglement. 
+\\ (Recall 1 ebit = 1 EPR/Bell pair, one half controlled by Alice, the other controlled by Bob. Thus, 2 ebits = 2 EPR/Bell pairs shared by Alice and Bob.)
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The protocol that Alice and Bob can use is
+    \protocol{Non-Local CNOT Protocol}{Protocol used by Alice and Bob to execute a non-local CNOT gate}{proto:cxalicebob}{
+      \textit{Assumption: We are given a procedure} $\mathsf{teleport}(\ket{\psi}, A, B, \ket{e}) = \ket{\phi}$ \textit{that teleports a qubit} $\ket{\psi}$ \textit{from Alice to Bob using the entangled state} $\ket{e}$ \textit{and the teleported qubit is stored in} $\ket{\phi}$\textit{, the bit of} $\ket{e}$ \textit{located at B.}
+      \begin{enumerate}
+        \item Alice and Bob perform $\mathsf{teleport}(\ket{\psi_A}, \text{Alice}, \text{Bob}, \ket{e_1}) = \ket{\psi_A'}$
+        \item Bob performs $\mathsf{CNOT}(\ket{\psi_A'}, \ket{\psi_B})$.
+        \item Bob and Alice perform $\mathsf{teleport}(\ket{\psi_A'}, \text{Bob}, \text{Alice}, \ket{e_2}) = \ket{\psi_A''}$
+      \end{enumerate}
+      Therefore, we have $\ket{\psi_A''\psi_B} = \mathsf{CNOT}(\ket{\psi_A\psi_B})$.
+    }
+  \end{proof}
+\end{solution}
