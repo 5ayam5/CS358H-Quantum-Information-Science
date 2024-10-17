@@ -1,0 +1,222 @@
+\mathchardef\mhyphen="2D
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[hypcap=false]{caption}
+\usepackage{booktabs}
+\usepackage[left=25mm, top=25mm, bottom=25mm, right=25mm]{geometry}
+\usepackage{soul}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=darkcyan,filecolor=darkcerulean,urlcolor=magenta]{hyperref}
+\usepackage{braket}
+\usepackage{quantikz}
+\usepackage{enumitem}
+\usepackage{svg}
+
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\calZ}{\mathcal{Z}}
+
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfD}{\mathbf{D}}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bfH}{\mathbf{H}}
+\newcommand{\bfI}{\mathbf{I}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfP}{\mathbf{P}}
+\newcommand{\bfQ}{\mathbf{Q}}
+\newcommand{\bfU}{\mathbf{U}}
+\newcommand{\bfX}{\mathbf{X}}
+\newcommand{\bfY}{\mathbf{Y}}
+\newcommand{\bfZ}{\mathbf{Z}}
+\newcommand{\bfv}{\mathbf{v}}
+\newcommand{\bfu}{\mathbf{u}}
+\newcommand{\bfdelta}{\mathbf{\Delta}}
+\newcommand{\bfpi}{\mathbf{\Pi}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\z}{\mathbb{Z}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\keygen}{\mathsf{KeyGen}}
+\newcommand{\enc}{\mathsf{Enc}}
+\newcommand{\dec}{\mathsf{Dec}}
+\newcommand{\negl}{\mathsf{negl}}
+\newcommand{\commit}{\mathsf{Commit}}
+\newcommand{\ccommit}{\mathsf{C\text{-}Commit}}
+
+\newcommand{\setup}{\mathsf{Setup}}
+\newcommand{\lsetup}{\mathsf{Setup\text{-}Lossy}}
+
+\newcommand{\samplemat}{\mathsf{Sample\text{-}Dirac\text{-}Matrix}}
+\newcommand{\eval}{\mathsf{Eval}}
+\newcommand{\obf}{\mathsf{Obf}}
+
+\newcommand{\phybb}[1]{p_{\mathrm{hyb}, #1}}
+\newcommand{\lin}{\ell_{\mathrm{in}}}
+\newcommand{\lout}{\ell_{\mathrm{out}}}
+\newcommand{\bit}{\{0,1\}}
+\newcommand{\sd}{\mathsf{SD}}
+\newcommand{\lwe}{\mathsf{LWE}_{n,m,q,\chi}}
+\newcommand{\sslwe}[4]{\mathsf{ss\text{-}LWE}_{#1,#2,#3,#4}}
+\newcommand{\sslwec}{\sslwe{n}{m}{q}{\chi}}
+
+\newcommand{\unif}[1]{\mathsf{Unif}_{\left[-#1, #1\right]}}
+\newcommand{\func}[2]{\mathsf{Func}[#1, #2]}
+\newcommand{\perm}[2]{\mathsf{Perm}[#1, #2]}
+\newcommand{\ct}{\mathsf{ct}}
+\newcommand{\Finverse}{F^{-1}}
+
+\newcommand{\nqss}{\mathsf{No\mhyphen Query \mhyphen Semantic \mhyphen Security}}
+
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\trace}[1]{\Tr\left( #1 \right)}
+
+\newcommand{\prob}[1]{\Pr\left[ #1 \right]}
+
+\newcommand{\brakett}[2]{\braket{#1|#2}}
+\newcommand{\ketbraa}[2]{\ket{#1}\bra{#2}}
+\newcommand{\ketbra}[1]{\ketbraa{#1}{#1}}
+
+\newcommand{\lddh}{\mathcal{L}_{DDH}}
+\newcommand{\lnddh}{\mathcal{L}_{nDDH}}
+\newcommand{\lddhkt}{\mathcal{L}_{DDH,k,t}}
+
+\newlength{\protowidth}
+\newcommand{\pprotocol}[4]{
+{\begin{center}
+\setlength{\protowidth}{\textwidth}
+\addtolength{\protowidth}{-3\intextsep}
+
+\fbox{
+        \small
+        \hbox{\quad
+        \begin{minipage}{\protowidth}
+    \begin{center}
+    {\bf #1}
+    \end{center}
+        #4
+        \end{minipage}
+        \quad}
+        }
+        \captionof{figure}{\label{#3} #2}
+\end{center}
+} }
+
+\newcommand{\defbox}[1]{
+{\begin{center}
+\setlength{\protowidth}{\textwidth}
+\addtolength{\protowidth}{-3\intextsep}
+
+\fcolorbox{darkcerulean}{cottoncandy}{
+        \small
+        \hbox{\quad
+        \begin{minipage}{\protowidth}
+    
+        #1
+        \end{minipage}
+        \quad}
+        }
+\end{center}
+        } }
+
+\newcommand{\protocol}[4]{
+\pprotocol{#1}{#2}{#3}{#4} }
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{question}{Question}
+
+\newtcolorbox[auto counter,number within=section]{solution}[1][]{every float=\centering,breakable,enhanced,adjusted title={Question \thetcbcounter},#1,colback=codegray,colframe=darkcerulean!50!black}
+
+\linespread{1.0}
+
+\definecolor{codegray}{rgb}{0.98,0.97,0.93}
+\definecolor{cottoncandy}{rgb}{1.0, 0.84, 0.95}
+\definecolor{darkcerulean}{rgb}{0.03, 0.27, 0.49}
+\definecolor{darkcyan}{rgb}{0.0, 0.50, 0.45}
+
+\title{C S 358H: Intro to Quantum Information Science}
+\author{Sayam Sethi}
+\date{October 2024}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\pagenumbering{arabic}
+
+\newpage
+
+\section{Distinguishability of Mixed States}
+\input{1}
+
+\newpage
+
+\section{Reduced GHZ}
+Consider the $n$-qubit ``Schrödinger cat state'' (or ``generalized GHZ state'')
+
+\[
+\frac{\ket{0\cdots 0} +	\ket{1\cdots1}}{\sqrt{2}}.
+\]
+\input{2}
+
+\newpage
+
+\section{Bloch Sphere}
+\input{3}
+
+\newpage
+\section{Separable and Entangled States}
+\begin{align*}
+\ket{\psi_1} & = \frac{\ket{00}+ i \ket{01} +  i \ket{10} - \ket{11} } {2}\\
+\ket{\psi_2} & = \frac{3}{5} \ket{01} - \frac{4}{5} \ket{10}\\
+\ket{\psi_3} & = \frac{1}{\sqrt{3}}\ket{00} + \frac{1}{\sqrt{3}} \ket{01} + \frac{1}{\sqrt{6}}\ket{10} -\frac{1}{\sqrt{6}} \ket{11}
+\end{align*}
+\input{4}
+
+\newpage
+
+\section{Entanglement and Mixed States}
+\input{5}
+
+\end{document}

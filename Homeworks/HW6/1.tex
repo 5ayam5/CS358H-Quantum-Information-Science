@@ -1,0 +1,19 @@
+\begin{solution}[label=ques1]
+  \begin{question}
+    Let $\rho$ and $\sigma$ be two different single qubit density matrices. Prove that $\rho$ and $\sigma$ are distinguishable --- that is, there exists some measurement basis such that the probabilities of the outcomes is different in the two cases. 
+
+\noindent \textit{Hint: Use the fact that $\sigma-\rho$ is necessarily a nonzero Hermitian matrix and the fact that any Hermitian matrix can be diagonalized.}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Using the hint, we consider the fact that $\sigma - \rho$ is a nonzero Hermitian matrix and that it can be diagonalized. Therefore, there exists an eigenbasis for $\sigma - \rho$, say $\{\ket{b_1}, \ket{b_2}\}$, that has eigenvalues $\lambda_1, \lambda_2$. Now let us assume that measuring the two states in this eigenbasis gives probabilities $p_{\sigma}, p_{\rho}$ respectively for measuring the first eigenbasis. Now consider the difference between these probabilties
+    \begin{equation}
+      \begin{split}
+        p_{\sigma} - p_{\rho} &= \braket{b_1|\sigma|b_1} - \braket{b_1|\rho|b_1} \\
+        &= \braket{b_1|\sigma - \rho|b_1} = \lambda_1
+      \end{split}
+      \label{eq:distinguish}
+    \end{equation}
+    Now, since $\{\ket{b_1}, \ket{b_2}\}$ is an eigenbasis for $\sigma - \rho$ and since the trace for $\sigma - \rho$ is $0$, both eigenvalues have to be non-zero since $\sigma - \rho$ is non-zero to begin with. Therefore, we get that the probabilities of measuring $\ket{b_1}$ is different for both $\sigma$ and $\rho$ (and similarly the difference in probability of measuring $\ket{b_2}$ is also non-zero). Thus, the basis $\{\ket{b_1}, \ket{b_2}\}$ distinguishes between the two states.
+  \end{proof}
+\end{solution}

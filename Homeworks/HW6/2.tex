@@ -1,0 +1,137 @@
+\begin{solution}[label=ques:2a]
+  \begin{question}
+    What probability distribution over $n$-bit strings do we observe if
+we Hadamard the first $n-1$ qubits, then measure all $n$ qubits in the
+$\{\ket{0},\ket{1}\}$ basis? Show your work.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We compute the density matrix of the cat state as
+    \begin{equation}
+      \rho = \frac{\ket{0\cdots0}\bra{0\cdots0} + \ket{0\cdots0}\bra{1\cdots1} + \ket{1\cdots1}\bra{0\cdots0} + \ket{1\cdots1}\bra{1\cdots1}}{2}
+      \label{eq:catrho}
+    \end{equation}
+    Now, we can write the Hadamard operator over the first $n - 1$ qubits as
+    \begin{equation}
+      \bfH^{\otimes n - 1}\otimes \bfI = \left(\ketbraa{+}{0} + \ketbraa{-}{1}\right)^{\otimes n - 1}\otimes \left(\ketbraa{0}{0} + \ketbraa{1}{1}\right)
+      \label{eq:hadn1}
+    \end{equation}
+    Now, if we apply the operator to $\rho$, we get
+    \begin{equation}
+      \begin{split}
+        (\bfH^{\otimes n - 1}\otimes \bfI)\rho(\bfH^{\otimes n - 1}\otimes \bfI)^\dagger = &\ (\bfH^{\otimes n - 1}\otimes \bfI)\rho(\bfH^{\otimes n - 1}\otimes \bfI)\\
+        \implies \rho' = &\ \frac{1}{2}(\left(\ketbra{+}\right)^{\otimes n - 1}\otimes\ketbra{0} + \left(\ketbraa{+}{-}\right)^{\otimes n - 1}\otimes\ketbraa{0}{1}\\
+        &+ \left(\ketbraa{-}{+}\right)^{\otimes n - 1}\otimes\ketbraa{1}{0} + \left(\ketbra{-}\right)^{\otimes n - 1}\otimes\ketbra{1})
+      \end{split}
+      \label{eq:hadn1rho}
+    \end{equation}
+    Now, we compute the probability of measuring a bitstring $\ket{b} = \ket{b_1\cdots b_n}$ as
+    \begin{equation}
+      \begin{split}
+        \prob{\text{measuring }b} = &\ \bra{b}\rho'\ket{b} = \bra{b_1\cdots b_n}\rho'\ket{b_1\cdots b_n}\\
+        = &\ \frac{1}{2}(\frac{1}{2^{n - 1}}\cdot|\brakett{b_n}{0}|^2 + \frac{(-1)^{\sum_{i=1}^{n-1}b_i}}{2^{n - 1}}\cdot\brakett{b_n}{0}\brakett{1}{b_n}\\
+        &+ \frac{\sum_{i=1}^{n-1}b_i}{2^{n - 1}}\cdot\brakett{b_n}{1}\brakett{0}{b_n} + \frac{1}{2^{n - 1}}\cdot|\brakett{b_n}{1}|^2)\\
+        = &\ \frac{1}{2}\left(\frac{1}{2^{n - 1}}\cdot|\brakett{b_n}{0}|^2 + \frac{1}{2^{n - 1}}\cdot|\brakett{b_n}{1}|^2\right)\text{, the middle two terms vanish}\\
+        = &\ \frac{1}{2}\left(\frac{1}{2^{n - 1}}\right) = \frac{1}{2^n}\text{, since $b_n$ is either $0$ or $1$}
+      \end{split}
+      \label{eq:hadn1measrho}
+    \end{equation}
+    See Question~\ref{ques:2c} for work that shows how we computed the middle two terms (that eventually vanish since either $\brakett{b_n}{0}$ or $\brakett{b_n}{1}$ is going to be $0$). For the other two terms, we just have squares of the amplitudes since the two inner products we multiply are conjugates of each other.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2b]
+  \begin{question}
+    Is this the same distribution or a different one, from what we'd have seen if we took the following state, applied Hadamards to the first $n-1$ qubits, and then measured all $n$ qubits in the $\{\ket{0}, \ket{1}\}$ basis:  $$\frac{\ket{0\cdots 0}\bra{0\cdots0} +	\ket{1\cdots1}\bra{1\cdots1}}{2}.$$ Show your work.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    If we apply the apply the operator computed in Equation~\ref{eq:hadn1} to the above state (say its density matrix is $\sigma$), we get
+    \begin{equation}
+      \begin{split}
+        (\bfH^{\otimes n - 1}\otimes \bfI)\sigma(\bfH^{\otimes n - 1}\otimes \bfI)^\dagger = &\ (\bfH^{\otimes n - 1}\otimes \bfI)\sigma(\bfH^{\otimes n - 1}\otimes \bfI)\\
+        \implies \sigma' = &\ \frac{1}{2}(\ketbra{+}^{\otimes n - 1}\otimes\ketbra{0} + \ketbra{-}^{\otimes n - 1}\otimes\ketbra{1})
+      \end{split}
+      \label{eq:hadn1sig}
+    \end{equation}
+    Now, we compute the probability of measuring a bitstring $\ket{b} = \ket{b_1\cdots b_n}$ as
+    \begin{equation}
+      \begin{split}
+        \prob{\text{measuring }b} = &\ \bra{b}\rho'\ket{b} = \bra{b_1\cdots b_n}\rho'\ket{b_1\cdots b_n}\\
+        = &\ \frac{1}{2}(\frac{1}{2^{n - 1}}\cdot|\brakett{b_n}{0}|^2 + \frac{1}{2^{n - 1}}\cdot|\brakett{b_n}{1}|^2)\\
+        = &\ \frac{1}{2}\left(\frac{1}{2^{n - 1}}\right) = \frac{1}{2^n}\text{, since $b_n$ is either $0$ or $1$}
+      \end{split}
+      \label{eq:hadn1meassig}
+    \end{equation}
+    Therefore, the probability distributions are the same.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2c]
+  \begin{question}
+    What probability distribution over $n$-bit strings do we observe if
+we Hadamard \textit{all} $n$ qubits, then measure all $n$ qubits in the $\{\ket{0},\ket{1}\}$
+basis? Show your work.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We can define the Hadamard operator over all $n$ qubits as
+    \begin{equation}
+      \bfH^{\otimes n} = \left(\ketbraa{+}{0} + \ketbraa{-}{1}\right)^{\otimes n}
+      \label{eq:hadn}
+    \end{equation}
+    Now, if we apply the operator to $\rho$, we get
+    \begin{equation}
+      \begin{split}
+        (\bfH^{\otimes n})\rho(\bfH^{\otimes n})^\dagger = &\ (\bfH^{\otimes n})\rho(\bfH^{\otimes n})\\
+        \implies \rho'' = &\ \frac{1}{2}(\ketbra{+}^{\otimes n} + \ketbraa{+}{-}^{\otimes n} + \ketbraa{-}{+}^{\otimes n} + \ketbra{-}^{\otimes n})
+      \end{split}
+      \label{eq:hadnrho}
+    \end{equation}
+    Now, we compute the probability of measuring a bitstring $\ket{b} = \ket{b_1\cdots b_n}$ as
+    \begin{equation}
+      \begin{split}
+        \prob{\text{measuring }b} = &\ \bra{b}\rho''\ket{b} = \bra{b_1\cdots b_n}\rho''\ket{b_1\cdots b_n}\\
+        = &\ \frac{1}{2}\left(\frac{1}{2^n} + \frac{(-1)^{b\cdot 1^n}}{2^n} + \frac{(-1)^{b\cdot 1^n}}{2^n} + \frac{1}{2^n}\right)\text{, $b\cdot1^n$ is dot product of $b$ with $1\cdots 1$}\\
+        = &\ \begin{cases}
+          \frac{1}{2^{n-1}} &\text{ if }b\cdot 1^n = 0\\
+          0 &\text{ otherwise}
+        \end{cases}
+      \end{split}
+      \label{eq:hadnmeasrho}
+    \end{equation}
+    Note that we get the middle two terms as $\frac{(-1)^{b\cdot 1^n}}{2^n}$ since $\brakett{b_i}{+}\cdot\brakett{-}{b_i} = \brakett{b_i}{-}\brakett{+}{b_i} = -1$ only if bit $b_i = 1$. For the other two terms, we get the square of the product since the inner products are conjugates of each other.\par
+    Therefore, we have a probability of measuring bitstrings with even number of $1$'s as $\frac{1}{2^{n-1}}$ and we have $0$ probability of measuring bitstrings with odd number of $1$'s.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2d]
+  \begin{question}
+    Is this the same distribution or a different one, than if to the following state we apply Hadamards to \textit{all} $n$ qubits and then measure all $n$ qubits in the $\{\ket{0},\ket{1}\}$
+basis:
+\[
+\frac{\ket{0\cdots 0}\bra{0\cdots0} + \ket{1\cdots1}\bra{1\cdots1}}{2} .
+\]
+Show your work.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    If we apply the operator computed in Equation~\ref{eq:hadn} to $\sigma$, we get
+    \begin{equation}
+      \begin{split}
+      (\bfH^{\otimes n})\sigma(\bfH^{\otimes n})^\dagger = &\ (\bfH^{\otimes n})\sigma(\bfH^{\otimes n})\\
+      \implies \sigma'' = &\ \frac{1}{2}(\ketbra{+}^{\otimes n} + \ketbra{-}^{\otimes n})
+      \end{split}
+      \label{eq:hadnsig}
+    \end{equation}
+    Now, we compute the probability of measuring a bitstring $\ket{b} = \ket{b_1\cdots b_n}$ as
+    \begin{equation}
+      \begin{split}
+      \prob{\text{measuring }b} = &\ \bra{b}\sigma''\ket{b} = \bra{b_1\cdots b_n}\sigma''\ket{b_1\cdots b_n}\\
+      = &\ \frac{1}{2}\left(\frac{1}{2^n} + \frac{1}{2^n}\right) = \frac{1}{2^n}
+      \end{split}
+      \label{eq:hadnmeassig}
+    \end{equation}
+    Therefore, the probability distributions are different.
+  \end{proof}
+\end{solution}

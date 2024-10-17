@@ -1,0 +1,42 @@
+\begin{solution}[label=ques:5]
+  \begin{question}
+    Suppose Alice has $n$ qubits and Bob has $n$ qubits of a shared $2n$-qubit pure state $\ket{\psi}$. Prove that the following are equivalent:
+\begin{enumerate}[label=\roman*.]
+	\item Alice and Bob's systems are entangled.
+	\item Alice's local density matrix is a mixed state.
+	\item Both local density matrices are mixed states.
+\end{enumerate}
+
+\noindent Recall that to prove several properties are equivalent, you must show they each have an if-and-only-if relationship with every other. One way to make this shorter is to write a chain of proofs, like A implies B, B implies C, and C implies A.
+
+\noindent \textit{Hint:} Consider the Schmidt decomposition.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Without loss of generality, we can write the state posessed by Alice and Bob using Schmidt decomposition as
+    \begin{equation}
+      \ket{\psi_A\psi_B} = \sum_{i=1}^{2^n} \lambda_i \ket{\alpha_i}\ket{\beta_i}\text{, where $\{\alpha_i\}_1^{2^n}$ and $\{\beta_i\}_1^{2^n}$ are orthonormal bases vectors}
+      \label{eq:abent}
+    \end{equation}
+    Now we prove \textbf{i$\implies$ii}:\par
+    If Alice and Bob's systems are entangled, then there exists at least more than one $\lambda_i \neq 0$. Alice's local density matrix can be written as
+    \begin{equation}
+      \rho_A = \sum_{\lambda_i\neq 0} |\lambda_i|^2\ketbra{\alpha_i}
+      \label{eq:alocal}
+    \end{equation}
+    Now, since we have more than one $\lambda_i \neq 0$, the density matrix $\rho_A$ has more than one eigenvalues (since all $\ket{\alpha_i}$ are linearly independent) and hence it has a rank $> 1$. Therefore, Alice's local density matrix is a mixed state. Hence, $i\implies ii$.\par\bigskip
+
+    Now we prove \textbf{ii$\implies$iii}:\par
+    We can still write Alice's density matrix as written in Equation~\ref{eq:alocal} (since we make no assumptions from $i$). Since Alice's density matrix is a mixed state, it has a rank $> 1$. Therefore, there exists more than one $\lambda_i \neq 0$. Bob's local density matrix can be written as
+    \begin{equation}
+      \rho_B = \sum_{\lambda_i\neq 0} |\lambda_i|^2\ketbra{\beta_i}
+      \label{eq:blocal}
+    \end{equation}
+    Since Bob's density matrix also has more than one non-zero eigenvalues (they share the same eigenvalues in the Schmidt decomposition), Bob's density matrix is also a mixed state. Hence, $ii\implies iii$.\par\bigskip
+
+    Now we prove \textbf{iii$\implies$i}:\par
+    Again we can still write Bob's density matrix as written in Equation~\ref{eq:blocal} (since we make no assumptions from $ii$). Since Bob's density matrix is a mixed state, it has a rank $> 1$. Therefore, there exists more than one $\lambda_i \neq 0$. Therefore, the original state $\ket{\psi_A\psi_B}$ has more than one $\lambda_i$ that are non-zero. This implies that the original state is entangled. Hence, $iii\implies i$.\par\bigskip
+
+    Thus, we have shown that $i\iff ii\iff iii$. Hence, proved.
+  \end{proof}
+\end{solution}

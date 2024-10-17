@@ -1,0 +1,89 @@
+\begin{solution}[label=ques:4a]
+  \begin{question}
+    Put the above states into Schmidt form:
+
+\[
+\ket{\psi} = \sum_{i} \lambda_{i} \ket{\alpha_i}\ket{\beta_i}
+\]
+In other words, find orthonormal bases $\{\ket{\alpha_0},\ket{\alpha_1}\}$ for the first qubit and $\{\ket{\beta_0},\ket{\beta_1}\}$ for the second qubit, such that you can write the state without cross terms $\ket{\alpha_0}\ket{\beta_1}$ or $\ket{\alpha_1}\ket{\beta_0}$.
+Show your work.
+
+\noindent \textit{Hint:} you should not need to use the singular value decomposition to find the Schmidt form.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We can write $\ket{\psi_1}$ as
+    \begin{equation}
+      \begin{split}
+        \ket{\psi_1} &= \frac{\ket{00} + i\ket{01} +  i\ket{10} - \ket{11}}{2}\\
+        &= \frac{1}{\sqrt{2}}\ket{0}\frac{\ket{0} + i\ket{1}}{\sqrt{2}} + \frac{i}{\sqrt{2}}\ket{1}\frac{\ket{0} + i\ket{1}}{\sqrt{2}}\\
+        &= \ket{ii}
+      \end{split}
+      \label{eq:psi1sf}
+    \end{equation}
+    Therefore, for $\ket{\psi_1}$ we have the orthonormal basis $\{\ket{i}, \ket{-i}\}$ for both qubits for the Schmidt form.\par\bigskip
+
+    $\ket{\psi_2}$ is already in Schmidt form with the basis states $\{\ket{0}, \ket{1}\}$ for the first qubit and the basis states $\{\ket{1}, \ket{0}\}$ for the second qubit.\par\bigskip
+
+    We can write $\ket{\psi_3}$ as
+    \begin{equation}
+      \begin{split}
+        \ket{\psi_3} &= \frac{1}{\sqrt{3}}\ket{00} + \frac{1}{\sqrt{3}}\ket{01} + \frac{1}{\sqrt{6}}\ket{10} - \frac{1}{\sqrt{6}}\ket{11}\\
+        &= \sqrt{\frac{2}{3}}\ket{0+} + \sqrt{\frac{1}{3}}\ket{1-}
+      \end{split}
+      \label{eq:psi3sf}
+    \end{equation}
+    Therefore, for $\ket{\psi_3}$ we have the orthonormal basis $\{\ket{0}, \ket{1}\}$ for the first qubit and $\{\ket{+}, \ket{-}\}$ for the second qubit for the Schmidt form.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4b]
+  \begin{question}
+    Calculate how many ebits of entanglement each of these states have. Please show your work/justify your reasoning for each of your answers. (Keep in mind, this answer need not be an integer.)
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    $\ket{\psi_1}$ has an entanglement entropy of $0$ since its Schmidt coefficients are $1$ and all others are $0$. Therefore, all terms would be $0$ and hence the sum would also be $0$.\par\bigskip
+    We can compute the entanglement entropy of $\ket{\psi_2}$ as
+    \begin{equation}
+      E[\ket{\psi_2}] = -\left(\frac{3}{5}\right)^2\log_2\left(\frac{3}{5}\right)^2 - \left(\frac{4}{5}\right)^2\log_2\left(\frac{4}{5}\right)^2 \approx 0.942
+      \label{eq:ee2}
+    \end{equation}\par\bigskip
+    We can compute the entanglement entropy of $\ket{\psi_3}$ as
+    \begin{equation}
+      E[\ket{\psi_3}] = -\left(\frac{2}{3}\right)\log_2\left(\frac{2}{3}\right) - \left(\frac{1}{3}\right)\log_2\left(\frac{1}{3}\right) \approx 0.918
+      \label{eq:ee3}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4c]
+  \begin{question}
+    For each of the states you found with non-zero entanglement entropy in part (b), show explicitly that there exists no factorization of the states into a tensor product of two single qubit states.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    \textit{Note: After solving Question~\ref{ques:5}, an easy way to solve this question would be to just show that we have multiple non-zero Schmidt coefficients [the eigenvalues], thus implying that there exists no factorization of the states into a tensor product of two single qubit states since they are entangled. But since I had already solved this part before that, I am leaving the solution below unchanged.}\par\bigskip
+    Let us assume that we can decompose $\ket{\psi_2}$ into a tensor product of two single qubit states. Therefore, we can write
+    \begin{equation}
+      \begin{split}
+        \ket{\psi_2} &= \left(a_1\ket{0} + b_1\ket{1}\right)\otimes\left(a_2\ket{0} + b_2\ket{1}\right)\\
+        &= a_1a_2\ket{00} + a_1b_2\ket{01} + b_1a_2\ket{10} + b_1b_2\ket{11}\\
+        \implies \frac{3}{5} &= a_1b_2, -\frac{4}{5} = b_1a_2,\quad a_1a_2 = b_1b_2 = 0
+      \end{split}
+      \label{eq:psi2decomp}
+    \end{equation}
+    On solving these equations, we get a contradiction on applying the condition that the states are normalized. Therefore, $\ket{\psi_2}$ cannot be factorized into a tensor product of two single qubit states.\par\bigskip
+
+    Similarly, let us assume that we can decompose $\ket{\psi_3}$ into a tensor product of two single qubit states. Therefore, we can write
+    \begin{equation}
+      \begin{split}
+      \ket{\psi_3} &= \left(a_1\ket{0} + b_1\ket{1}\right)\otimes\left(a_2\ket{0} + b_2\ket{1}\right)\\
+      &= a_1a_2\ket{00} + a_1b_2\ket{01} + b_1a_2\ket{10} + b_1b_2\ket{11}\\
+      \implies \frac{1}{\sqrt{3}} &= a_1a_2, \frac{1}{\sqrt{3}} = a_1b_2, \frac{1}{\sqrt{6}} = b_1a_2, -\frac{1}{\sqrt{6}} = b_1b_2
+      \end{split}
+      \label{eq:psi3decomp}
+    \end{equation}
+    Similarly, on solving these equations and enforcing the normality constraint, we arrive at a contradiction. Therefore, $\ket{\psi_3}$ cannot be factorized into a tensor product of two single qubit states.
+  \end{proof}
+\end{solution}
