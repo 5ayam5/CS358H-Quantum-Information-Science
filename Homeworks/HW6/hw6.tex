@@ -1,0 +1,127 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage[dvipsnames]{xcolor} % for color names, must be loaded before tikz
+\usepackage{ifthen}
+\usepackage{comment}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage[braket, qm]{qcircuit}
+\usepackage{graphicx}
+
+\providecommand{\due}{Due Wednesday, October 16 at 11:59 PM}
+\lhead{CS358H, M375T, ES377} \rhead{}
+\lfoot{\due} \cfoot{} \rfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+
+% Eliminates the spacing in the title that remains from the empty author section.
+\preauthor{}
+\postauthor{}
+
+\titleformat{\section}[runin]{\large\bfseries}{\thesection .}{3pt}{}
+\titleformat{\subsection}[runin]{\bfseries}{\thesubsection)}{3pt}{}
+\renewcommand\thesubsection{\alph{subsection}}
+
+% Defines the solution environment. Toggle solutions between true and false to either show or hide solutions. Also, the solution environment takes an optional argument of arbitrary text to be inserted in the solution header.
+\newboolean{solutions}
+\setboolean{solutions}{false}
+\ifthenelse{\boolean{solutions}}
+{\newenvironment{solution}{\begin{mdframed}[skipbelow=0pt, linecolor=White, backgroundcolor=Green!10]\textbf{Solution:}}{\end{mdframed}}}
+{\excludecomment{solution}}
+
+\allowdisplaybreaks
+
+\newcommand{\EPR}{\ket{\text{EPR}}}
+\DeclareMathOperator{\CNOT}{CNOT}
+
+\begin{document}
+
+\title{Introduction to Quantum Information Science\\Homework 6}
+\date{\due}
+
+\maketitle
+
+\textbf{Note:} You should explain your reasoning, i.e. show your work, for all problems. You do not need to show us every step of each calculation, but every answer should include an explanation \emph{written with words} of what you did.
+
+\section{Distinguishability of Mixed States [4 Points]}  Let $\rho$ and $\sigma$ be two different single qubit density matrices. Prove that $\rho$ and $\sigma$ are distinguishable --- that is, there exists some measurement basis such that the probabilities of the outcomes is different in the two cases. 
+
+\noindent \textit{Hint: Use the fact that $\sigma-\rho$ is necessarily a nonzero Hermitian matrix and the fact that any Hermitian matrix can be diagonalized.}
+
+
+\section{Reduced GHZ} Consider the $n$-qubit ``Schrödinger cat state'' (or ``generalized GHZ state'')
+
+\[
+\frac{\ket{0\cdots 0} +	\ket{1\cdots1}}{\sqrt{2}}.
+\]
+
+\subsection{[3 Points]} What probability distribution over $n$-bit strings do we observe if
+we Hadamard the first $n-1$ qubits, then measure all $n$ qubits in the
+$\{\ket{0},\ket{1}\}$ basis? Show your work.
+
+
+\subsection{[3 Points]} Is this the same distribution or a different one, from what we'd have seen if we took the following state, applied Hadamards to the first $n-1$ qubits, and then measured all $n$ qubits in the $\{\ket{0}, \ket{1}\}$ basis:  $$\frac{\ket{0\cdots 0}\bra{0\cdots0} +	\ket{1\cdots1}\bra{1\cdots1}}{2}.$$ Show your work.
+
+
+\subsection{[2 Points]} What probability distribution over $n$-bit strings do we observe if
+we Hadamard \textit{all} $n$ qubits, then measure all $n$ qubits in the $\{\ket{0},\ket{1}\}$
+basis? Show your work.
+
+
+\subsection{[2 Points]} Is this the same distribution or a different one, than if to the following state we apply Hadamards to \textit{all} $n$ qubits and then measure all $n$ qubits in the $\{\ket{0},\ket{1}\}$
+basis:
+\[
+\frac{\ket{0\cdots 0}\bra{0\cdots0} + \ket{1\cdots1}\bra{1\cdots1}}{2} .
+\]
+Show your work.
+
+\section{Bloch Sphere [6 points]}
+
+Give two different decompositions of the 1-qubit mixed state $$\rho = \begin{bmatrix}\cos^2(\pi/8) & 0\\ 0 & \sin^2(\pi/8)\end{bmatrix}$$ as a mixture of two pure states. Show your work. What do these decompositions correspond to physically?
+Draw a 2D-sketch of the Bloch sphere to aid your explanation.
+
+\section{Separable and Entangled States} 
+
+\begin{align*}
+\ket{\psi_1} & = \frac{\ket{00}+ i \ket{01} +  i \ket{10} - \ket{11} } {2}\\
+\ket{\psi_2} & = \frac{3}{5} \ket{01} - \frac{4}{5} \ket{10}\\
+\ket{\psi_3} & = \frac{1}{\sqrt{3}}\ket{00} + \frac{1}{\sqrt{3}} \ket{01} + \frac{1}{\sqrt{6}}\ket{10} -\frac{1}{\sqrt{6}} \ket{11}
+\end{align*}
+
+\subsection{[3 Points]} Put the above states into Schmidt form:
+
+\[
+\ket{\psi} = \sum_{i} \lambda_{i} \ket{\alpha_i}\ket{\beta_i}
+\]
+In other words, find orthonormal bases $\{\ket{\alpha_0},\ket{\alpha_1}\}$ for the first qubit and $\{\ket{\beta_0},\ket{\beta_1}\}$ for the second qubit, such that you can write the state without cross terms $\ket{\alpha_0}\ket{\beta_1}$ or $\ket{\alpha_1}\ket{\beta_0}$.
+Show your work.
+
+\noindent \textit{Hint:} you should not need to use the singular value decomposition to find the Schmidt form.
+
+
+\subsection{[3 Points]} Calculate how many ebits of entanglement each of these states have. Please show your work/justify your reasoning for each of your answers. (Keep in mind, this answer need not be an integer.)
+
+
+\subsection{[2 Points]} For each of the states you found with non-zero entanglement entropy in part (b), show explicitly that there exists no factorization of the states into a tensor product of two single qubit states.
+
+
+\section{Entanglement and Mixed States [6 Points]}   Suppose Alice has $n$ qubits and Bob has $n$ qubits of a shared $2n$-qubit pure state $\ket{\psi}$. Prove that the following are equivalent:
+\begin{enumerate}[label=\roman*.]
+	\item Alice and Bob's systems are entangled.
+	\item Alice's local density matrix is a mixed state.
+	\item Both local density matrices are mixed states.
+\end{enumerate}
+
+\noindent Recall that to prove several properties are equivalent, you must show they each have an if-and-only-if relationship with every other. One way to make this shorter is to write a chain of proofs, like A implies B, B implies C, and C implies A.
+
+\noindent \textit{Hint:} Consider the Schmidt decomposition. 
+
+
+\end{document}
+
