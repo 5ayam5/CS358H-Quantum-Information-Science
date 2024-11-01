@@ -1,0 +1,131 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage[dvipsnames]{xcolor} % for color names, must be loaded before tikz
+\usepackage{ifthen}
+\usepackage{comment}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage[braket, qm]{qcircuit}
+
+\providecommand{\due}{Due Wednesday, October 30 at 11:59 PM}
+\lhead{CS358H, M375T, ES377} \rhead{}
+\lfoot{\due} \cfoot{} \rfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+
+% Eliminates the spacing in the title that remains from the empty author section.
+\preauthor{}
+\postauthor{}
+
+\titleformat{\section}[runin]{\large\bfseries}{\thesection .}{3pt}{}
+\titleformat{\subsection}[runin]{\bfseries}{\thesubsection)}{3pt}{}
+\renewcommand\thesubsection{\alph{subsection}}
+
+% Defines the solution environment. Toggle solutions between true and false to either show or hide solutions. Also, the solution environment takes an optional argument of arbitrary text to be inserted in the solution header.
+\newboolean{solutions}
+\setboolean{solutions}{false}
+\ifthenelse{\boolean{solutions}}
+{\newenvironment{solution}{\begin{mdframed}[skipbelow=0pt, linecolor=White, backgroundcolor=Green!10]\textbf{Solution:}}{\end{mdframed}}}
+{\excludecomment{solution}}
+
+\allowdisplaybreaks
+
+\newcommand{\EPR}{\ket{\text{EPR}}}
+\DeclareMathOperator{\CNOT}{CNOT}
+
+\begin{document}
+
+\title{Introduction to Quantum Information Science\\Homework 7}
+\date{\due}
+
+\maketitle
+
+	\textbf{Note:} You should explain your reasoning, i.e. show your work, for all problems. You do not need to show us every step of each calculation, but every answer should include an explanation \emph{written with words} of what you did.
+\section{Oracle Queries [6 Points]} Given a Boolean function $f: \{0,1\}^n \to \{0,1\}$, recall that an ``XOR query'' maps basis states of the form $\ket{x}\ket{a}$ to $\ket{x}\ket{a \oplus f(x)}$, while a ``phase query'' maps basis states of the form $\ket{x}\ket{a}$ to $(-1)^{a \cdot f(x)}\ket{x}\ket{a}$, where $x \in \{0,1\}^n$ and $a \in \{0,1\}$. Show that given a phase query we can simulate an XOR query and vice versa. 
+
+\noindent \textit{Hint:} Consider the most common gates we've seen in class.
+
+
+
+\section{[6 points]}
+Which of the following views about quantum mechanics necessarily
+lead to experimental predictions that are \emph{different} from the
+predictions of conventional QM? 
+Make two distinct lists: one list of the views that do, and one list of the views that don't.
+(Note: For this question, we're only interested in clear-cut predictions about the observed behaviors of ``dumb physical systems'' like masses or entangled particles, not about the experiences of conscious observers like Wigner's friend.  Beyond that, though, we don't care how easy or hard the prediction is to test in practice.)
+\begin{enumerate}[label=(\Alph*)]
+	\item The Many-Worlds Interpretation
+	
+	\item The Copenhagen Interpretation
+	
+	\item GRW (Ghirardi-Rimini-Weber) dynamical collapse
+	
+	\item Penrose's gravity-induced quantum state collapse
+	
+	\item Local hidden variables
+	
+	\item Nonlocal hidden variables (including Bohmian mechanics)
+\end{enumerate}
+
+
+
+\section{Quantum computation with real amplitudes [7 points]} `Real quantum mechanics' is a hypothetical theory that's identical to standard quantum mechanics, except that the amplitudes always need to be real---and instead of unitary matrices, we're restricted to applying real orthogonal matrices.
+
+\subsection{[4 points]}
+Prove that any standard quantum circuit acting on $n$ qubits can be perfectly simulated by a real quantum circuit acting on $n+1$ qubits --- and moreover, by a circuit containing exactly as many gates as the original circuit (although the gates might act on slightly more qubits than the gates of the original circuit). Your proof should give a mapping from complex-valued states to real-valued states and from unitary matrices to real orthogonal matrices.
+
+\noindent \textit{Hint:} Observe that, with $n+1$ qubits rather than $n$, you have $2^{n+1}$ amplitudes rather than just $2^n$.
+
+\subsection{[2 points]}
+To illustrate your construction, show how the phase gate gets converted into a purely real gate in your simulation. 
+
+\subsection{[1 point]}
+Conclude the proof that complex amplitudes are never actually needed for quantum computing speedups --- positive and negative real amplitudes suffice --- by explaining how measurements are performed. 
+
+
+
+
+
+
+
+
+\section{Universal gate sets [6 points]} Identify the following gate sets as either universal or not universal \emph{in the sense --- specifically --- of able to approximate any target unitary to any desired precision}. If it is not, argue why (if it is, you do not have to give an argument).
+
+\noindent Recall: $S = \begin{bsmallmatrix}
+	1 & 0\\0 & i
+\end{bsmallmatrix}$).
+
+\subsection{} \{All single qubit gates, CNOT\}
+
+
+
+\subsection{} \{Toffoli, Hadamard\}
+
+
+
+\subsection{} \{Toffoli, $S$\}
+
+
+
+\subsection{} \{Toffoli, $S$, Hadamard\}
+
+
+
+\subsection{} \{Hadamard, $S$, Controlled $Z$\}
+
+
+
+\subsection{} \{Controlled Hadamard, Controlled $S$, NOT\} 
+
+
+
+
+\end{document}
+
