@@ -1,0 +1,51 @@
+\begin{solution}[label=ques:1]
+  \begin{question}
+    Given a Boolean function $f: \{0,1\}^n \to \{0,1\}$, recall that an ``XOR query'' maps basis states of the form $\ket{x}\ket{a}$ to $\ket{x}\ket{a \oplus f(x)}$, while a ``phase query'' maps basis states of the form $\ket{x}\ket{a}$ to $(-1)^{a \cdot f(x)}\ket{x}\ket{a}$, where $x \in \{0,1\}^n$ and $a \in \{0,1\}$. Show that given a phase query we can simulate an XOR query and vice versa.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We define the ``XOR oracle" as $U_f$ and the ``phase oracle" as $P_f$. Now consider the following circuit:
+
+    \begin{minipage}{\textwidth}
+      \centering
+      \begin{quantikz}
+        \lstick{$\ket{x}$} & & \gate[wires=2]{U_f} & & \\
+        \lstick{$\ket{a}$} & \gate{H} & & \gate{H} & 
+      \end{quantikz}
+    \end{minipage}
+
+    Now, consider the state of the qubits after the above operations on the two basis states for $\ket{a}$, right before the final Hadamard gate,
+    \begin{equation}
+      \ket{x, a} \mapsto \frac{\ket{x, f(x)} + (-1)^{a}\ket{x, \overline{f(x)}}}{\sqrt{2}} = (-1)^{a\cdot f(x)}\left(\frac{\ket{x, 0} + (-1)^a\ket{x, 1}}{\sqrt{2}}\right)
+      \label{eq:oracletransform}
+    \end{equation}
+    In the second step above, we get a global phase of $-1$ when $a \neq 0$ and $f(x) = 1$, which can be combined as $a\cdot f(x)$. Now, when we apply the Hadamard gate on the ancilla qubit, we get the state $(-1)^{a\cdot f(x)}\ket{x, a}$, which is exactly the output of the phase oracle. Thus, we have shown that we can simulate $P_f$ using $U_f$.\par
+    We can now write the following identity (since the result holds for all basis states):
+
+    \begin{minipage}{\textwidth}
+      \centering
+      \begin{quantikz}
+         & & \gate[wires=2]{U_f} & & \\
+         & \gate{H} & & \gate{H} & 
+      \end{quantikz}
+      $\equiv$
+      \begin{quantikz}
+         & \gate[wires=2]{P_f} & \\
+         & & 
+      \end{quantikz}
+      $\implies$
+      \begin{quantikz}
+         & \gate[wires=2]{U_f} & \\
+         & & 
+      \end{quantikz}
+      $\equiv$
+      \begin{quantikz}
+         & & \gate[wires=2]{P_f} & & \\
+         & \gate{H} & & \gate{H} & 
+      \end{quantikz}
+    \end{minipage}
+
+    Therefore, to obtain $U_f$ from $P_f$, we can simply add $H$ gates before and after $P_f$ on the ancilla qubits which will cancel out the Hadamards on the LHS of the idenitity, giving us the result we want.
+    
+  \end{proof}
+\end{solution}

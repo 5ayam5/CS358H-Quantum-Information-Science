@@ -1,0 +1,73 @@
+\begin{solution}[label=ques:4a]
+  \begin{question}
+    \{All single qubit gates, CNOT\}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    \textbf{Universal}: This is a universal gate set since we can approximate any $n$ qubit unitary using an arbitrary single qubit unitary combined with CNOT gates.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4b]
+  \begin{question}
+    \{Toffoli, Hadamard\}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    \textbf{Not Universal}: This cannot be a universal gate since we cannot obtain complex amplitudes using just Toffoli and Hadamard gates, therefore, we cannot approximate an arbitrary unitary. Although this is computationally universal (i.e., we can simulate any quantum computation with atmost a polynomial overhead).
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4c]
+  \begin{question}
+    \{Toffoli, $S$\}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    \textbf{Not Universal}: This cannot be universal since we cannot generate superposition just by using Toffoli and S gates, even though we can generate complex amplitudes on basis states using this gate set.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4d]
+  \begin{question}
+    \{Toffoli, $S$, Hadamard\}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    \textbf{Universal}: This is a universal gate set for a system with at least $3$ qubits. We will be unable to approximate any unitary on $2$ qubits without having to use more than $2$ qubits.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4e]
+  \begin{question}
+    \{Hadamard, $S$, Controlled $Z$\}
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    \textbf{Not Universal}: This gate set generates the Clifford group since we can obtain a CNOT gate using the idenitity proven in Homework 3. Additionally, we have no non-Clifford gate in the gate set, therefore, we cannot approximate any unitary that is not in the Clifford group.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4f]
+  \begin{question}
+    \{Controlled Hadamard, Controlled $S$, NOT\} 
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    \textbf{Universal}: This gate set is universal since the first two gates are in the $C^{(3)}$ Clifford hierarchy and we can generate the Clifford group using the set. Therefore, combined with the Clifford group and a gate from $C^3$, we can approximate any unitary.
+    %For the same reasons as in Question~\ref{ques:4e}, this is not universal since it only generates the Clifford group. We can generate $H$ and $S$ gates by setting the control qubit to $\ket{1}$ using the NOT gate. For instance, wke can perform the following gate operation to obtain a $H$ gate (we can replace $CH$ with $CS$ to obtain a $S$ gate):
+    %\begin{minipage}{\textwidth}
+    %  \centering
+    %  \begin{quantikz}
+    %    & \gate{NOT} & \ctrl{1} & \gate{NOT} & \ctrl{1} & \\
+    %    & & \gate{H} & & \gate{H} &
+    %  \end{quantikz}
+    %  $\equiv$
+    %  \begin{quantikz}
+    %    & \gate{I} & \\
+    %    & \gate{H} & 
+    %  \end{quantikz}
+    %\end{minipage}
+    %Similarly, we can generate a CNOT gate by concatenating a sequence of $CH\cdot CS\cdot CS\cdot CH$, since $CS\cdot CS$ gives us $CZ$ and now we can generate a CNOT using the same identity used in Question~\ref{ques:4e}.
+  \end{proof}
+\end{solution}

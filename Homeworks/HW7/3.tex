@@ -1,0 +1,61 @@
+\begin{solution}[label=ques:3a]
+  \begin{question}
+    Prove that any standard quantum circuit acting on $n$ qubits can be perfectly simulated by a real quantum circuit acting on $n+1$ qubits --- and moreover, by a circuit containing exactly as many gates as the original circuit (although the gates might act on slightly more qubits than the gates of the original circuit). Your proof should give a mapping from complex-valued states to real-valued states and from unitary matrices to real orthogonal matrices.
+
+\noindent \textit{Hint:} Observe that, with $n+1$ qubits rather than $n$, you have $2^{n+1}$ amplitudes rather than just $2^n$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Consider the following mapping for a $n$ qubit state with complex amplitudes to a $n+1$ qubit state with real amplitudes:
+    \begin{equation}
+      \mathbf{M}:\left(\ket{\psi} = \sum_{b\in\{0, 1\}^n}\left(\alpha_b + i\beta_b\right)\ket{b}\right) \mapsto \left(\ket{\psi'} = \sum_{b\in\{0, 1\}^n}\alpha_b\ket{b0} + \beta_b\ket{b1}\right)
+      \label{eq:complextoreal}
+    \end{equation}
+    Notice that the state $\ket{\psi'}$ is still normalized and since we start with real $\alpha_b, \beta_b$ for all $b$, all amplitudes in $\ket{\psi'}$ are real. We can now give a mapping for any unitary whose actions are defined on the computational states as:
+    \begin{equation}
+      U\ket{x} = \sum_{b\in\{0, 1\}^n}\left(\alpha_b + i\beta_b\right)\ket{b}
+      \mapsto \begin{cases}
+        U'\ket{x0} = \mathbf{M}\left(U\ket{x}\right) &= \sum_{b\in\{0, 1\}^n}\left(\alpha_b\ket{b0} + \beta_b\ket{b1}\right)\\
+        U'\ket{x1} = \mathbf{M}\left(i\cdot U\ket{x}\right) &= \sum_{b\in\{0, 1\}^n}\left(-\beta_b\ket{b0} + \alpha_b\ket{b1}\right)
+        \end{cases}
+      \label{eq:complextorealunitary}
+    \end{equation}
+  \end{proof}
+  Clearly, we have defined the unitary on all basis states for $n+1$ qubits and it is easy to see that the values in $U'$ are real. Since the columns in $U$ are orthogonal to each other, it implies that the columns in $U'$ will also be orthogonal to each other. The orthogonality for the basis states which have the same last bit follows from the fact that $\mathsf{Re}(\brakett{Ux}{Uy}) = 0$ and for the basis states that differ in the last bit follows from the fact that $\mathsf{Im}(\brakett{Ux}{Uy}) = 0$. This in turn follows from the fact that all columns in $U$ are orthogonal and hence both real and imaginary parts of the inner products should be equal to $0$.\par
+  Therefore, we have given an orthogonal transformation on the basis states for $n+1$ qubits. Using this we can also construct a suitable $2^{n+1}\times 2^{n+1}$ orthogonal matrix from the $2^n\times 2^n$ matrix $U$. Hence, proved.
+\end{solution}
+
+\begin{solution}[label=ques:3b]
+  \begin{question}
+    To illustrate your construction, show how the phase gate gets converted into a purely real gate in your simulation.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We can transform the phase gate as:
+    \begin{equation}
+      P = \begin{pmatrix}
+        1 & 0\\
+        0 & i
+        \end{pmatrix}
+      \mapsto
+      P' = \begin{pmatrix}
+          1 & 0 & 0 & 0\\
+          0 & 1 & 0 & 0\\
+          0 & 0 & 0 & -1\\
+          0 & 0 & 1 & 0
+        \end{pmatrix}
+      \label{eq:phasetoreal}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3c]
+  \begin{question}
+    Conclude the proof that complex amplitudes are never actually needed for quantum computing speedups --- positive and negative real amplitudes suffice --- by explaining how measurements are performed.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    To measure a qubit in the system with real amplitudues on the $n+1$ qubit state such that the output probabilities are the same as for the system with complex amplitudes on the $n$ qubit state, we can simply measure the first $n$ qubits and report the output as the bitstring obtained on the first $n$ qubits. If we want to measure in a different basis, we apply $U'$ on the $n+1$ qubit system (where $U'$ is the transformed unitary of $U$ as defined in Question~\ref{ques:3a}, and $U$ is the change of basis unitary) and then perform a measurement on the computational basis by measuring the first $n$ qubits.\par
+    Note that in the above method of measurements, the probability of measuring a bitstring $\ket{b}$ is the same in both formalisations: $\alpha_b^2 + \beta_b^2$
+  \end{proof}
+\end{solution}
