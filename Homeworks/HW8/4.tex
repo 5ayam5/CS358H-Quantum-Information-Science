@@ -1,0 +1,49 @@
+\begin{solution}[label=ques:4a]
+  \begin{question}
+    Calculate a upper bound on the
+probability that a single run of
+the Bernstein-Vazirani algorithm nevertheless succeeds in recovering
+$s$. Show your work.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    If we apply the noisy phase oracle in the BV circuit, we get the following state after the Oracle application:
+    \begin{equation}
+      \begin{split}
+        \ket{\psi'} &= \frac{1}{\sqrt{2^n}}\left(\sum_{x\in\text{non-noisy}}(-1)^{s\cdot x}\ket{x} + \sum_{x\in\text{noisy}}(-1)^{s\cdot x + 1}\ket{x}\right)\\
+        &= \frac{1}{\sqrt{2^n}}\left(\sum_{x\in\text{non-noisy}}(-1)^{s\cdot x}\ket{x} - \sum_{x\in\text{noisy}}(-1)^{s\cdot x}\ket{x}\right)\\
+        &= \frac{1}{\sqrt{2^n}}\left(\sum_{x\in \{0, 1\}^n}(-1)^{s\cdot x}\ket{x} - 2\cdot\sum_{x\in\text{noisy}}(-1)^{s\cdot x}\ket{x}\right)
+      \end{split}
+      \label{eq:noisybvpsi}
+    \end{equation}
+    Now on applying the Hadamard on $\ket{\psi}$, we get:
+    \begin{equation}
+      \begin{split}
+        \ket{\psi} &= \ket{s} - \frac{2}{\sqrt{2^n}}\left(\sum_{x\in\text{noisy}}\left((-1)^{s\cdot x}\cdot\frac{1}{\sqrt{2^n}}\sum_{y\in\{0, 1\}^n}(-1)^{x\cdot y}\ket{y}\right)\right)\\
+        \ket{\psi} &= \ket{s} - \frac{2}{\sqrt{2^n}}\left(\sum_{x\in\text{noisy}}\left((-1)^{s\cdot x}\cdot\frac{1}{\sqrt{2^n}}\left((-1)^{x\cdot s}\ket{s} + \sum_{y\in\{0, 1\}^n\setminus s}(-1)^{x\cdot y}\ket{y}\right)\right)\right)\\
+        &= \left(1 - \frac{2}{2^n}\left(\sum_{x\in\text{noisy}}1\right)\right)\ket{s} + \ket{\phi}\text{, where }\brakett{\phi}{s} = 0\\
+      \end{split}
+      \label{eq:noisybvfinal}
+    \end{equation}
+    Therefore, the amplitude of $\ket{s}$ is bounded by:
+    \begin{equation}
+      \prob{\ket{psi}\text{ measures }s} = \left(1 - \frac{2}{2^n}\left(\sum_{x\in\text{noisy}}1\right)\right)^2 \leq \left(1 - \frac{2}{2^n}\cdot \epsilon\cdot 2^n\right)^2 = (1 - 2\epsilon)^2
+      \label{eq:noisybvbound}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4b]
+  \begin{question}
+    Explain what happens when $\epsilon=1/2$. Is there a
+reason why, in some
+sense, no algorithm can possibly succeed at
+recovering $s$ in that case?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    When $\epsilon = 1/2$, we get that the probability of recovering $s$ is $0$. This is because for every string that is mapped correctly, there is another string that is mapped incorrectly and therefore, the amplitudes associated with $\ket{s}$ cancel out.\par
+    No algorithm can succeed in recovering $s$ since $f$ acts as a perfectly random bit generator given any input $x$ and therefore it no longer acts like a BV function that computes the parity on some subset of bits of $x$.\par
+    Additionally, this because the noisy function $f$ in some sense acts like a perfect bit commitment scheme, perfectly hiding the bit associated with the presence or absence of noise, i.e., presence of noise indicates the bit $1$ and absence of noise indicates the bit $0$. The opening is the random input $x$, with the key being $s$.
+  \end{proof}
+\end{solution}

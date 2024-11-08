@@ -1,0 +1,35 @@
+\begin{solution}[label=ques:3]
+  \begin{question}
+    Suppose the function $f: \{0, 1\}^n \rightarrow \{0, 1\}^n$ is such that there are \textit{two} $n$-bit secret strings $s$ and $t$, where that $s\neq t$ and neither are the all zeros string, so that $f(x) = f(y)$ if and only if $x \oplus y$ is either $0$, $s$, $t$, or $s \oplus t$.
+
+\noindent Give a quantum algorithm which can find an $a \in \{0, 1\}^n$ such that $a \cdot s = a \cdot t = 0$, and $a \neq 0$. Explain/prove that it works.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We use the same circuit as Simon's problem to solve this problem:\par
+    \begin{minipage}{\textwidth}
+      \centering
+      \begin{quantikz}
+        \lstick{$\ket{0}^{\otimes n}$} & \gate{H^{\otimes n}} & \qw & \gate[wires=2]{U_f} & & \gate{H^{\otimes n}}\slice{$\ket{\psi}$} & \meter{}\\
+        \lstick{$\ket{0}^{\otimes n}$} & \qw & \qw & & \meter{}\slice{$\ket{\psi'}$} & & 
+      \end{quantikz}
+    \end{minipage}
+
+    We can write the state $\ket{\psi'}$ as:
+    \begin{equation}
+      \ket{\psi'} = \frac{\ket{x} + \ket{x \oplus s} + \ket{x \oplus t} + \ket{x \oplus s \oplus t}}{2}\otimes \ket{f(x)}\text{, for some } x \in \{0, 1\}^n
+      \label{eq:simonpsi}
+    \end{equation}
+    Now, on applying the Hadamard gate and ignoring the ancilla qubits, we get:
+    \begin{equation}
+      \begin{split}
+        \ket{\psi} &= \frac{1}{\sqrt{2^n}}\sum_{y\in\{0, 1\}^n}\frac{(-1)^{y\cdot x}\ket{y} + (-1)^{y\cdot(x \oplus s)}\ket{y} + (-1)^{y\cdot(x \oplus t)}\ket{y} + (-1)^{y\cdot(x \oplus s \oplus t)}\ket{y}}{2}\\
+        &= \frac{1}{\sqrt{2^n}}\sum_{y\in\{0, 1\}^n}(-1)^{y\cdot x}\frac{1 + (-1)^{y\cdot s} + (-1)^{y\cdot t} + (-1)^{y\cdot (s \oplus t)}}{2}\ket{y}\\
+        &= \frac{1}{\sqrt{2^n}}\sum_{y\in\{0, 1\}^n}(-1)^{y\cdot x}\frac{\left(1 + (-1)^{y\cdot s}\right)\left(1 + (-1)^{y\cdot t}\right)}{2}\ket{y}
+      \end{split}
+      \label{eq:simonfinal}
+    \end{equation}
+    Therefore, the only states that will have non-zero amplitudes are those where $y\cdot s = y\cdot t = 0$. Therefore, on measuring the state $\ket{\psi}$, we will get a state $y$ such that $y\cdot s = y\cdot t = 0$ with certainty. One thing to note is that $\ket{0}$ is also one of the states, however, the probability of obtaining $\ket{0}$ is only $\frac{1}{2^{n - 2}}$. Thus, if we obtain the state $\ket{0}$, we can just run the circuit again and should succeed with a non-negligible probability that approaches $1$ as $n$ is increased.\par
+    Additionally, there exists no non-trivial solutions when $n = 2$ since the probability of obtaining $\ket{0}$ is $1$ in that case.
+  \end{proof}
+\end{solution}

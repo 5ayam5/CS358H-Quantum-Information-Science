@@ -1,0 +1,80 @@
+\begin{solution}[label=ques:1a]
+  \begin{question}
+    Design a quantum algorithm that can determine whether $f$ is constant or balanced
+using only a single query to $f$ and prove that your algorithm works.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We can use the same circuit as in the Deustch-Jozsa problem, but with $n$ qubits:
+    \begin{minipage}{\textwidth}
+      \centering
+      \begin{quantikz}
+        \lstick{$\ket{0}^{\otimes n}$} & \gate{H^{\otimes n}} & \gate{P_f} & \gate{H^{\otimes n}} & \meter{}
+      \end{quantikz}
+    \end{minipage}
+
+    Here $P_f$ is the Phase oracle and we assume that the ancilla is initialized to $\ket{1}$. Now, consider the state of the system before the final Hadamard gate:
+    \begin{equation}
+      \ket{\psi} = \frac{1}{\sqrt{2^n}}\sum_{x \in \{0,1\}^n}(-1)^{f(x)}\ket{x}
+      \label{eq:djstate}
+    \end{equation}
+    Notice that $\ket{\psi}$ is equal to $\ket{\phi} = \pm\ket{+}^{\otimes n}$ in the case when $f$ is constant. When $f$ is balanced, it is easy to see that the state is orthogonal to $\ket{\phi}$ (because there are equal number of $+1$ and $-1$ in $\ket{\psi}$ when $f$ is balanced). Therefore, on applying the final Hadamard gate and measuring all qubits, we either end up with $0^n$ if $f$ is constant or we end up with $s \neq 0$ when $f$ is balanced.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:1b]
+  \begin{question}
+    Show that any classical deterministic algorithm for this problem requires $\Omega(2^n)$ queries. Therefore, quantum computers give an exponential speedup over
+deterministic classical computers for this problem.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We construct an adaptive oracle to show that any classical deterministic algorithm would require at least $2^{n - 1} + 1$ queries on at least one function. The oracle is defined as:
+    \protocol{Adaptive Oracle: $\calA$}{An adaptive oracle implementation to show worst case time complexity for any classical deterministic algorithm}{proto:adaptiveoracle}{
+      \textit{Note that the oracle maintains a table of the inputs that have already been queried and their outputs}
+      \begin{enumerate}
+        \item For the first $2^{n-1}$ unique queries, return $0$ (and store it in the table).
+        \item For the next $2^{n-1}$ unique queries, return $1$ for all queries or return $0$ for all queries (with equal probability). Also store the query in the table.
+        \item If a query is repeated, return the same value as the previous time using the table.
+      \end{enumerate}
+    }
+    Notice that the above oracle is a valid implementation of the function $f$ and thus, can be used as an oracle to an classical algorithm that solves the Deustch-Jozsa problem. Since $\calA$ is a valid implementation of such an $f$, we call it $f_\calA$ (where $f_\calA$ is either balanced or constant), any classical algorithm that solves Deustch-Jozsa should also give the correct answer on $\calA$. However, it is impossible for any classical deterministic algorithm to output the correct answer without having queried on $2^{n-1} + 1$ different inputs since $\calA$ is randomized. Any classical deterministic algorithm cannot determine whether $f_\calA$ is balanced or constant until the last query. Thus, any classical deterministic algorithm requires $\Omega(2^n)$ queries.\par
+    Note that we needed to define an adaptive oracle since the classical deterministic algorithm itself could have been adaptive on the queries, where the algorithm decides the next query based on the output it sees.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:1c]
+  \begin{question}
+    Explain why, nevertheless, this speedup is not very
+impressive, in the sense that it is not an exponential quantum speedup over all
+classical computing for this problem. Give a full explanation and analysis of the
+any runtime or likelihood of success involved in your explanation.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Even though a deterministic classical algorithm requires $\Omega(2^n)$ queries, a randomized classical algorithm can solve the problem with high probability using only super-constant queries. Let the number of queries be $c$. We can now compute the probability of success after $c$ queries. We define the algorithm as:
+    \protocol{Classical Randomized Algorithm for Deustch-Jozsa Problem}{A classical randomized algorithm that succeeds with very high (non-negligible) probability}{proto:classicaldj}{
+      \begin{enumerate}
+        \item Query $f$ on $c$ random inputs.
+        \item If all outputs are the same, output constant. Otherwise, output balanced.
+      \end{enumerate}
+    }
+    Now the probability of success for Protocol~\ref{proto:classicaldj} is $1$ when $f$ is constant. In the case when $f$ is balanced, we can compute the probability of failure as:
+    \begin{equation}
+      \begin{split}
+        \prob{f\text{ is balanced}\wedge\text{ failure}} &= 2\times\left(\frac{2^{n-1}}{2^n}\cdot\frac{2^{n-1} - 1}{2^n - 1}\cdot\frac{2^{n-1} - 2}{2^n - 2}\cdots\frac{2^{n-1} - c + 1}{2^n - c + 1}\right)\\
+        &\leq 2\times \frac{1}{2^c} = \frac{1}{2^{c-1}}
+      \end{split}
+      \label{eq:djfail}
+    \end{equation}
+    Now we can compute the total probability of success as
+    \begin{equation}
+      \begin{split}
+        \prob{\text{success}} &= \prob{f\text{ is constant}\wedge\text{ success}} + \prob{f\text{ is balanced}\wedge\text{ success}}\\
+        &\geq \frac{1}{2}\cdot 1 + \frac{1}{2}\left(1 - \frac{1}{2^{c-1}}\right) = 1 - \frac{1}{2^c}
+      \end{split}
+      \label{eq:djsucc}
+    \end{equation}
+    Therefore, as long as we make super-constant queries, we can make the probability of success arbitrarily close to $1$.
+  \end{proof}
+\end{solution}

@@ -1,0 +1,49 @@
+\begin{solution}[label=ques:2a]
+  \begin{question}
+    What is the minimum number of people who need to call in before the probability of a match being found is at least 50\%?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    \textit{Note: For all parts, this question is interpreted as trying to find the probability that we get a match with $p$ probability (where $p = 50\%$ or $99\%$ depending on which part the answer is for) at or before the $n^\textsuperscript{th}$ person calls. This probability is different from the probability that the station succeeds at exactly the $n^\textsuperscript{th}$ call and fails for all $i < n$.}
+
+    We compute the probability that no match happens until the $n^\textsuperscript{th}$ person calls. This will be $1$ minus the probability that we want. The probability can be computed as:
+    \begin{equation}
+      \begin{split}
+        &\prob{\text{no match}} = \frac{\binom{365}{n}\cdot n!}{365^n}\\
+        \implies &\prob{\text{match}} = 1 - \frac{\binom{365}{n}\cdot n!}{365^n}
+      \end{split}
+      \label{eq:bbnomatch}
+    \end{equation}
+    Therefore, the probability of a match is at least 50\% when $n = 23$ (on plugging in Python).
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2b]
+  \begin{question}
+    How about the minimum number of people needed before there is a 99\% chance of the contest coming to a close?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    On plugging in the numbers in Python again, the probability of a match is at least 99\% when $n = 57$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2c]
+  \begin{question}
+    Imagine after running the contest for a few days the station decides they aren't being generous enough and so change the rules as follows: Instead of the contest ending as soon as there's a match found between any two contestants on the list it now ends when a match is found between specifically the first caller of the day and any other contestant. 
+
+Under these new rules what is the minimum number of people needed before there is a 50\% chance of the contest closing? How about for a 99\% chance?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Again, similar to Question~\ref{ques:2a}, we can compute the probability of no match happening until the $n^\textsuperscript{th}$ person calls. This will be $1$ minus the probability that we want. The probability can be computed as:
+    \begin{equation}
+      \begin{split}
+        &\prob{\text{no match}} = \left(\frac{364}{365}\right)^{n-1}\\
+        \implies &\prob{\text{match}} = 1 - \left(\frac{364}{365}\right)^{n-1}
+      \end{split}
+      \label{eq:mbbnomatch}
+    \end{equation}
+    Therefore, the probability of a match is at least $50\%$ when $n = 254$ and it is at least $99\%$ when $n = 1680$ (on plugging in Python).
+  \end{proof}
+\end{solution}

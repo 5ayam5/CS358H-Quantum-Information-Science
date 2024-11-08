@@ -1,0 +1,225 @@
+\mathchardef\mhyphen="2D
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[hypcap=false]{caption}
+\usepackage{booktabs}
+\usepackage[left=25mm, top=25mm, bottom=25mm, right=25mm]{geometry}
+\usepackage{soul}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=darkcyan,filecolor=darkcerulean,urlcolor=magenta]{hyperref}
+\usepackage{braket}
+\usepackage{quantikz}
+\usepackage{enumitem}
+\usepackage{svg}
+
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\calZ}{\mathcal{Z}}
+
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfD}{\mathbf{D}}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bfH}{\mathbf{H}}
+\newcommand{\bfI}{\mathbf{I}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfP}{\mathbf{P}}
+\newcommand{\bfQ}{\mathbf{Q}}
+\newcommand{\bfU}{\mathbf{U}}
+\newcommand{\bfX}{\mathbf{X}}
+\newcommand{\bfY}{\mathbf{Y}}
+\newcommand{\bfZ}{\mathbf{Z}}
+\newcommand{\bfv}{\mathbf{v}}
+\newcommand{\bfu}{\mathbf{u}}
+\newcommand{\bfdelta}{\mathbf{\Delta}}
+\newcommand{\bfpi}{\mathbf{\Pi}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\z}{\mathbb{Z}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\keygen}{\mathsf{KeyGen}}
+\newcommand{\enc}{\mathsf{Enc}}
+\newcommand{\dec}{\mathsf{Dec}}
+\newcommand{\negl}{\mathsf{negl}}
+\newcommand{\commit}{\mathsf{Commit}}
+\newcommand{\ccommit}{\mathsf{C\text{-}Commit}}
+
+\newcommand{\setup}{\mathsf{Setup}}
+\newcommand{\lsetup}{\mathsf{Setup\text{-}Lossy}}
+
+\newcommand{\samplemat}{\mathsf{Sample\text{-}Dirac\text{-}Matrix}}
+\newcommand{\eval}{\mathsf{Eval}}
+\newcommand{\obf}{\mathsf{Obf}}
+
+\newcommand{\phybb}[1]{p_{\mathrm{hyb}, #1}}
+\newcommand{\lin}{\ell_{\mathrm{in}}}
+\newcommand{\lout}{\ell_{\mathrm{out}}}
+\newcommand{\bit}{\{0,1\}}
+\newcommand{\sd}{\mathsf{SD}}
+\newcommand{\lwe}{\mathsf{LWE}_{n,m,q,\chi}}
+\newcommand{\sslwe}[4]{\mathsf{ss\text{-}LWE}_{#1,#2,#3,#4}}
+\newcommand{\sslwec}{\sslwe{n}{m}{q}{\chi}}
+
+\newcommand{\unif}[1]{\mathsf{Unif}_{\left[-#1, #1\right]}}
+\newcommand{\func}[2]{\mathsf{Func}[#1, #2]}
+\newcommand{\perm}[2]{\mathsf{Perm}[#1, #2]}
+\newcommand{\ct}{\mathsf{ct}}
+\newcommand{\Finverse}{F^{-1}}
+
+\newcommand{\nqss}{\mathsf{No\mhyphen Query \mhyphen Semantic \mhyphen Security}}
+
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\trace}[1]{\Tr\left( #1 \right)}
+
+\newcommand{\prob}[1]{\Pr\left[ #1 \right]}
+
+\newcommand{\brakett}[2]{\braket{#1|#2}}
+\newcommand{\ketbraa}[2]{\ket{#1}\bra{#2}}
+\newcommand{\ketbra}[1]{\ketbraa{#1}{#1}}
+
+\newcommand{\lddh}{\mathcal{L}_{DDH}}
+\newcommand{\lnddh}{\mathcal{L}_{nDDH}}
+\newcommand{\lddhkt}{\mathcal{L}_{DDH,k,t}}
+
+\newlength{\protowidth}
+\newcommand{\pprotocol}[4]{
+{\begin{center}
+\setlength{\protowidth}{\textwidth}
+\addtolength{\protowidth}{-3\intextsep}
+
+\fbox{
+        \small
+        \hbox{\quad
+        \begin{minipage}{\protowidth}
+    \begin{center}
+    {\bf #1}
+    \end{center}
+        #4
+        \end{minipage}
+        \quad}
+        }
+        \captionof{figure}{\label{#3} #2}
+\end{center}
+} }
+
+\newcommand{\defbox}[1]{
+{\begin{center}
+\setlength{\protowidth}{\textwidth}
+\addtolength{\protowidth}{-3\intextsep}
+
+\fcolorbox{darkcerulean}{cottoncandy}{
+        \small
+        \hbox{\quad
+        \begin{minipage}{\protowidth}
+    
+        #1
+        \end{minipage}
+        \quad}
+        }
+\end{center}
+        } }
+
+\newcommand{\protocol}[4]{
+\pprotocol{#1}{#2}{#3}{#4} }
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{question}{Question}
+
+\newtcolorbox[auto counter,number within=section]{solution}[1][]{every float=\centering,breakable,enhanced,adjusted title={Question \thetcbcounter},#1,colback=codegray,colframe=darkcerulean!50!black}
+
+\linespread{1.0}
+
+\definecolor{codegray}{rgb}{0.98,0.97,0.93}
+\definecolor{cottoncandy}{rgb}{1.0, 0.84, 0.95}
+\definecolor{darkcerulean}{rgb}{0.03, 0.27, 0.49}
+\definecolor{darkcyan}{rgb}{0.0, 0.50, 0.45}
+
+\title{C S 358H: Intro to Quantum Information Science}
+\author{Sayam Sethi}
+\date{November 2024}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\pagenumbering{arabic}
+
+\newpage
+
+\section{Generalized Deustch-Jozsa Problem}
+Recall that in the Deustch-Jozsa problem we are given oracle access to an unknown
+function $f \colon \{0,1\} \to \{0,1\}$ and wish to determine if it is constant or
+balanced. In the generalized Deustch-Jozsa problem we are given oracle access to a
+function $f\colon \{0,1\}^n \to \{0,1\}$, a function that maps $n$-bit strings to a
+single bit. We're promised that the function is either constant or balanced, where
+balanced means that it has an equal number of 0 and 1 outputs ($2^{n-1}$ of each).
+\input{1}
+
+\newpage
+
+\section{The Birthday Paradox}
+ Your favorite local radio station is running a new give-away contest that works as follows: Each day at 5pm the phone lines open up to the public to call in and leave their name and birth-date which is then added to a running list. The contest runs until a matching birth-date (month and date) between any two contestants on the list is found. At that point the contest closes and everyone on the list up to that point is a winner. Assume that every birthday is equally likely and that no contestants are born during a leap year (so that we can ignore Feb. 29\textsuperscript{th}).  
+
+As usual, you must show or explain your work for each part. You are free to use numerical software of your choice to help solve the problem
+\input{2}
+
+\newpage
+
+\section{Two Secrets}
+\input{3}
+
+\newpage
+
+\section{Bernstein-Vazirani}
+In the Bernstein-Vazirani problem, recall that we're
+given oracle access to a Boolean function $f\colon\{0,1\}^n\to\{0,1\}$. We're
+promised that there exists a ``secret string'' $s \in \{0,1\}^n$ such that
+$f(x)=s \cdot x \bmod{2}$ for all $x$. The problem is to recover $s$. The
+Bernstein-Vazirani algorithm solves this problem with just a single quantum query
+to $f$. Consider a variant of this problem where we are promised that $f(x) = s\cdot x \bmod{2}$ for \emph{at most} a $(1 - \epsilon)$ fraction of the inputs $x$,
+and that $f(x) = (s\cdot x + 1) \bmod{2}$ for the remaining $\epsilon$ fraction of
+inputs.
+\input{4}
+
+\end{document}
