@@ -1,0 +1,51 @@
+\begin{solution}[label=ques:3a]
+  \begin{question}
+    Confirm that our intelligence is correct by using $N$ and $\varphi(N)$ to determine the two factors $p$ and $q$ of $N$ and checking that indeed $pq = N$. (Note that part (a) is not required in the parts that follow.)
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We will use the solution from Question~\ref{ques:4} to solve for $p, q$. On solving, we get:
+    \begin{equation}
+      \begin{split}
+        p &= 2237\\
+        q &= 2087\\
+        pq &= 2237 \times 2087 = 4668619 = N
+      \end{split}
+      \label{eq:pq}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3b]
+  \begin{question}
+    Meanwhile an analyst has gone ahead and done the work of determining 
+\[
+d = 3109531
+\]
+to be the inverse of $e$ in the multiplicative group $\mathbb{Z}_{\varphi(N)}^\times$. Verify that this is correct.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    If $d$ is computed correctly, we must have $e\cdot d = 1 \bmod \varphi(N)$. On solving this, we get $e\cdot d = 9328593$, which on dividing with $\varphi(N)$ gives $1$ as a remainder.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3c]
+  \begin{question}
+    Decrypt the given message.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    To decrypt the message, we need to compute $m_0 = m^d \bmod N$. On solving we get $m_0 = 548077$, which gives us the message as ``6PM".
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3d]
+  \begin{question}
+    Encrypt a new message in the same format instructing to meet an hour later; we will send this to the second spy instead of the original message.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We wish to encrypt the message ``7PM", this can be written in the decimal encoding as $m_1 = 558077$. The encrypted message will be $m_1^e \bmod N = 3706174$.
+  \end{proof}
+\end{solution}

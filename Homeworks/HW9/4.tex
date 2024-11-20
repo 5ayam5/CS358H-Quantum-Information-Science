@@ -1,0 +1,23 @@
+\begin{solution}[label=ques:4]
+  \begin{question}
+    Let $N=pq$ be a product of two large primes.  Show that given the order $(p-1)(q-1)$ of the multiplicative group $\pmod{N}$, one can efficiently recover the prime factors of $N$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Since we know $N$ and $\varphi(N)$, we can obtain a quadratic equation in $p$ or $q$:
+    \begin{equation}
+      \begin{split}
+        &(p-1)(q-1) = pq - p - q + 1\\
+        \implies &\varphi(N) = N - p - q + 1\\
+        \implies &q = (N + 1 - \varphi(N)) - p\\
+        \text{We also know that, }&\\
+        &N = pq\\
+        \implies &N = p((N + 1 - \varphi(N)) - p)\\
+        \implies &p^2 - (N + 1 - \varphi(N))p + N = 0\\
+        \implies &p = \frac{(N + 1 - \varphi(N)) \pm \sqrt{(N + 1 - \varphi(N))^2 - 4N}}{2}
+      \end{split}
+      \label{eq:nphipq}
+    \end{equation}
+    The two roots of this quadratic equation are $p, q$ (since we cannot have more than one pair of prime factors as solutions to the equation).
+  \end{proof}
+\end{solution}

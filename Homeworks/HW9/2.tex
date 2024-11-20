@@ -1,0 +1,98 @@
+\begin{solution}[label=ques:2a]
+  \begin{question}
+    Calculate $QFT_2, QFT_3,$ and $QFT_4$ explicitly (either by writing down the corresponding matrix or equivalently by specifying the action on each of the standard basis states).  By what other name
+is $QFT_2$ known?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We have,
+    \begin{equation}
+      \begin{split}
+        QFT_2 &= \frac{1}{\sqrt{2}}\begin{pmatrix}
+          1 & 1 \\
+          1 & -1
+        \end{pmatrix}\text{, also known as the Hadamard gate} \\
+        QFT_3 &= \frac{1}{\sqrt{3}}\begin{pmatrix}
+          1 & 1 & 1 \\
+          1 & \omega & \omega^2 \\
+          1 & \omega^2 & \omega
+          \end{pmatrix}\text{, where }\omega = e^{2\pi/3} \\
+        QFT_4 &= \frac{1}{2}\begin{pmatrix}
+          1 & 1 & 1 & 1 \\
+          1 & i & -1 & -i \\
+          1 & -1 & 1 & -1 \\
+          1 & -i & -1 & i
+          \end{pmatrix}
+      \end{split}
+      \label{eq:qft_comp}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2b]
+  \begin{question}
+    Prove that $QFT_d$ is unitary for all $d$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We will show that $QFT_d$ is a unitary by showing that $\brakett{QFT_d\ket{x_1}}{QFT_d\ket{x_2}} = 0$ for any orthonormal basis vector $x_1 \neq x_2$ and it is equal to $1$ when $x_1 = x_2$ (this is equivalent to showing that the columns of $QFT_d$ form an orthonormal basis):
+    \begin{equation}
+      \begin{split}
+        \brakett{QFT_d\ket{x_1}}{QFT_d\ket{x_2}} &= \brakett{\frac{1}{\sqrt{d}}\sum^{d-1}_{y=0}\omega^{x_1y}\ket{y}}{\frac{1}{\sqrt{d}}\sum^{d-1}_{z=0}\omega^{x_2z}\ket{z}}\\
+        &= \frac{1}{\sqrt{d}}\sum_{y=0}^{d-1}\sum_{z=0}^{d-1}\omega^{-x_1y}\omega^{x_2z}\brakett{y}{z}\\
+        &= \frac{1}{\sqrt{d}}\sum_{y=0}^{d-1}(\omega^{-x_1})^y(\omega^{x_2})^y = \frac{1}{\sqrt{d}}\sum_{y=0}^{d-1}(\omega^{x_2-x_1})^y\\
+        &= \begin{cases}
+          1, &\text{ if }x_1 = x_2\\
+          0, &\text{ otherwise}
+        \end{cases}
+      \end{split}
+      \label{eq:qft_unitary}
+    \end{equation}
+    Hence, proved that $QFT_d$ is unitary for all $d$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2c]
+  \begin{question}
+    For which values of $d$ is $QFT_d$ its own inverse?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    $QFT_d$ is its own inverse when $QFT_d = QFT_d^\dagger$. We have,
+    \begin{equation}
+      \begin{split}
+        &(QFT_d)_{ij} = (QFT_d^\dagger)_{ij}\\
+        \implies &\frac{1}{\sqrt{d}}\omega^{ij} = \frac{1}{\sqrt{d}}\omega^{-ij}\\
+        \implies &\omega^{2ij} = 1\\
+        \implies &e^{4\pi ij/d} = 1\text{ for all }i, j \in \{0,1,...,d-1\}\\
+        \implies &d = 1, 2
+      \end{split}
+      \label{eq:qft_inverse}
+    \end{equation}
+    Therefore, $QFT_d$ is its own inverse for $d = 1, 2$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2d]
+  \begin{question}
+    In Recitation 4, we saw that the qudit clock and shift matrices are respectively defined as $X_d\ket{x} = \ket{x + 1 \bmod d}$ and $Z_d\ket{x} = \omega^x\ket{x}$ for $x \in 0,1,\ldots,d-1$. Show that $$QFT_d^\dagger X_d QFT_d = Z_d^\dagger.$$
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We will show this relation holds by showing it holds for every basis state $x \in \{0, 1, \ldots, d-1\}$:
+    \begin{equation}
+      \begin{split}
+        QFT_d^\dagger X_d QFT_d\ket{x} &= QFT_d^\dagger X_d\left(\frac{1}{\sqrt{d}}\sum_{y=0}^{d-1}\omega^{xy}\ket{y}\right)\\
+        &= QFT_d^\dagger\left(\frac{1}{\sqrt{d}}\sum_{y=0}^{d-1}\omega^{xy}\ket{y+1 \bmod d}\right)\\
+        &= QFT_d^\dagger\left(\frac{1}{\sqrt{d}}\sum_{y=0}^{d-1}\omega^{x(y+1)}\omega^{-x}\ket{y+1 \bmod d}\right)\\
+        &= \omega^{-x}QFT_d^\dagger\left(\frac{1}{\sqrt{d}}\sum_{y=0}^{d-1}\omega^{x(y+1 \bmod d)}\ket{y+1 \bmod d}\right)\\
+        &= \omega^{-x}QFT_d^\dagger\left(\frac{1}{\sqrt{d}}\sum_{z=0}^{d-1}\omega^{xz}\ket{z}\right)\\
+        &= \omega^{-x}QFT_d^\dagger\left(QFT_d\ket{x}\right)\\
+        &= \omega^{-x}\ket{x}\\
+        &= Z_d^\dagger\ket{x}
+      \end{split}
+      \label{eq:qft_xz}
+    \end{equation}
+    Since Equation~\ref{eq:qft_xz} is true for all basis states, we have $QFT_d^\dagger X_d QFT_d = Z_d^\dagger$.
+  \end{proof}
+\end{solution}
