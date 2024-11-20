@@ -1,0 +1,49 @@
+\begin{solution}[label=ques:3a]
+  \begin{question}
+    What is the order of the multiplicative group $\mathbb{Z}_N^\times$?
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    The order of the multiplicative group $\mathbb{Z}_N^\times$ is $\varphi(N)$ which can be computed as $(3 - 1)\cdot(5 - 1)\cdot(7 - 1) = 2\cdot4\cdot6 = 48$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3b]
+  \begin{question}
+    What is the period of the function $f(r)=x^r (\bmod N)$?
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We have $2^{12} = 4096 = 1 \bmod 105$. This is the smallest power of $2$ that leaves a remainder of $1$ when divided by $105$. Therefore, the period of $f(r)$ is $12$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3c]
+  \begin{question}
+    Suppose we factor $x^s-1$ into $x^{s/2}-1$ and $x^{s/2}+1$, and then take the gcd of both factors with $N$ itself.  Which prime factors of $N$, if any, would be ``peeled off'' this way?
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    $x^{s/2} - 1 = 63$ and $x^{s/2} + 1 = 65$. Taking GCDs, we get $\gcd(63, 105) = 21$ and $\gcd(65, 105) = 5$. Therefore, we get $5$ as one of the prime factors. Now we can solve for the other prime factors after dividing $N$ with $5$. We can then run Shor's again to factor $N / 5 = 21$ to then get $3$ and $7$ as the prime factors.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3d]
+  \begin{question}
+    After we apply the QFT to the $\ket{r}$ register and then measure that register, what are the possible results that we could observe?
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    WLOG let us assume we measured $y = 1$ (since the measurement result on the ancilla just adds a global phase in the form of the initial value of $\ket{r}$) we will have the state:
+    \begin{equation}
+      \begin{split}
+        \ket{\psi} &= \frac{1}{\sqrt{L}}\sum_{l=0}^{L-1} \ket{12l}\text{, where }L = \left\lfloor\frac{Q}{12}\right\rfloor = 5000 = \frac{Q}{12}\\
+        \implies F_Q\ket{\psi} &= \frac{1}{\sqrt{QL}}\sum_{k=0}^{Q-1}\left(\sum_{l=0}^{L-1}{(\omega^{12k})}^{l}\right)\ket{k}\\
+        &= \frac{1}{\sqrt{QL}}\sum_{k=0}^{Q-1}\left(\sum_{l=0}^{L-1}{\left(e^{\frac{2\pi ik}{L}}\right)}^{l}\right)\ket{k}\\
+        &= \sqrt{\frac{L}{Q}}\sum_{k \bmod L = 0}\ket{k}\text{, since the sum is zero when }e^{\frac{2\pi ik}{L}} \neq 1
+      \end{split}
+      \label{eq:qftgen}
+    \end{equation}
+    Therefore, we measure an integer that is a multiple of $L = Q / s = 5000$, i.e., $\ket{m} = c\cdot 5000$, for $0\leq c < 12$.
+  \end{proof}
+\end{solution}

@@ -1,0 +1,156 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage[dvipsnames]{xcolor} % for color names, must be loaded before tikz
+\usepackage{ifthen}
+\usepackage{comment}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage[braket, qm]{qcircuit}
+
+\providecommand{\due}{Due Wednesday, November 20 at 11:59 PM}
+\lhead{CS358H, M375T, ES377} \rhead{}
+\lfoot{\due} \cfoot{} \rfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+
+% Eliminates the spacing in the title that remains from the empty author section.
+\preauthor{}
+\postauthor{}
+
+\titleformat{\section}[runin]{\large\bfseries}{\thesection .}{3pt}{}
+\titleformat{\subsection}[runin]{\bfseries}{\thesubsection)}{3pt}{}
+\renewcommand\thesubsection{\alph{subsection}}
+
+% Defines the solution environment. Toggle solutions between true and false to either show or hide solutions. Also, the solution environment takes an optional argument of arbitrary text to be inserted in the solution header.
+\newboolean{solutions}
+\setboolean{solutions}{false}
+\ifthenelse{\boolean{solutions}}
+{\newenvironment{solution}{\begin{mdframed}[skipbelow=0pt, linecolor=White, backgroundcolor=Green!10]\textbf{Solution:}}{\end{mdframed}}}
+{\excludecomment{solution}}
+
+\hypersetup{colorlinks, urlcolor={blue!80!black}}
+
+\allowdisplaybreaks
+
+\newcommand{\EPR}{\ket{\text{EPR}}}
+\DeclareMathOperator{\CNOT}{CNOT}
+
+\begin{document}
+
+\title{Introduction to Quantum Information Science\\Homework 10}
+\date{\due}
+
+\maketitle
+
+\textbf{Note:} You should explain your reasoning, i.e. show your work, for all problems. You do not need to show us every step of each calculation, but every answer should include an explanation \emph{written with words} of what you did.
+
+\section*{Shor's practice problem}
+In past years, we've asked students to walk through Shor's algorithm to factor $N=21$. This year, we'll do it in recitation instead. It's not required, but we suggest you try it out yourself.
+
+
+
+
+
+
+\section{Shor's Algorithm---Anything That Can Go Wrong Will Go Wrong}
+
+\subsection{[2 Points]} What can go wrong in Shor's algorithm if $Q$ is not taken to be
+sufficiently large?  Demonstrate with an example, using a specific $N, Q$, and calculations.
+
+
+
+\subsection{[3 Points]} What can go wrong if the function $f$
+satisfies that if $s$ divides $p-q$ then $f(p)=f(q)$, but it's not an ``if and only if"
+(i.e., we could have $f(p)=f(q)$ even when $s$ doesn't divide $p-q$)? Note that this does not actually happen for the function in Shor's algorithm, but it could happen when attempting period finding on an arbitrary function. Illustrate with an example, describing a specific function.
+
+
+
+\subsection{[3 Points]} What can go wrong in Shor's algorithm if the integer $N$ to be factored is even (that is, one of the prime factors, $p$ and $q$, is equal to 2)?  Illustrate with an example.
+
+
+
+
+\section{Continued fractions} In the continued fraction step of Shor's algorithm, we need the following key fact: if a given real number $x$ is sufficiently close to a rational number $a/b$ with a ``conspicuously small denominator'', then that rational number is unique.  
+
+\subsection{[5 Points]}
+Prove that, indeed, there can be at most one rational $a/b$, with $a$ and $b$ coprime positive integers, that's at most $\epsilon$ away from $x$ and that satisfies $b < 1 / \sqrt{2 \epsilon}$.  
+
+
+
+\subsection{[1 Points]}
+Explain how this relates to the choice, in Shor's algorithm, to choose $Q$ to be quadratically larger than the integer $N$ that we're trying to factor. 
+
+\noindent \emph{Hint:} Recall that the achievable precision $\epsilon$ goes inversely with the dimension $Q$ of the Fourier transform.
+
+
+
+
+\section{Shor's, Generalized}
+Suppose we use Shor's algorithm to factor $N=105$ into $3\cdot 5 \cdot 7$.  (Yes, $N$ is now a product of 3 primes!)  Suppose also that we make the choices $x=2$ and $Q=60000$.
+
+\subsection{[1 Point]} What is the order of the multiplicative group $\mathbb{Z}_N^\times$?
+
+\subsection{[1 Points]} What is the period of the function $f(r)=x^r (\bmod N)$?
+
+\subsection{[2 Points]} Suppose we factor $x^s-1$ into $x^{s/2}-1$ and $x^{s/2}+1$, and then take the gcd of both factors with $N$ itself.  Which prime factors of $N$, if any, would be ``peeled off'' this way?
+
+\subsection{[2 Points]} After we apply the QFT to the $\ket{r}$ register and then measure that register, what are the possible results that we could observe?
+
+
+
+
+
+\section{Breaking Diffie-Hellman}
+In the following problem we'll be stepping through the adaptation of Shor's period finding algorithm to breaking Diffie-Hellman public-key encryption. The Diffie-Hellman encryption scheme is based on the conjectured hardness of the Discrete Logarithm Problem. 
+
+The Discrete Logarithm Problem (i.e. the problem you need to solve to break the encryption) is as follows: Given $p$ be a prime number, $\alpha$ be an element of the multiplicative group $\mathbb{Z}_p^\times$, and $g$ be a generator of $\mathbb{Z}_p^\times$ --- that is, an element such that all other members of $\mathbb{Z}_p^\times$ can be found by taking powers of $g \mod p$, find an integer $a$ such that $g^a= \alpha \mod p$.
+
+\subsection{[4 Points]} The first step we need to accomplish is a reduction of the Discrete Logarithm Problem to Period Finding. To do so, given some instance of Discrete Logarithm, we'll introduce a new function $f:\mathbb{Z}_R \times \mathbb{Z}_R \rightarrow \mathbb{Z}_p^\times$ where $f(x_1,x_2)= \alpha^{x_1} g^{x_2}\mod p$ and where $R=|\mathbb{Z}_p^\times|$. 
+
+\noindent Show that this function is periodic in $x_1$ and $x_2$. In other words, show there exists a pair of integers $(l,m)$ such that $f(x_1,x_2)= f(x_1+l,x_2+m)$. 
+
+\noindent How would knowledge of this period allow us to solve the Discrete Logarithm Problem? 
+
+\noindent Is this function efficiently computable? If so, how would one efficiently compute it?
+
+
+
+\subsection{[1 Point]} Next we'll step through the adaptation of Shor's Period Finding algorithm to find the period of the function $f$ defined above. Assume our state is initialized in the superposition:
+\[
+\ket{\psi} = \frac{1}{R}\sum_{x_1,x_2 =0}^{R-1}  \ket{x_1}\ket{x_2}\ket{0}
+\]
+We then apply an XOR query to $f$ writing the result into the final register. What is the state of the system following the query?
+
+
+
+\subsection{[2 Points]} Suppose we now measure the output register and observe the value $g^c$ for some (unknown) integer $c$. What state do the input registers collapse to? Rearrange your answer so that it is in terms of $x_1$ but not $x_2$.
+
+
+
+
+\subsection{[2 Points]} We now apply the inverse Quantum Fourier Transform, $F_R^\dagger\ket{x}=\frac{1}{\sqrt{R}} \sum_{y=0}^{R-1} \omega^{-xy}\ket{y}$, to both of the input registers. What is the resulting state?
+
+
+
+\subsection{[2 Points]} Finally, we measure the input registers. Which pairs $\ket{y_1'}\ket{y_2'}$ could be measured with nonzero probability? Given one such pair, how do we solve the original instance of Discrete Logarithm?
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,40 @@
+\begin{solution}[label=ques:2a]
+  \begin{question}
+    Prove that, indeed, there can be at most one rational $a/b$, with $a$ and $b$ coprime positive integers, that's at most $\epsilon$ away from $x$ and that satisfies $b < 1 / \sqrt{2 \epsilon}$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    We will prove this by contradiction. Suppose that we have two rationals $a_1/b_1$ and $a_2/b_2$ such that both are at most $\epsilon$ away from $x$ and $b_i < 1 / \sqrt{2 \epsilon}$ for $i \in \{1, 2\}$. WLOG, we can assume that $a_1/b_1 < a_2/b_2$. Then, we have that
+    \begin{equation}
+      \begin{split}
+        &\frac{a_2}{b_2} - \frac{a_1}{b_1} \leq (x + \epsilon) - (x - \epsilon)\\
+        \implies &\frac{a_2 b_1 - a_1 b_2}{b_1 b_2} \leq 2 \epsilon\\
+        \implies & \frac{1}{2 \epsilon} \leq \frac{a_2 b_1 - a_1 b_2}{2 \epsilon} \leq b_1 b_2\text{, since }a_2 b_1 - a_1 b_2 \geq 1\\
+      \end{split}
+      \label{eq:bigdiff}
+    \end{equation}
+    From Equation~\ref{eq:bigdiff} we have that at least one of $b_1$ or $b_2$ is $\geq 1 / \sqrt{2 \epsilon}$, which contradicts the hypothesis. Hence, there can be at most one rational $a/b$ that is at most $\epsilon$ away from $x$ and that satisfies $b < 1 / \sqrt{2 \epsilon}$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2b]
+  \begin{question}
+    Explain how this relates to the choice, in Shor's algorithm, to choose $Q$ to be quadratically larger than the integer $N$ that we're trying to factor.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    The $\epsilon$ in Shor's algorithm is of the form $\varepsilon/Q$ (using notation from the class). From the condition discussed in Question~\ref{ques:2a}, we want:
+    \begin{equation}
+      \begin{split}
+        &s < \frac{1}{\sqrt{2\epsilon}}\\
+        \implies &s < \frac{1}{\sqrt{2 \varepsilon / Q}}\\
+        \implies &s\sqrt{2\varepsilon} < \sqrt{Q}\\
+        \implies &s^2 2 \varepsilon < Q\\
+        \implies &s^2 \cdot O(1) < Q\text{, since }\varepsilon = O(1)\\
+        \implies &Q = O(N^2)\text{, since }s = O(N)
+      \end{split}
+      \label{eq:bigQ}
+    \end{equation}
+    Therefore, to ensure that we have at most one possible fraction, we need to choose a $Q$ that is quadratically larger than $N$.
+  \end{proof}
+\end{solution}

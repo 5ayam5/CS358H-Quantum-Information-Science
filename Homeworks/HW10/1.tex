@@ -1,0 +1,70 @@
+\begin{solution}[label=ques:1a]
+  \begin{question}
+    What can go wrong in Shor's algorithm if $Q$ is not taken to be
+sufficiently large?  Demonstrate with an example, using a specific $N, Q$, and calculations.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    If $Q$ is not taken to be sufficiently large then the error term might be large and we will be unable to narrow down the fraction $c/s$ after measurement. For instance, consider the example $N = 21\ (p = 7, q = 3), Q = 32, x = 2$. The period of $x^r$ is $s = 6$, which is $p - 1 = 7 - 1$. For simplicity let's assume we measure $y = `$ in the ancilla register. The state we end up with is:
+    \begin{equation}
+      \begin{split}
+        \ket{\psi} &= \frac{1}{\sqrt{6}}\left(\ket{0} + \ket{6} + \ket{12} + \ket{18} + \ket{24} + \ket{30}\right)\\
+        \implies F_Q(\ket{\psi}) &= \frac{1}{\sqrt{6}}\sum_{l=0}^{l=5}\left(\frac{1}{\sqrt{32}}\sum_{k=0}^{31}{\left(\omega^k\right)}^{6l}\ket{k}\right)\\
+        &= \frac{1}{\sqrt{192}}\sum_{k=0}^{31}\left(\sum_{l=0}^{l=5}\omega^{6lk}\right)\ket{k}\\
+      \end{split}
+      \label{eq:smolQ}
+    \end{equation}
+    Now, since we measure some integer that is of the form $c\cdot Q / s + \epsilon = c\cdot 16 / 3 + \epsilon$. Let us consider the first integer solution $c = 1$, we have the result as $16 / 3 + \epsilon$. The closest integer to this is $5$, therefore, let us try to solve for $c/s$ using $5$ as the measurement result:
+    \begin{equation}
+      \frac{5}{32} = \frac{1}{6 + \frac{2}{5}} \approx \frac{1}{6}
+      \label{eq:solvesmolQ}
+    \end{equation}
+    However, it is also possible to measure $6$ with somewhat high probability. In that case, we will get:
+    \begin{equation}
+      \frac{6}{32} = \frac{3}{16} = \frac{1}{5 + \frac{1}{3}} \approx \frac{1}{5}
+      \label{eq:solvesmolQ2}
+    \end{equation}
+    This will lead us to believe $s = LCM(6, 5) = 30$, which is incorrect. Therefore, we need to take $Q$ to be sufficiently large to avoid such errors.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:1b]
+  \begin{question}
+    What can go wrong if the function $f$
+satisfies that if $s$ divides $p-q$ then $f(p)=f(q)$, but it's not an ``if and only if"
+(i.e., we could have $f(p)=f(q)$ even when $s$ doesn't divide $p-q$)? Note that this does not actually happen for the function in Shor's algorithm, but it could happen when attempting period finding on an arbitrary function. Illustrate with an example, describing a specific function.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    If we have values $p, q$ such that $f(p) = f(q)$ but $p - q$ is not a multiple of the period of the function, then we will have extraneous terms in the superposition and we will be unable to find the period of the function using QFT.\@ Consider the following function:
+    \begin{equation}
+      f(x) = \begin{cases}
+        |x - 2|, &\text{ if }0 \leq x < 4\\
+        f(x - 4), &\text{ otherwise}
+      \end{cases}
+      \label{eq:badfn}
+    \end{equation}
+    Note that the above function is defined on whole numbers. It is easy to see that the period of the function is $s = 4$, however, we also have $f(1 + c\cdot 2) = f(1) = 1$. Now, if we measure $y = 1$ in the ancilla register and perform Shor's algorithm, we will end up with the period of $s' = 2$, which is incorrect.\par
+    The above function does not provide a concrete solution since if we run the algorithm again, measuring the ancilla registers will give $0, 2$ with probabilities close to $1/4$ each. However, we can construct a different function that amplifies this problem:
+    \begin{equation}
+      f(x) = \begin{cases}
+        0, &\text{ if }x =  0 \bmod 2^m\\
+        1, &\text{ if }x =  2^{m-1} \bmod 2^m\\
+        2, &\text{ otherwise}
+      \end{cases}
+      \label{eq:badfn}
+    \end{equation}
+    The period of the above function is $2^m$, however, the probability of measuring $y = 0, 1$ is only of the order of $1/2^{m-1}$ and this reduces as $m$ is increased. Therefore, we will get a period of $1$ with high probability which is incorrect.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:1c]
+  \begin{question}
+    What can go wrong in Shor's algorithm if the integer $N$ to be factored is even (that is, one of the prime factors, $p$ and $q$, is equal to 2)?  Illustrate with an example.
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    If $N$ is even, we will always get the period as $s = \varphi(N)$ and therefore, we will be unable to identify one of the two prime factors. In other words, the algorithm will reject every $x \in \z_N^\times$ since one of $x^{s/2} \pm 1$ will be a multiple of $N$. For example consider the case when $N = 10 = 2\times 5$ and we have $\z_N^\times = \{1, 3, 7, 9\}$. All elements in this set have their period $s = q - 1 = 4$ and we have $3^{s/2} + 1 = 10$, $7^{s/2} + 1 = 50$, $9^{s/2} - 1 = 80$. In all cases, we get a factor that is a multiple of $N = 10$, leading us to discard the solution. Therefore, Shor's algorithm fails.\par
+    However, note that in this case we get $s = \varphi(N)$ always instead of getting a factor of $\varphi(N)$ as the period (for all $x \in \z_N^\times$), therefore we can use the solution from Question $4$ of HW $9$ to still factor $N$ (if we still insist on not noticing that $N$ is even and trivially has $2$ as a factor).
+  \end{proof}
+\end{solution}

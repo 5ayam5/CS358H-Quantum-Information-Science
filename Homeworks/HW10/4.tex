@@ -1,0 +1,95 @@
+\begin{solution}[label=ques:4a]
+  \begin{question}
+    The first step we need to accomplish is a reduction of the Discrete Logarithm Problem to Period Finding. To do so, given some instance of Discrete Logarithm, we'll introduce a new function $f:\mathbb{Z}_R \times \mathbb{Z}_R \rightarrow \mathbb{Z}_p^\times$ where $f(x_1,x_2)= \alpha^{x_1} g^{x_2}\mod p$ and where $R=|\mathbb{Z}_p^\times|$.
+
+\noindent Show that this function is periodic in $x_1$ and $x_2$. In other words, show there exists a pair of integers $(l,m)$ such that $f(x_1,x_2)= f(x_1+l,x_2+m)$. 
+
+\noindent How would knowledge of this period allow us to solve the Discrete Logarithm Problem? 
+
+\noindent Is this function efficiently computable? If so, how would one efficiently compute it?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    It is easy to see that the function is periodic in $x_1$ and $x_2$ since we know from Fermat's little theorem that $x^{p-1} = 1 \bmod p$. Therefore, we have $f(x_1, x_2) = f(x_1 + (p - 1), x_2) = f(x_1, x_2 + (p - 1)) = f(x_1 + (p - 1), x_2 + (p - 1))$. Note that $p-1$ is the smallest period for $x_2$ since $g$ is a generator of $\z_p^\times$, however, there may be a smaller period for $x_1$ which will be a factor of $p - 1$.\par
+    However, note that the above period is not the \textit{best} possible period, i.e., since the period is computed modulo $p - 1$ (we know it repeats every $p - 1$), we can find the period of the function as follows:
+    \begin{equation}
+      \begin{split}
+        f(x_1, x_2) &= f(x_1 + l, x_2 + m)\\
+        \implies \alpha^{x_1} g^{x_2} &= \alpha^{x_1 + l} g^{x_2 + m} \bmod p\\
+        \implies \alpha^l g^m &= 1 \bmod p\\
+        \implies g^{al + m} &= 1 \bmod p\\
+        \implies al + m &= c(p - 1)\text{ for some integer $c$}\\
+        \text{Since we want to find }&\text{the smallest period, we set }l = 1, c = 1\\
+        \implies m &= p - 1 - a
+      \end{split}
+      \label{eq:dhperiod}
+    \end{equation}
+    Therefore from Equation~\ref{eq:dhperiod}, we have the smallest period is $(1, p - 1 - a)$. Any other period that we get will be a multiple of this period modulo $p - 1$.\par
+    We can use this period to find the discrete log after we find the period by finding $a = p - 1 - m$.\par
+    The function is efficiently computable since we already know $\alpha, g$ and we can compute the powers modulo $p$ by performing binary exponentiation. Therefore, the computation time will be $O(\log(x_1x_2))$.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4b]
+  \begin{question}
+    Next we'll step through the adaptation of Shor's Period Finding algorithm to find the period of the function $f$ defined above. Assume our state is initialized in the superposition:
+\[
+\ket{\psi} = \frac{1}{R}\sum_{x_1,x_2 =0}^{R-1}  \ket{x_1}\ket{x_2}\ket{0}
+\]
+We then apply an XOR query to $f$ writing the result into the final register. What is the state of the system following the query?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The state of the system after the query is given by:
+    \begin{equation}
+      \ket{\psi} = \frac{1}{R}\sum_{x_1,x_2 =0}^{R-1}  \ket{x_1}\ket{x_2}\ket{f(x_1, x_2)} = \frac{1}{R}\sum_{x_1,x_2 =0}^{R-1}  \ket{x_1}\ket{x_2}\ket{\alpha^{x_1}g^{x_2} \bmod p}
+      \label{eq:dhoracle}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4c]
+  \begin{question}
+    Suppose we now measure the output register and observe the value $g^c$ for some (unknown) integer $c$. What state do the input registers collapse to? Rearrange your answer so that it is in terms of $x_1$ but not $x_2$.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    If we observe some state $g^c$ in the ancilla register, we have $a x_1 + x_2 = c \bmod (p - 1)$ (from Equation~\ref{eq:dhperiod} and Equation~\ref{eq:dhoracle}). WLOG, we can choose $c < p - 1$. Therefore, the state of the input registers will collapse to:
+    \begin{equation}
+      \ket{\psi} = \frac{1}{\sqrt{R}}\sum_{x_1 =0}^{R-1}  \ket{x_1}\ket{c + (p - 1 - a)x_1}
+      \label{eq:dhcollapse}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4d]
+  \begin{question}
+    We now apply the inverse Quantum Fourier Transform, $F_R^\dagger\ket{x}=\frac{1}{\sqrt{R}} \sum_{y=0}^{R-1} \omega^{-xy}\ket{y}$, to both of the input registers. What is the resulting state?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    The state we end up with on applying $F_R^\dagger\otimes F_R^\dagger$ to the state in Equation~\ref{eq:dhcollapse} is:
+    \begin{equation}
+      \begin{split}
+        (F_R^\dagger\otimes \bfI)\ket{\psi} &= \frac{1}{\sqrt{R}} \sum_{x_1 = 0}^{R - 1} \left(\frac{1}{\sqrt{R}}\sum_{y=0}^{R - 1}\omega^{-x_1y}\ket{y}\right)\ket{c + (p - 1 - a)x_1}\\
+        \implies (\bfI \otimes F_R^\dagger)(F_R^\dagger\otimes \bfI)\ket{\psi} &= \frac{1}{\sqrt{R}} \sum_{x_1 = 0}^{R - 1} \left(\frac{1}{\sqrt{R}}\sum_{y=0}^{R - 1}\omega^{-x_1y}\ket{y}\right)\left(\frac{1}{\sqrt{R}}\sum_{z=0}^{R - 1}\omega^{-(c + (p - 1 - a)x_1)z}\ket{z}\right)\\
+        \implies (F_R^\dagger\otimes F_R^\dagger)\ket{\psi} &= \frac{1}{\sqrt{R^3}}\sum_{y=0}^{R - 1}\sum_{z=0}^{R - 1}\left(\sum_{x_1=0}^{R-1}\omega^{-x_1y - cz + ((p - 1 - a)x_1)z}\right)\ket{y}\ket{z}\\
+        &= \frac{1}{\sqrt{R^3}}\sum_{y=0}^{R - 1}\sum_{z=0}^{R - 1}\omega^{-cz}\left(\sum_{x_1=0}^{R-1}{\left(\omega^{z(p-1-a)-y}\right)}^{x_1}\right)\ket{y}\ket{z}\\
+        &= \frac{1}{\sqrt{R^3}}\sum_{z=0}^{R - 1}\omega^{-cz}R\ket{z(p - 1 - a)\bmod R}\ket{z}\\
+        &\left(\text{ since }\sum_{\beta=0}^{R-1}{\left(\omega^\gamma\right)}^\beta = 0\text{ when }\gamma \neq 0 \bmod R\right)\\
+        &= \frac{1}{\sqrt{R}}\sum_{z=0}^{R - 1}\omega^{-cz}\ket{z(p - 1 - a)\bmod R}\ket{z}
+      \end{split}
+      \label{eq:dhqft}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4e]
+  \begin{question}
+    Finally, we measure the input registers. Which pairs $\ket{y_1'}\ket{y_2'}$ could be measured with nonzero probability? Given one such pair, how do we solve the original instance of Discrete Logarithm?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    From Equation~\ref{eq:dhqft}, we will measure a state $\ket{y_1'}\ket{y_2'}$ such that $y_1 = y_2(p - 1 - a) \bmod R$. Now, since we know $R$, we can find $y_2^{-1} \bmod R$ (if it exists). Therefore, we will obtain $p - 1 - a$ and we know $p - 1$. Thus, we can compute $a$, which is the solution to the discrete log problem. Note that we will have $\varphi(R)$ possible different values of $y_2$ that have an inverse and this happens with high probability ($= \varphi(R) / R$). So if we fail to find an inverse, we can just repeat to get a $y_2 \in \z_R^\times$.
+  \end{proof}
+\end{solution}
