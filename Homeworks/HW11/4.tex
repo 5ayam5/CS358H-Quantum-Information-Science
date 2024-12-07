@@ -1,0 +1,82 @@
+\begin{solution}[label=ques:4a]
+  \begin{question}
+    Prove that any possible classical algorithm for this problem -- even a randomized algorithm that succeeds with high probability -- must make $\Omega(n^2)$ queries to the adjacency matrix.
+(An informal proof is okay here --- we won't grade as strictly as in HW9.)
+
+\noindent \textit{Hint:} Find an example of a family of graphs such that, given a graph $G$ from that family, a brute-force search among $\Omega(n^2)$ potential edges is the only way to decide whether $G$ is connected.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    We can show the lower bound on the number of queries required by any classical algorithm by considering the following adversary that adaptively constructs the graph based on the queries made by the algorithm.\par
+    \protocol{Adversary for Query Lower Bound}{Description of an Adaptive Adversary that requires $\Omega(n^2)$ queries}{proto:connectclassicbound}{
+      Maintain a list of connected components, $\calL$ and the current adjacency matrix, $\calA$.
+      \begin{enumerate}
+        \item Initialize the list of connected components with each vertex in its own connected component.
+        \item For each query by the classical algorithm, which will be of the form $e = (v_1, v_2)$, check if $e$ is a bridge between the connected components containing $v_1$ and $v_2$. That is, all other pairs of edges $e'$ between the components (except $e$) have already been queried and have $\calA(e') = 0$. If there are pairs of vertices between these components that are yet to be queried, then $e$ is not considered a bridge since we can have any one of those unqueried edges make the graph a connected graph.
+        \item If $e$ is a bridge as computed in step 2, then return $\calA(e) = 1$ to the classical algorithm. Else, return $\calA(e) = 0$.
+        \item Update the adjacency matrix, $\calA$ and the list of connected components, $\calL$.
+      \end{enumerate}
+    }
+    Note that the adversary described in Figure~\ref{proto:connectclassicbound} will adaptively construct a tree on the $n$ input vertices and this requires the classical algorithm to make $\Omega(n^2)$ queries. To prove this, notice that if we have two connected components of sizes $s_1, s_2$, there are $s_1\cdot s_2$ possible edges between these components. Therefore, any algorithm that needs to check whether the graph is connected or not will need to perform exactly these many queries since the adaptive adversary will only return true for the final query. Additionally, there is no way for the algorithm to be able to determine that the graph is connected before it has made all $s_1\cdot s_2$ queries. This is irrespective of whether the algorithm makes all such queries consecutively or interleaves queries across different connected components.\par
+    The number of connected components only reduce by $1$ in each such sequence and therefore, we require $n-1$ such sequence of queries. Therefore, irrespective of the order of merging these connected components, we will require a total of $\Omega(n^2)$ queries. Hence, proved.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4b]
+  \begin{question}
+    Give a quantum algorithm that solves this problem with high probability and that makes only $O(n^{3/2} \log{(n)})$ queries. Prove it.
+
+\noindent \emph{Hint:} You're welcome to use Grover's algorithm as an ingredient in your algorithm, as well as your favorite classical graph search algorithms like BFS/DFS/Dijkstra!  Just make sure that the error probability stays bounded.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    Similar to the technique used by the adaptive adversary in Question~\ref{ques:4a}, we will attempt to construct the graph by connecting components via Grover's algorithm. Before we describe the algorithm, we define a unitary, $U_{\calC(\calT)}$, which is a function of the current spanning tree built in the algorithm, denoted by $\calT$. $U_{\calC(\calT)}$ will be used in conjuction with the unitary for the adjacency matrix which we call $U_\calA$.
+    \begin{equation}
+      U_{\calC(\calT)}\ket{i, j, a} =
+      \begin{cases}
+        \ket{i, j, \bar{a}}, &\text{ if }\mathsf{components}(\calT\cup \{(i, j)\}) < \mathsf{components}(\calT)\\
+        \ket{i, j, a}, &\text{ otherwise}
+      \end{cases}
+      \label{eq:connectunitary}
+    \end{equation}
+    We describe the algorithm below:
+    \protocol{Quantum algorithm for Graph Connectivity}{Quantum algorithm that uses Grover's algorithm to determine if the graph is connected in $O(n^{3/2}\log{n})$ queries}{proto:qconnected}{
+      The algorithm maintains the currently constructed spanning tree $\calT_i$, after $i$ iterations. The list of connected components is initialized as $\calL$ with each vertex in its own connected component. Repeat $n - 1$ times:
+      \begin{enumerate}
+        \item Run Grover's algorithm to find an edge that satisfies $\calA(i, j) = 1 \wedge \calC(\calT_i) = 1$.\par
+        \item If an edge is found, update $\calT_{i+1} = \calT_i \cup \{(i, j)\}$. Else, terminate the algorithm and output that the graph is not connected.
+      \end{enumerate}
+      Return that the graph is connected.
+    }
+    Note that to perform Grover's on the AND of the two functions, we can simply use three ancilla bits. The first two ancillas store the result of the two unitaries $U_\calA$ and $U_{\calC(\calT_i)}$ and the third ancilla stores the result of the AND of the previous two ancillas via a Toffoli gate. Now we show that the algorithm defined in Figure~\ref{proto:qconnected} returns whether the graph described by adjacency matrix $\calA$ is connected or not with high probability. After the $i\textsuperscript{th}$ iteration, we know that we will have $n - i$ connected components. Therefore, if the graph is connected, in the $(i+1)\textsuperscript{th}$ iteration, we will have at least one edge $e\in\calA$ that satisfies $C(\calT_i) = 1$ and Grover's algorithm will find it. This will hold true for each of the $n-1$ iterations. Conversely, if the graph is disconnected, then Grover's algorithm will be unable to find any solution and the search will fail, returning that the graph is disconnected.\par
+    We now prove the query complexity. Even though the outer loop is run $O(n)$ times, however, note that the number of valid solutions in each iteration are different. In the case when the graph is disconnected, the algorithm will terminate before $n - 1$ iterations. Therefore, the worst case query complexity can be obtained by considering the case when the graph is connected. In the $i\textsuperscript{th}$ iteration, in the case of a connected graph, we have at least $n - i$ valid edges that connect each of the $n - i + 1$ components with at least another component. Therefore, the query complexity for the $i\textsuperscript{th}$ iteration will be $O\left(\sqrt{\frac{n^2}{n - i}}\right) = O\left(\frac{n}{\sqrt{n - i}}\right)$. This gives us a total query complexity of:
+    \begin{equation}
+      \begin{split}
+        \sum_{i=1}^{n-1} O\left(\frac{n}{\sqrt{n - i}}\right) &= O\left(n\sum_{i=1}^{n-1}\frac{1}{\sqrt{n - i}}\right)\\
+        &= O\left(n\sum_{i=1}^{n-1}\frac{1}{\sqrt{i}}\right)\\
+        &= O(n)\cdot O\left(\sum_{i=1}^{n-1}\frac{1}{\sqrt{i}}\right)\\
+        &= O(n^{3/2}\log{n})\text{, substituting }K = n, N = n\text{ in Equation~\ref{eq:groverall}}
+      \end{split}
+      \label{eq:connectqcomplexity}
+    \end{equation}
+    Therefore, from Equation~\ref{eq:connectqcomplexity}, we have shown that the query complexity of the algorithm is $O(n^{3/2}\log{n})$.\par
+    Hence, proved.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:4c]
+  \begin{question}
+    Show that any quantum algorithm for Graph Connectivity must make $\Omega(n)$ queries. 
+
+\textit{Hint:} Combine your answer from part a with the BBBV Theorem, which shows that Grover's algorithm is optimal, in the sense that $\Omega(\sqrt{M})$ quantum queries are needed to compute the OR of $M$ independent bits
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    From BBBV we know that we have a lower bound on the query complexity for computing the OR of $M$ independent bits as $\Omega(\sqrt{M})$. We will now show a reduction from the OR problem to the graph connectivity problem. Consider an OR problem on $n^2/4$ bits and a graph $G$ on $n$ vertices.\par
+    Define the vertex set as $\{v_{0i},\ v_{1i}\ |\ i\in \{0, 1, \ldots, n/2 - 1\}\}$. Define the initial edge set as $E' = \{(v_{ji}, v_{j(i + 1)})\ |\ j\in \{0, 1\}, i\in \{0, 1, \ldots, n/2 - 2\}\}$, i.e., all the vertices of the form $v_{0i}$ are connected with each other and the vertices of the form $v_{1i}$ are connected with each other. However, vertices from $v_{0i}$ are not connected with any vertex from $v_{1i}$.\par
+    Now for each input bit $b_k$ in the OR problem, where $k\in\{0, 1, \ldots, n^2/4 - 1\}$, insert an edge $(v_{0(2k/n)}, v_{1(k\bmod n/2)})$ in the graph (or equivalently in the adjacency matrix) iff $b_k = 1$. In other words, we insert an edge between the two subgraphs made by $v_{0i}$'s and $v_{1i}$'s iff any one of the input bits is $1$. Define these edges as $F$.\par
+    We now show that this reduction exactly maps the OR problem to a graph connectivity problem. Note that the subgraphs made by $v_{bi}$ for each $b\in\{0, 1\}$ are individually connected with each other. However, to connect the entire graph defined by $V$, we need to add at least one edge between the two subgraphs. Since all \textit{cross-edges} are mapped from the input bits of the OR problem to a unique pair of vertices in the graph connectivity problem, we will have a $1$ in the adjacency matrix for any one of the $n^2/4$ pairings iff atleast one of the input bits is $1$. Therefore, if the input to the OR problem is a yes instance, we will also have a yes instance for $G = \left(V, E = E'\cup F\right)$. Conversely, if the input to the OR problem is a no instance, we will have that there is no edge connecting the two subgraphs ($F = \phi$) and therefore, we will have a no instance to the graph connectivity problem for $G = \left(V, E = E'\cup \phi\right)$ as well.\par
+    Now, since we have from BBBV that any quantum algorithm for the OR problem must make $\Omega(\sqrt{n^2/4}) = \Omega(n)$, we also have a lower bound for the quantum query complexity for this specialized graph connectivity problem on $n$ vertices as $\Omega(n)$. This implies that we have a lower bound for an arbitrary graph connectivity problem on $n$ vertices as $\Omega(n)$.\par
+    Hence, proved.
+  \end{proof}
+\end{solution}

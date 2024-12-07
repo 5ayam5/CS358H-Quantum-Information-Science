@@ -1,0 +1,26 @@
+\begin{solution}[label=ques:1]
+  \begin{question}
+    Suppose Grover's algorithm is used to search a list of size $N$ containing a single marked item.  Recall that, after $t$ queries, the probability of having found the marked item is approximately $\sin^2\left(2t/\sqrt{N} \right)$.  After approximately how many queries should you halt the algorithm if your goal is to maximize the success probability per unit of time invested? Give a formula in terms of $N$ that works asymptotically for sufficiently large $N$, and explain how you derived it. Feel free to use any numerical software of your choice for approximating constants in your formula, but you must still explain your formula analytically (your final solution cannot be based only on generalizing a pattern from a few values of $t$).
+  \end{question}
+  \tcblower{}
+  \begin{proof}
+    Since we want to maximize the success probability per unit of time invested, we wish to maximize the function $f(t)$ which is given by:
+    \begin{equation}
+        f(t) = \frac{\sin^2\left(2t/\sqrt{N}\right)}{t}
+      \label{eq:grovermaxunit}
+    \end{equation}
+    Now, if we want to find the maximum of this function, we can take the derivative of $f(t)$ and set it to zero.  We have:
+    \begin{equation}
+      \begin{split}
+        f'(t) &= \frac{\frac{4t}{\sqrt{N}}\cdot\sin\left(2t/\sqrt{N}\right)\cos\left(2t/\sqrt{N}\right) - \sin^2\left(2t/\sqrt{N}\right)}{t^2}\\
+        &= \frac{\sin\left(2t/\sqrt{N}\right)}{\sqrt{N}t^2}\left(4t\cos\left(2t/\sqrt{N}\right) - \sqrt{N}\sin\left(2t/\sqrt{N}\right)\right)\\
+        \implies 0 &= 4t\cos\left(2t/\sqrt{N}\right) - \sqrt{N}\sin\left(2t/\sqrt{N}\right)\\
+        \implies 2 &= \frac{\tan\left(2t/\sqrt{N}\right)}{2t/\sqrt{N}}\\
+        \implies 1.165 &\approx \frac{2t}{\sqrt{N}}\text{, on plotting }\frac{\tan(x)}{x}=2\\
+        \implies t &\approx 0.58\sqrt{N}
+      \end{split}
+      \label{eq:grovermaxdiff}
+    \end{equation}
+    Therefore, from Equation~\ref{eq:grovermaxdiff}, we gain maximum success probability per unit of time invested when we halt the algorithm after $0.58\sqrt{N}$ queries.
+  \end{proof}
+\end{solution}

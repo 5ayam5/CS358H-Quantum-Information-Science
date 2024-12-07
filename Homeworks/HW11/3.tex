@@ -1,0 +1,86 @@
+\begin{solution}[label=ques:3a]
+  \begin{question}
+    Given a list of size $N$, which is promised to contain $K$ marked items, suppose we want to find any one of the marked items. 
+In class, we saw when we apply Grover's algorithm unmodified to the $N$-element list, we have a constant probability of observing a marked item if we halt the algorithm and measure after only $O({\sqrt{N/K}})$ queries.
+
+Suppose that we cannot / don't want to apply Grover's algorithm to the entire $N$-element list, and instead apply Grover's algorithm to lists of size $N/K$. Show how we can still accomplish our original goal of finding any one of $K$ marked items in a list of size $N$ using $O(\sqrt{N/K})$ queries. Explain why this algorithm succeeds with constant probability (an informal, but still complete, explanation is okay).
+
+Be precise when describing your algorithm.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We can use the following algorithm to find any one of the $K$ marked items by only performing search on a list of size $N/K$:
+    \protocol{Grover Search on Sublist}{Modified Grover's Algorithm to find marked item by only search lists of small size}{proto:nkgrover}{
+      \begin{enumerate}
+        \item Sample a random sublist of size $N/K$ from the list of size $N$.
+        \item Apply Grover's algorithm to the sublist to find a marked item (assuming a single marked item). This requires $O(\sqrt{N/K})$ queries.
+        \item Verify if the item found is a marked item using $O(1)$ queries. If it is, return the found item. Otherwise, restart with probability $p_\text{restart}$.
+      \end{enumerate}
+    }
+    Note that in the above algorithm, $p_\text{restart}$ is a constant probability of restart that can be chosen depending on how high we want the probability of success to be.\par
+    To prove that Algorithm~\ref{proto:nkgrover} works, we can assume wlog that each element has a probability $K/N$ of being marked. Therefore, if we sample $N/K$ elements at random, the expected number of marked items will be:
+    \begin{equation}
+      \begin{split}
+        \mathbb{E}[\text{marked items in sublist}] &= \sum_{i=1}^{N/K}\mathbb{E}[\text{marked item in $i$th element}]\text{, using linearity of expectation}\\
+        &= \frac{N}{K}\cdot\mathbb{E}[\text{marked item in any element}]\\
+        &= \frac{N}{K}\cdot\frac{K}{N}\\
+        &= 1
+      \end{split}
+      \label{eq:nkgroverexpect}
+    \end{equation}
+    Therefore, we can run Grover's algorithm to find a single marked item from the sampled sublist. Additionally, since Equation~\ref{eq:nkgroverexpect} is true in expectation, we will need to run the algorithm $O(1)$ times to sample a sublist that has exactly $1$ marked item. We achieve this by running the algorithm with a constant probability of restart $p_{restart}$, which will ensure that the algorithm succeeds with very high probability.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3b]
+  \begin{question}
+    Assume Grover's algorithm is optimal for the single marked item case, as proved in class.  Prove that it's optimal for the multiple marked item case as well.  In other words, let $N$ and $K$ be given.  Show that any quantum algorithm that finds a marked item with constant probability, given an $N$-element unordered list that contains $K$ marked items, \emph{\textbf{must}} use $\Omega({\sqrt{N/K}})$ queries to the list.  
+
+\noindent \emph{Hint:} given a hypothetical quantum algorithm that was faster, can you derive a contradiction in the single-marked-item case?
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    Let us assume that there exists an algorithm that finds $K$ marked items in $o(\sqrt{N/K})$ queries. Let that algorithm be $\calA$. We will now use this algorithm to construct an algorithm, $\calB$, that can find a single marked item in $o(\sqrt{N})$ queries:
+    \protocol{Single Marked Item Algorithm $\calB$}{Algorithm $\calB$ to find a single marked item in $o(\sqrt{N})$ queries}{proto:singlemarked}{
+      \begin{enumerate}
+        \item Construct a list of size $N\times K$ by duplicating the input list $K$ times.
+        \item Shuffle the list randomly.
+        \item Run $\calA$ on the shuffled list and return the output that $\calA$ gives.
+      \end{enumerate}
+    }
+    Now, since $\calA$ runs on a list of size $N\cdot K$ and we have $K$ marked items, it will perform $o(\sqrt{N\cdot K / K}) = o(\sqrt{N})$ queries to the oracle. Additionally, since we shuffle the list, there is no way for $\calA$ to behave differently in the case when we input this special list, therefore guaranteeing the query complexity. This is a contradiction to the assumption that Grover's algorithm is optimal for the single marked item case since we cannot have any algorithm that can find the marked item in $o(\sqrt{N})$ queries. Therefore, any algorithm that can find a marked item in a list of size $N$ with $K$ marked items will require $\Omega(\sqrt{N/K})$ queries.\par
+    Hence, proved.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:3c]
+  \begin{question}
+    Now suppose you want to find not just any one of the $K$ marked items, but you want to find all of them.  Show that Grover's algorithm can be used to do that as well with constant success probability using $O({\sqrt{NK} \log{(N)}})$ queries.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    We propose the following algorithm to find all $K$ marked items using Grover's algorithm:
+    \protocol{Find all Marked Items}{Algorithm to find all marked items using $O(\sqrt{NK} \log{(N)})$ queries}{proto:findallmarked}{
+      Repeat $K$ times:
+      \begin{enumerate}
+        \item Apply Grover's algorithm to find any one of $K - i + 1$ marked items. Modify the Grover oracle to ``unmark'' the $i\textsuperscript{th}$ found items in iteration $i$.\par
+        \item Update the list with the found item, if found. Else repeat step 1.
+      \end{enumerate}
+    }
+    Now, to modify the oracle, we can simply use the technique proposed in Question~\ref{ques:2c} to \textit{unmark} the found items. However, note that after we find each item, we will need to perform Grover's with $K - i + 1$ items and hence the total number of queries will be slightly different. This can be computed as:
+    \begin{equation}
+      \begin{split}
+        \sum_{i=1}^K \sqrt{\frac{N}{K - i + 1}} &= \sqrt{N}\sum_{i=1}^K\frac{1}{\sqrt{K - i + 1}}\\
+        &= \sqrt{N}\sum_{i=1}^K\frac{1}{\sqrt{i}}\\
+        &= \sqrt{N}\left(\frac{1}{\sqrt{1}} + \left(\frac{1}{\sqrt{2}} + \frac{1}{\sqrt{3}}\right) + \left(\frac{1}{\sqrt{4}} + \cdots + \frac{1}{\sqrt{7}}\right) + \right.\\
+        &\left.\cdots + \left(\frac{1}{\sqrt{2^{\lfloor\log{K}\rfloor}}} + \cdots \frac{1}{\sqrt{K}}\right)\right)\\
+        &\leq \sqrt{N}\left(\sum_{i=0}^{\lfloor\log{K}\rfloor}\frac{2^i}{\sqrt{2^i}}\right) = \sqrt{N}\sum_{i=0}^{\lfloor\log{K}\rfloor}2^{i/2}\\
+        &\leq \sqrt{N}\sum_{i=0}^{\lfloor\log{K}\rfloor}2^{\lfloor\log{K}\rfloor/2} = \sqrt{N}\cdot \sqrt{K}\log{K}\\
+        &\leq \sqrt{NK}\log{N} = O\left(\sqrt{NK}\log{N}\right)
+      \end{split}
+      \label{eq:groverall}
+    \end{equation}
+    Therefore, from Equation~\ref{eq:groverall} we have that the number of queries required to find all $K$ marked items is $O(\sqrt{NK}\log{N})$.\par
+    Hence, proved.
+  \end{proof}
+\end{solution}

@@ -1,0 +1,65 @@
+\begin{solution}[label=ques:5a]
+  \begin{question}
+    Show that the 4-qubit code 
+
+\[\ket{0} \rightarrow \frac{(\ket{00}+\ket{11})^{\otimes 2}}{2},\]
+\[\ket{1} \rightarrow \frac{(\ket{00}-\ket{11})^{\otimes 2}}{2}\]
+
+\noindent can \emph{detect} either a bit flip or a phase flip on any of the 4 qubits.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    We have the following circuit to detect bit flips:
+
+    \begin{minipage}{\textwidth}
+      \centering
+      \begin{quantikz}
+        \lstick[4]{$\ket{\bar{\psi}}$} & \ctrl{4} & & & &\\
+        & & \ctrl{3} & & &\\
+        & & & \ctrl{3} & &\\
+        & & & & \ctrl{2} &\\
+        \lstick[2]{$\ket{0}^{\otimes 2}$} & \targ{} & \targ{} & & & \meter{B_1}\\
+        & & & \targ{} & \targ{} & \meter{B_2}
+      \end{quantikz}
+    \end{minipage}
+
+    For phase flips, we have the following circuit:
+
+    \begin{minipage}{\textwidth}
+      \centering
+      \begin{quantikz}
+        \lstick[4]{$\ket{\bar{\psi}}$} & \gate{H} & \ctrl{4} & & & & \gate{H} &\\
+        & \gate{H} & & \ctrl{3} & & & \gate{H} &\\
+        & \gate{H} & & & \ctrl{3} & & \gate{H} &\\
+        & \gate{H} & & & & \ctrl{2} & \gate{H} &\\
+        \lstick[2]{$\ket{0}^{\otimes 2}$} & & \targ{} & \targ{} & & & \meter{P_1}\\
+        & & & & \targ{} & \targ{} & \meter{P_2}
+      \end{quantikz}
+    \end{minipage}
+
+    To see why both circuits work, notice that if either of the first two qubits has a bit flip (since the logical qubits are symmetric in the first two and the last two qubits, we can simply consider the case for the first two qubits), the state we end up in is $\pm\left(\ket{01} \pm \ket{10}\right)$. Now the circuit to detect the bit flips computes the parity of the first two qubits and stores it in the measurement result $B_1$. This result will be $1$ iff there was a bit flip, else it will be $0$. Therefore, we are able to detect a bit flip. Similarly, we can also detect a bit flip on either of the last two qubits (independently).\par
+    Now, for the case of detection of a phase flip, note that the state $\ket{00} + \ket{11}$ is an eigenstate of the $H^{\otimes 2}$ gate with an eigenvalue of $+1$ whereas $H^{\otimes 2}\left(\ket{00} - \ket{11}\right) = \ket{01} + \ket{10}$. Therefore, if we measure the parities of the first two qubits and the last two qubits as $P_1$ and $P_2$ respectively, and if $P_1 \neq P_2$, then this implies that we have a phase flip error.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:5b]
+  \begin{question}
+    Show that the 4-qubit code from part (a) cannot \emph{correct} a bit flip.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    Notice that the state on the first two qubits that we obtain in the case of a bit flip error is the same irrespective of whether we reached it from an error on the first qubit or the second qubit. Therefore, there is no way for us to determine if the original state had an error on the first or the second qubit. If we apply a bit flip correction on the wrong qubit, we will instead introduce a new error instead of correcting the error. The same argument holds for a bit flip error on either of the last two qubits.\par
+    Therefore, we cannot correct a bit flip error using this code.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:5c]
+  \begin{question}
+    Show that the 4-qubit code from part (a) cannot correct a phase flip error.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    Notice that in the case of a phase flip on any of the four qubits, we cannot determine if the error was on the $\ket{\bar{0}}$ state or the $\ket{\bar{1}}$ state since a phase error on both states leads to the same state. Therefore, we will be unable to determine if the phase flip error originated on the first two qubits or the last two qubits.\par
+    Therefore, we cannot correct a phase flip error using this code.
+  \end{proof}
+\end{solution}

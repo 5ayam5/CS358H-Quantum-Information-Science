@@ -1,0 +1,74 @@
+\begin{solution}[label=ques:2a]
+  \begin{question}
+    Prove that $D$ is indeed a unitary matrix.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    We can write $D$ as $2\ketbra{v} - \bfI$, where $\ket{v} = \frac{\sum_{i=0}^{N-1}\ket{i}}{\sqrt{N}}$, as discussed in class. Now we find $D\cdot D^\dagger$:
+    \begin{equation}
+      \begin{split}
+        D\cdot D^\dagger &= (2\ketbra{v} - \bfI){(2\ketbra{v} - \bfI)}^\dagger\\
+        &= (2\ketbra{v} - \bfI)(2\ketbra{v} - \bfI)\\
+        &= 4\ketbra{v}\ketbra{v} - 2\ketbra{v} - 2\ketbra{v} + \bfI\\
+        &= 4\ketbra{v}\ketbra{v} - 4\ketbra{v} + \bfI\\
+        &= \bfI
+      \end{split}
+      \label{eq:unitdiffusion}
+    \end{equation}
+    Hence, proved.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2b]
+  \begin{question}
+    Prove that, up to scalar multiplication, $D$ is actually the \textit{only}
+real orthogonal matrix whose diagonal entries are all the same and whose
+off-diagonal entries are all the same, other than the identity matrix.
+This provides a big hint about how one might have discovered $D$ if one
+didn't already know Grover's algorithm.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    Note that any matrix that has all diagonal entries equal and also off-diagonal entries equal, can be written as the form $M = a\ketbra{v} + b\bfI$, where $\ket{v}$ is the uniform superposition state as stated in Question~\ref{ques:2a}. Now, since we know that the matrix has real entries, we have $a, b$ are real. Additionally, since the matrix has to be orthognal, we have:
+    \begin{equation}
+      \begin{split}
+        &M\cdot M^\dagger = (a\ketbra{v} + b\bfI)(a\ketbra{v} + b\bfI)\\
+        \implies &\bfI = a^2\ketbra{v}\ketbra{v} + ab\ketbra{v} + ab\ketbra{v} + b^2\bfI\\
+        \implies &\bfI = (a^2 + 2ab)\ketbra{v} + b^2\bfI\\
+        \implies &a^2 + 2ab = 0,\ b^2 = 1\text{, (equating the diagonal and off-diagonal elements)}\\
+        \implies &a = \mp 2, b = \pm 1\text{ or }a = 0, b = \pm 1
+      \end{split}
+      \label{eq:finddiffusion}
+    \end{equation}
+    From Equation~\ref{eq:finddiffusion}, we have $M = \bfI$ or $M$ is equivalent to $D$ up to a scalar multiple of $-1$. Hence, proved.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:2c]
+  \begin{question}
+    Recall $D = H^{\otimes n} A H^{\otimes n}$, where $A$ is the diagonal matrix $\operatorname{diag}\left(1,-1, -1,\dots,-1\right)$. 
+Show an actual circuit made of Toffoli gates, Hadamard gates, $X$ gates, and Phase gates for applying $A$.  Your circuit should have $O(n)=O(\log N)$ gates and is allowed to use ancilla qubits initialized to any state you like provided that you return them to that state afterwards.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We can consider the global phase equivalent version of $A$ as $A \equiv \operatorname{diag}\left(-1, 1, 1, \dots, 1\right)$. Therefore, we need to apply a phase of $-1$ iff the input state is the $\ket{0}^{\otimes n}$. We can achieve this using the following circuit:
+
+    \begin{minipage}{\textwidth}
+      \centering
+      \begin{quantikz}
+        \lstick{$\ket{q_0}$} & \gate{X} & \ctrl{5} & & &\ \ldots\ & & & &\ \ldots\ & & & \ctrl{5} & \gate{X} &\\
+        \lstick{$\ket{q_1}$} & \gate{X} & \ctrl{4} & & &\ \ldots\ & & & &\ \ldots\ & & & \ctrl{4} & \gate{X} &\\
+        \lstick{$\ket{q_2}$} & \gate{X} & & \ctrl{4} & &\ \ldots\ & & & &\ \ldots\ & & \ctrl{4} & & \gate{X} &\\
+        \wave{} & & & & \ctrl{4} & & & & & & \ctrl{4} & & & &\\
+        \lstick{$\ket{q_{n-1}}$} & \gate{X} & & & &\ \ldots\ & \ctrl{4} & & \ctrl{4} &\ \ldots\ & & & & \gate{X} &\\
+        \lstick[5]{(scratch)\\ $\ket{0}^{\otimes n}$} & & \targ{} & \ctrl{1} & &\ \ldots\ & & & &\ \ldots\ & & \ctrl{1} & \targ{} & &\\
+        & & & \targ{} & \ctrl{1} & \ \ldots\ & & & &\ \ldots\ & \ctrl{1} & \targ{} & & &\\
+        \wave{} & & & & \targ{} & & \ctrl{1} & & \ctrl{1} & & \targ{} & & & &\\
+        & & & & &\ \ldots\ & \targ{} & \ctrl{1} & \targ{} &\ \ldots{} & & & & &\\
+        & \gate{X} & \gate{H} & & &\ \ldots\ & & \targ{} & &\ \ldots{} & & & \gate{H} & \gate{X} &
+      \end{quantikz}
+    \end{minipage}
+
+    The circuit above computes the AND of all the qubits after applying an $X$ gate. Therefore, the only state that will lead to a $\ket{1}$ state on the penultimate scratch qubit is $\ket{0}^{\otimes n}$. Now, when we apply a CNOT onto the final scratch qubit initialised to the $\ket{-}$ state, we get a phase of $-1$ on the input state via the phase-kickback trick. Therefore, the circuit above applies the unitary $A$ upto a global phase of $-1$ using a total of $O(n) = O(\log{N})$ gates. Also note that we uncompute the scratch ancillas back to their beginning state in the above circuit.
+  \end{proof}
+\end{solution}

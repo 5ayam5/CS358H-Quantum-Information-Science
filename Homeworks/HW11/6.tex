@@ -1,0 +1,80 @@
+\begin{solution}[label=ques:6a]
+  \begin{question}
+    Prove that any classical encoding of a single bit, which corrects
+an arbitrary single bit-flip error, requires at least 3 bits for the
+codewords,  i.e. there is no such code using 2 bits.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Proof]
+    Consider the Hamming distance between the codewords that we can have in the classical error detection code constructed using $2$ bits. The Hamming distance for any chosen pair of codewords to represent the logical $0$ and the logical $1$ will be at most $2$. Additionally, each of the codewords is a point on the square. Therefore, we can consider the two cases for the Hamming distance between the codewords separately:\par
+
+    \begin{minipage}{\texwidth}
+      \begin{tikzpicture}
+        \draw (0, 0) rectangle (2, 2);
+        \path
+          (0, 0) node[below left] {$00$}
+          (2, 0) node[below right] {$01$}
+          (2, 2) node[above right] {$11$}
+          (0, 2) node[above left] {$10$}
+        ;
+      \end{tikzpicture}
+    \end{minipage}
+
+    \textbf{Distance is 1:} In this case, there exists a bit flip error such that we transform one logical state into the other, which will go undetectable and hence uncorrectable.\par
+    \textbf{Distance is 2:} In this case, for an arbitrary bit flip error on either of the two bits from one logical state, there exists some way to reach the same erroneous state via a bit flip on a different bit from the other logical state. Therefore, we will be unable to determine the correct correction operation for the bit flip error, although we will be able to detect arbitrary bit flip errors in this case.\par
+    Thus, we cannot correct arbitrary bit flip errors using just $2$ bits.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:6b]
+  \begin{question}
+    A weaker notion than an error-correcting code is an
+error-\textit{detecting} code --- one that detects whether an error has
+occurred, though doesn't necessarily help correct the error.  Give a
+classical error-detecting code which encodes 1 bit into 2 bits and
+which detects a single bit-flip error.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    From the observation in Question~\ref{ques:6a}, we can define our error detecting code as $\bar{0} = 00, \bar{1} = 11$. For error detection, we simply measure the parity of the two bits and if they differ in parity, we report that a bit flip error has occured, else there has been no error in our state.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:6c]
+  \begin{question}
+    Now give a quantum error-detecting code which encodes 1 qubit
+into 2 qubits and which detects a single phase-flip error.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We can define our logical states as $\ket{\bar{0}} = \ket{++}, \ket{\bar{1}} = \ket{--}$. For error detection, we apply $H^{\otimes 2}$ to our qubit and compute the parity of the bits using an additional ancilla qubit (similar to the parity cmputation in Question~\ref{ques:5a}) and then reset the state back by applying another set of $H^{\otimes 2}$. If we get a parity of $1$, this implies that we have a phase flip error. If we have a parity of $0$, this means that no error occured. This works because a phase flip on either qubit transforms it from the $\ket{+}$ state to the $\ket{-}$ state and vice versa. Therefore, if there is a phase flip error on either qubit, we will have different states on applying the Hadamard gate and measuring the parity.
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:6d]
+  \begin{question}
+    Give a quantum error-detecting code which encodes 1 qubit into
+4 qubits and which detects a single bit-flip error or a single
+phase-flip error (the code is allowed to fail if both errors occur simultaneously).
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    We give the same code as proposed in Question~\ref{ques:5a} since it detects either a single bit flip or a single phase flip error on any of the input qubits, although it fails to correct any of the errors. We can also obtain the same code from the Shor code by reducing the number of qubits from $3\times 3$ to $2\times 2$ since we just want to detect errors and not correct them, motivated by our answer for Question~\ref{ques:6a} and Question~\ref{ques:6b}. We rewrite the code here:
+    \begin{equation}
+      \ket{\bar 0} = \frac{{\left(\ket{00}+ \ket{11}\right)}^{\otimes 2} }{ 2}; \ket{\bar 1} = \frac{{\left(\ket{00}- \ket{11}\right)}^{\otimes 2} }{ 2}
+      \label{eq:shordetect}
+    \end{equation}
+  \end{proof}
+\end{solution}
+
+\begin{solution}[label=ques:6e]
+  \begin{question}
+    Consider the quantum code  $\ket{\bar 0} = \ket{00}$ and $\ket{\bar 1} = \ket{11}$.  Give an
+example of a qubit encoded using this code and a single-qubit
+error on the encoded qubit such that this code fails to even \textit{detect} the error.
+  \end{question}
+  \tcblower{}
+  \begin{proof}[Solution]
+    Consider the state $\ket{\bar{+}} = \frac{\ket{00} + \ket{11}}{\sqrt{2}}$ and a phase flip error on either qubit. We get the state $\frac{\ket{00} - \ket{11}}{\sqrt{2}}$. This is a valid state and represents the logical $\ket{\bar{-}}$ state and therefore, the phase flip error will go undetected. If the error was detectable, we would not have a valid representation for the logical $\ket{\bar{-}}$ thus being an invalid quantum system, leading to a contradiction.
+  \end{proof}
+\end{solution}
